@@ -1,0 +1,6 @@
+framework module Pods_Aubuchon {
+  umbrella header "Pods-Aubuchon-umbrella.h"
+
+  export *
+  module * { export * }
+}

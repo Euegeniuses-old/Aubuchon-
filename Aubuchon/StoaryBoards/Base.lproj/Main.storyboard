@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="KpU-JQ-eUI">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="QgM-We-O0y">
+            <objects>
+                <viewController id="KpU-JQ-eUI" customClass="MainViewController" customModule="Aubuchon" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xdU-MH-Oh8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mH5-Kz-eBJ">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1r-fv-tMe">
+                                        <rect key="frame" x="136" y="250" width="48" height="48"/>
+                                        <state key="normal" image="launcher"/>
+                                        <connections>
+                                            <action selector="btnCaptureImage_Action:" destination="KpU-JQ-eUI" eventType="touchUpInside" id="DLJ-Ey-nWj"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Capture Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3uu-ys-6Ql">
+                                        <rect key="frame" x="99" y="305.5" width="122" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="3uu-ys-6Ql" firstAttribute="top" secondItem="R1r-fv-tMe" secondAttribute="bottom" constant="7.5" id="5sq-4O-OPk"/>
+                                    <constraint firstItem="R1r-fv-tMe" firstAttribute="centerY" secondItem="mH5-Kz-eBJ" secondAttribute="centerY" id="BXZ-Pu-URu"/>
+                                    <constraint firstItem="R1r-fv-tMe" firstAttribute="centerX" secondItem="mH5-Kz-eBJ" secondAttribute="centerX" id="d2C-fi-QdU"/>
+                                    <constraint firstItem="3uu-ys-6Ql" firstAttribute="centerX" secondItem="R1r-fv-tMe" secondAttribute="centerX" id="nx4-lL-bJB"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mH5-Kz-eBJ" firstAttribute="top" secondItem="lNo-p4-wfQ" secondAttribute="top" id="Lgi-yL-k1f"/>
+                            <constraint firstItem="lNo-p4-wfQ" firstAttribute="bottom" secondItem="mH5-Kz-eBJ" secondAttribute="bottom" id="Mty-ap-5zZ"/>
+                            <constraint firstItem="mH5-Kz-eBJ" firstAttribute="leading" secondItem="lNo-p4-wfQ" secondAttribute="leading" id="jTz-LD-WPX"/>
+                            <constraint firstItem="lNo-p4-wfQ" firstAttribute="trailing" secondItem="mH5-Kz-eBJ" secondAttribute="trailing" id="naS-u8-Qgw"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lNo-p4-wfQ"/>
+                    </view>
+                    <connections>
+                        <outlet property="lblCaptureImage" destination="3uu-ys-6Ql" id="K7W-aM-FGo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gRa-7b-ZEo" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-577" y="58"/>
+        </scene>
+        <!--Upload Image View Controller-->
+        <scene sceneID="1N7-cM-HKB">
+            <objects>
+                <viewController storyboardIdentifier="uploadImage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JOF-Pl-sQh" customClass="UploadImageViewController" customModule="Aubuchon" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4r5-3K-Bkr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NiW-YM-ezz">
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cc8-WM-IdU">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="438.5"/>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ini-wK-mMR">
+                                        <rect key="frame" x="35" y="443.5" width="250" height="50"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVr-WS-gin">
+                                                <rect key="frame" x="20" y="10" width="95" height="40"/>
+                                                <color key="backgroundColor" red="0.76470588235294112" green="0.76470588235294112" blue="0.76470588235294112" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="95" id="GT6-B0-SMe"/>
+                                                    <constraint firstAttribute="height" constant="40" id="q1q-Dr-1Pm"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                                <state key="normal" title="RESCAN"/>
+                                                <connections>
+                                                    <action selector="btnRescan_Action:" destination="JOF-Pl-sQh" eventType="touchUpInside" id="6hm-0z-KzJ"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pFG-5q-NKS">
+                                                <rect key="frame" x="130" y="10" width="95" height="40"/>
+                                                <color key="backgroundColor" red="0.79029187817258884" green="0.79029187817258884" blue="0.79029187817258884" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="FlZ-kK-qMr"/>
+                                                    <constraint firstAttribute="width" constant="95" id="avl-Bn-OC3"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                                <state key="normal" title="UPLOAD">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="btnUpload_Action:" destination="JOF-Pl-sQh" eventType="touchUpInside" id="6QH-EE-hYK"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="pFG-5q-NKS" firstAttribute="leading" secondItem="LVr-WS-gin" secondAttribute="trailing" constant="15" id="04q-Ge-gRu"/>
+                                            <constraint firstAttribute="height" constant="50" id="HEZ-NT-aY1"/>
+                                            <constraint firstItem="pFG-5q-NKS" firstAttribute="top" secondItem="LVr-WS-gin" secondAttribute="top" id="Jxx-8N-Qo9"/>
+                                            <constraint firstItem="LVr-WS-gin" firstAttribute="top" secondItem="Ini-wK-mMR" secondAttribute="top" constant="10" id="L0X-La-ckr"/>
+                                            <constraint firstItem="LVr-WS-gin" firstAttribute="leading" secondItem="Ini-wK-mMR" secondAttribute="leading" constant="20" id="SFF-yJ-Tvz"/>
+                                            <constraint firstAttribute="width" constant="250" id="yKc-YD-dvu"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Ini-wK-mMR" firstAttribute="centerX" secondItem="cc8-WM-IdU" secondAttribute="centerX" id="Blw-bf-5Fu"/>
+                                    <constraint firstItem="cc8-WM-IdU" firstAttribute="height" secondItem="NiW-YM-ezz" secondAttribute="height" multiplier="0.8" id="HIK-7X-SPh"/>
+                                    <constraint firstItem="cc8-WM-IdU" firstAttribute="top" secondItem="NiW-YM-ezz" secondAttribute="top" id="dDt-jh-jI3"/>
+                                    <constraint firstItem="Ini-wK-mMR" firstAttribute="top" secondItem="cc8-WM-IdU" secondAttribute="bottom" constant="5" id="emL-3f-x7E"/>
+                                    <constraint firstAttribute="trailing" secondItem="cc8-WM-IdU" secondAttribute="trailing" id="kQd-9P-Dag"/>
+                                    <constraint firstItem="cc8-WM-IdU" firstAttribute="leading" secondItem="NiW-YM-ezz" secondAttribute="leading" id="uMi-s7-Jbj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Iv2-ID-6KF" firstAttribute="trailing" secondItem="NiW-YM-ezz" secondAttribute="trailing" id="BOg-fm-O8M"/>
+                            <constraint firstItem="Iv2-ID-6KF" firstAttribute="bottom" secondItem="NiW-YM-ezz" secondAttribute="bottom" id="iH7-Li-d9a"/>
+                            <constraint firstItem="NiW-YM-ezz" firstAttribute="top" secondItem="Iv2-ID-6KF" secondAttribute="top" id="iMt-ko-FoU"/>
+                            <constraint firstItem="NiW-YM-ezz" firstAttribute="leading" secondItem="Iv2-ID-6KF" secondAttribute="leading" id="tqZ-Vx-VzK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Iv2-ID-6KF"/>
+                    </view>
+                    <connections>
+                        <outlet property="btnRescan" destination="LVr-WS-gin" id="ieh-3O-yr6"/>
+                        <outlet property="btnUpload" destination="pFG-5q-NKS" id="kDU-wj-WI7"/>
+                        <outlet property="imgcapture" destination="cc8-WM-IdU" id="V8T-Vv-mBo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gCg-Uu-leU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="207" y="57"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="launcher" width="48" height="48"/>
+    </resources>
+</document>
