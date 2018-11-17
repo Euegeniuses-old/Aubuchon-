@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="server_url">http://differenzuat.com/AubuChon/aubuchonapi/api/</string>
+
+
+    <string name="upload_url">Home/Upload</string>
+
+</resources>

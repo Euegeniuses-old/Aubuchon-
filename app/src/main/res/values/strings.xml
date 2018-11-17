@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Aubuchon</string>
+    <string name="request_camera_permission">we need Camera permission</string>
+    <string name="request_storage_permission">we need Storage permission</string>
+    <string name="setting">Setting</string>
+    <string name="on_denied_permission">If you reject permission,you can not use this service
+        <br />
+        Please turn on permissions at [Setting] > [Permission]
+    </string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="text_capture_image">Capture Image</string>
+    <string name="text_rescan">Rescan</string>
+    <string name="text_upload">Upload</string>
+
+
+    <!--Error message-->
+    <string name="msg_NO_INTERNET_TITLE">Internet connection required</string>
+    <string name="msg_NO_INTERNET_MSG">You need an active internet connection to access this feature of the app. Without a connection only the timer and my downloads will work.</string>
+    <string name="msg_NO_INTERNET_webview">Your internet connection may not be active or %1$s.</string>
+    <string name="msg_goto_settings">SETTINGS</string>
+    <string name="msg_server_error">The server might be down, please try again later.</string>
+    <string name="error_msg_connection_timeout">The request timed out please try again.</string>
+</resources>
