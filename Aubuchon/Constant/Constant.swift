@@ -24,7 +24,10 @@ class Constant: NSObject {
     struct APIURLANDKEY {
         //local
         //static let baseUrl = "http://differenzuat.com/AubuChon/aubuchonapi"
-        static let baseUrl = "https://differenzuat.com/aubuchon/aubuchonapi"
+        //static let baseUrl = "https://differenzuat.com/aubuchon/aubuchonapi"
+        
+        //live
+        static let baseUrl = "http://aubuchonapp.a.fgqa.net/AubuChonApi"
         static let uploadImageApi = baseUrl + "/api/Home/Upload"
     }
     struct Colors {
