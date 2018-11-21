@@ -12,40 +12,65 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/scripts/jquery-1.10.2.min.js"></script>
     <script src="~/scripts/bootstrap.min.js"></script>
+    <link href="~/Content/Custom.css" rel="stylesheet" />
 </head>
 <body>
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
     <div style="text-align:center;margin-top:50px;">
         <input type="hidden" id="hdnDeviceType" />
         <h4><span id="spheadone"></span></h4>
         <h5><span id="spheadtwo">Click here to download the App</span></h5>
-
-        <a id="btndownload" href="javascript:void(0);" class="btn btn-primary">Download App</a>
+        <a id="btndownload" href="javascript:void(0);" onclick="launchApp();" class="btn btn-primary">Download App</a>
     </div>
 
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".loader-wrapper").hide();
+            window.addEventListener("blur", function (e) {
+                window.location.href = '@Url.Action("App","Home")';
+                e.preventDefault();
+
+                return false;
+            }, false);
+        });
+
+
         if (/webOS|iPhone|iPad|iPod|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             $("#hdnDeviceType").val("ios");
+            $("#spheadone").text("You are browsing site from iOS  device");
         }
         else if (/Android/i.test(navigator.userAgent)) {
+            $("#spheadone").text("You are browsing site from Android device");
             $("#hdnDeviceType").val("android");
         }
         else {
             $("#hdnDeviceType").val("web");
-        }
-
-        if ($("#hdnDeviceType").val() == "android") {
-            $("#spheadone").text("You are browsing site from Android device");
-
-            //$("#btndownload").attr("href", "https://www.google.com/");
-            $("#btndownload").attr("href", "https://play.google.com/store/apps/details?id=ccom.aubuchon&hl=en_IN");
-            
-        }
-        else if ($("#hdnDeviceType").val() == "ios") {
-            $("#spheadone").text("You are browsing site from iOS  device");
-            $("#btndownload").attr("href", "https://www.w3schools.com/");
-        }
-        else {
             $("#spheadone").text("You are browsing site from web");
+        }
+
+        function launchApp() {
+            $(".loader-wrapper").show();
+            var clickTime = new Date().getSeconds();
+            var now = new Date().valueOf();
+            window.location.href = "Aubuchon://";
+            setTimeout(function () {
+                this.OpenStore(clickTime);
+            }, 5000)
+        }
+        function OpenStore(clickTime) {
+            $(".loader-wrapper").hide();
+            var currentTime = new Date().getSeconds();
+            if ((currentTime - clickTime) <= 5) {
+                if ($("#hdnDeviceType").val() == "android") {
+                    window.location.href = "https://play.google.com/store/apps/details?id=com.google.android.gm&hl=en";
+                }
+                else if ($("#hdnDeviceType").val() == "ios") {
+                    window.location.href = "https://itunes.apple.com/us/app/gmail-email-by-google/id422689480?mt=8";
+                }
+            }
         }
     </script>
 </body>

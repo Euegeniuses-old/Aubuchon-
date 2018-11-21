@@ -17,49 +17,50 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            var apiUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiUrl"].ToString()';
-            if (location.protocol == "https:") {
-                apiUrl = "https://" + apiUrl;
-            }
-            else {
-                apiUrl = "http://" + apiUrl;
-            }
             $.ajax({
-                type: 'POST',
-                url: apiUrl,
-                cache: false,
+                url: 'https://api.ipify.org?format=jsonp&callback=?',
+                dataType: 'json',
                 async: false,
-                success: function (objStatus) {
-                    if (objStatus.IsSuccess == true) {
-                        var publicIp = "";
-                        debugger;
+                success: function (data) {
+                    publicIp = data.ip;
+                    if (publicIp != null && publicIp != "") {
+                        var apiUrl = '@System.Configuration.ConfigurationManager.AppSettings["ApiUrl"].ToString()';
+                        if (location.protocol == "https:") {
+                            apiUrl = "https://" + apiUrl;
+                        }
+                        else {
+                            apiUrl = "http://" + apiUrl;
+                        }
+
+                        var objIpAddress = {
+                            IpAddress: publicIp
+                        };
                         $.ajax({
-                            url: 'https://api.ipify.org?format=jsonp&callback=?',
-                            dataType: 'json',
+                            type: 'POST',
+                            url: apiUrl,
+                            data:objIpAddress,
+                            cache: false,
                             async: false,
-                            success: function (data) {
+                            success: function (objStatus) {
                                 debugger;
-                                publicIp = data.ip;
-                                var IpArray = Object.keys(objStatus.Data);
-                                
-                                if ($.inArray(publicIp, IpArray) > -1)
-                                {
+                                if (objStatus.IsSuccess) {
                                     window.location.href = '@Url.Action("App", "Home")';
                                 }
-                                else
-                                {
-                                    $("#spInvalidText").text("Ip Address Not White Listed");
+                                else {
+                                    $("#spInvalidText").text(objStatus.Message);
                                 }
-
                             },
                             error: function (xhr, status) {
-                                alert("Public Ip Not Found.");
+                                alert("Public Ip Not Found");
                             }
                         });
                     }
+                    else {
+                        alert("Public Ip Not Found");
+                    }
                 },
                 error: function (xhr, status) {
-                    alert("Ip List Not Found.");
+                    alert("Public Ip Not Found");
                 }
             });
         });

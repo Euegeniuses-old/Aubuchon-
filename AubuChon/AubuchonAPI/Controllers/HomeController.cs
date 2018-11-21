@@ -111,6 +111,67 @@ namespace AubuchonAPI.Controllers
             }
         }
         #endregion
-        
+
+
+        #region GetIpList
+        [Route("CheckPublicIp", Name = "CheckPublicIp")]
+        [HttpPost]
+        public HttpResponseMessage CheckPublicIp(IpDetails objIpAddress)
+        {
+            var objStatus = new Status();
+            var content = string.Empty;
+            try
+            {
+                var url = System.Configuration.ConfigurationManager.AppSettings["IpUrl"].ToString();
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                using (var response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (var stream = response.GetResponseStream())
+                    {
+                        using (var sr = new StreamReader(stream))
+                        {
+                            content = sr.ReadToEnd();
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(content))
+                {
+                    JObject json = JObject.Parse(content);
+                    var jsonObj = JObject.Parse(content);
+                    var IpList = jsonObj.Properties().Select(s => s.Name).ToList();
+                    //var PublicIp = "67.255.0.129";
+                    //objIpAddress.IpAddress = "67.255.0.129";
+                    var isexist = IpList.Any(s => s.Contains(objIpAddress.IpAddress));
+                    if (isexist)
+                    {
+                        objStatus.IsSuccess = true;
+                        objStatus.Message = "Public ip is white listed";
+                        return Request.CreateResponse(HttpStatusCode.OK, objStatus);
+                    }
+                    else
+                    {
+                        objStatus.IsSuccess = false;
+                        objStatus.Message = "Ip address not white listed";
+                        return Request.CreateResponse(HttpStatusCode.OK, objStatus);
+                    }
+                }
+                else
+                {
+                    objStatus.IsSuccess = false;
+                    objStatus.Message = "Ip list not found";
+                    return Request.CreateResponse(HttpStatusCode.NotFound, objStatus);
+                }
+            }
+            catch (Exception)
+            {
+                objStatus.IsSuccess = false;
+                objStatus.Data = Setting.GeneralErrMsg;
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, objStatus);
+            }
+        }
+        #endregion
     }
 }
