@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import SystemConfiguration
 
-typealias FailureBlock = (_ error: String,_ customError: ErrorType) -> Void
+typealias FailureBlock = (_ error: String,_ customError: Bool) -> Void
 
 //Error enum
 
@@ -22,13 +22,14 @@ enum ErrorType: String {
 class Constant: NSObject {
     
     struct APIURLANDKEY {
-        //local
+        //UAT
         //static let baseUrl = "http://differenzuat.com/AubuChon/aubuchonapi"
-        //static let baseUrl = "https://differenzuat.com/aubuchon/aubuchonapi"
+        // static let baseUrl = "https://differenzuat.com/aubuchon/aubuchonapi"
         
         //live
         static let baseUrl = "http://aubuchonapp.a.fgqa.net/AubuChonApi"
         static let uploadImageApi = baseUrl + "/api/Home/Upload"
+        static let publicIp = baseUrl + "/api/Home/CheckPublicIp"
     }
     struct Colors {
         //static let textColor =   UIColor(red: 15/255, green: 109/255, blue: 166/255, alpha: 1.0)

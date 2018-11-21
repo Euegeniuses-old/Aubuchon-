@@ -57,6 +57,7 @@ class UploadImageViewController: UIViewController {
     
     // MARK:- Image upload API call
     func imageUplaodAPI() {
+        
         ImageUpload.uploadImageData(with: imgcapture.image, success: { (response) in
             // print(response)
             let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
@@ -67,8 +68,9 @@ class UploadImageViewController: UIViewController {
             
             self.present(alert, animated: true, completion: nil)
             
-        }) { (_, error) in
+        }) { (response, error) in
             print(error)
+            self.alertMessage(message: response, title: "")
         }
     }
 }
@@ -86,6 +88,6 @@ extension UploadImageViewController: UIImagePickerControllerDelegate, UINavigati
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
-        self.dismiss(animated: false, completion: nil)
+        //self.dismiss(animated: false, completion: nil)
     }
 }

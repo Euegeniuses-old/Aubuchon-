@@ -38,6 +38,42 @@ class APIManager {
         return (isReachable && !needsConnection)
     }
     
+    
+    class func makeRequest(with url: String, method: HTTPMethod, parameter: [String:Any]?, success: @escaping (_ response: Any) -> Void, failure: @escaping (_ error: String) -> Void, connectionFailed: @escaping (_ error: String) -> Void) {
+        
+        if(isConnectedToNetwork()) {
+            print(method.rawValue, url)
+            if let param = parameter, let data = try? JSONSerialization.data(withJSONObject: param, options: .prettyPrinted) {
+                print(String(data: data, encoding: .utf8) ?? "Nil Param")
+            }
+            var headers: [String:String] = [:]
+            //            if let user = WalknTours.sharedInstance.currentUser {
+            //                //headers["Content-Type"] = "application/json"
+            //                headers[kSessionId] = user.sessionId
+            //
+            //            }
+            
+            //            Alamofire.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+            Alamofire.request(url, method: method, parameters: parameter, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
+                print(response)
+                switch (response.result) {
+                case .success(let value):
+                    if let jsonData = try? JSONSerialization.data(withJSONObject: value, options: .prettyPrinted) {
+                        print("Response: \n",String(data: jsonData, encoding: String.Encoding.utf8) ?? "nil")
+                    }
+                    success(value)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    print(error)
+                    failure(Constant.alertTitleMessage.internetNotAvailable)
+                }
+            }
+        }
+        else {
+            connectionFailed(Constant.alertTitleMessage.internetNotAvailable)
+        }
+    }
+    
     // MARK:- Call API to upload Single image with request data
     class func makeMultipartFormDataRequest(_ URLString: String,image : UIImage?,fileName:String, withSuccess success: @escaping (_ responseDictionary: Any) -> Void, failure: @escaping (_ error: String) -> Void, connectionFailed: @escaping (_ error: String) -> Void) {
         

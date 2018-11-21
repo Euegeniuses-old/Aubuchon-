@@ -28,13 +28,57 @@ class MainViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureOpenCameraRecognizer(tapGestureRecognizer:)))
         self.lblCaptureImage.isUserInteractionEnabled = true
         self.lblCaptureImage.addGestureRecognizer(tapGestureRecognizer)
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    //MARK:- publicAPI call
+    func publicAPICall() {
+        let url = URL(string: "https://api.ipify.org/")
+        var ipAddress: String? = nil
+        if let anUrl = url {
+            ipAddress = try? String(contentsOf: anUrl, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
+        }
+        //        print("My public IP address is: \(ipAddress ?? "")")
+        ImageUpload.checkpublicIp(with: ipAddress ?? "", success: { (response, isSuccess) in
+            if !isSuccess {
+                let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                    exit(0);
+                }))
+                
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                self.openCamera()
+            }
+            
+        }) { (response, isSuccess) in
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+                    exit(0);
+                }))
+                
+                self.present(alert, animated: true, completion: nil)
+            }
+            
+        }
+    }
+    
     
     //MARK:- Private functions
     
     //Label gesture recognizer
     @objc func tapGestureOpenCameraRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
-        openCamera()
+        publicAPICall()
     }
     //Open camera
     func openCamera() {
@@ -53,7 +97,7 @@ class MainViewController: UIViewController {
     
     //Capture button action
     @IBAction func btnCaptureImage_Action(_ sender: Any) {
-        openCamera()
+        publicAPICall()
     }
 }
 
