@@ -75,45 +75,7 @@ namespace AubuchonAPI.Controllers
         }
         #endregion
         
-        #region GetIpList
-        [Route("GetIpList", Name = "GetIpList")]
-        [HttpPost]
-        public HttpResponseMessage GetIpList()
-        {
-            var objStatus = new Status();
-            var content = string.Empty;
-            try
-            {
-                var url = System.Configuration.ConfigurationManager.AppSettings["IpUrl"].ToString();
-                var request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                using (var response = (HttpWebResponse)request.GetResponse())
-                {
-                    using (var stream = response.GetResponseStream())
-                    {
-                        using (var sr = new StreamReader(stream))
-                        {
-                            content = sr.ReadToEnd();
-                        }
-                    }
-                }
-                JObject json = JObject.Parse(content);
-                objStatus.IsSuccess = true;
-                objStatus.Data = json;
-                return Request.CreateResponse(HttpStatusCode.OK, objStatus);
-            }
-            catch (Exception)
-            {
-                objStatus.IsSuccess = false;
-                objStatus.Data = Setting.GeneralErrMsg;
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, objStatus);
-            }
-        }
-        #endregion
-
-
-        #region GetIpList
+        #region CheckPublicIp
         [Route("CheckPublicIp", Name = "CheckPublicIp")]
         [HttpPost]
         public HttpResponseMessage CheckPublicIp(IpDetails objIpAddress)
