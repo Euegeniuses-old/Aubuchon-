@@ -1,5 +1,6 @@
 package com.aubuchon.apis;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -24,7 +25,7 @@ public class PostWithRequestParam {
 
     private OnPostWithReqParamServiceCallListener listener;
     private RequestParams postData;
-    private Context context;
+    private Activity context;
     private String url;
     private boolean isLoaderRequired;
     private ACProgressFlower dialog = null;
@@ -37,7 +38,7 @@ public class PostWithRequestParam {
         void onFailedToPostCall(int statusCode, String msg);
     }
 
-    public PostWithRequestParam(Context context, String url, RequestParams postData, boolean isLoaderRequired, OnPostWithReqParamServiceCallListener listener) {
+    public PostWithRequestParam(Activity context, String url, RequestParams postData, boolean isLoaderRequired, OnPostWithReqParamServiceCallListener listener) {
         this.listener = listener;
         this.postData = postData;
         this.context = context;

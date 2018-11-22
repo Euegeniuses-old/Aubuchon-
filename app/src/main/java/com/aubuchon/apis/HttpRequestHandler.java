@@ -96,11 +96,21 @@ public class HttpRequestHandler {
     }
 
 
-    public RequestParams getProfileParams(JSONObject jsonObject, File selectedImage) {
+    public RequestParams getUploadImageParams(File selectedImage) {
         RequestParams params = new RequestParams();
         try {
             params.put(Constant.AU_Photo, selectedImage);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return params;
+    }
+
+    public JSONObject getCheckPublicIpParams(String publicIP) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put(Constant.AU_IpAddress, publicIP);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return params;

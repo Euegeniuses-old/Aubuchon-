@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <string name="server_url">http://differenzuat.com/AubuChon/aubuchonapi/api/</string>
+    <!--UAT Server-->
+    <!--<string name="server_url">http://differenzuat.com/AubuChon/aubuchonapi/api/</string>-->
+    <!--Live Server-->
+    <string name="server_url">http://aubuchonapp.a.fgqa.net/AubuChonApi/api/</string>
 
 
     <string name="upload_url">Home/Upload</string>
+    <string name="checkPublicIp_url">Home/CheckPublicIp</string>
 
 </resources>

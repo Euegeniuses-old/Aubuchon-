@@ -1,5 +1,6 @@
 package com.aubuchon.apis;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -23,7 +24,7 @@ public class PostRequest {
     private OnPostServiceCallListener listener;
     private OnNoInternetListener internetListener;
     private JSONObject postData;
-    private Context context;
+    private Activity context;
     private String url;
     private boolean isLoaderRequired, isDialog = true;
     private ACProgressFlower dialog = null;
@@ -40,7 +41,7 @@ public class PostRequest {
     }
 
 
-    public PostRequest(Context context, String url, JSONObject postData, boolean isLoaderRequired, OnPostServiceCallListener listener) {
+    public PostRequest(Activity context, String url, JSONObject postData, boolean isLoaderRequired, OnPostServiceCallListener listener) {
         this.listener = listener;
         this.postData = postData;
         this.context = context;
@@ -48,7 +49,7 @@ public class PostRequest {
         this.url = url;
     }
 
-    public PostRequest(Context context, String url, JSONObject postData, boolean isLoaderRequired, boolean isDialog, OnPostServiceCallListener listener, OnNoInternetListener internetListener) {
+    public PostRequest(Activity context, String url, JSONObject postData, boolean isLoaderRequired, boolean isDialog, OnPostServiceCallListener listener, OnNoInternetListener internetListener) {
         this.listener = listener;
         this.internetListener = internetListener;
         this.postData = postData;
@@ -58,7 +59,7 @@ public class PostRequest {
         this.isDialog = isDialog;
     }
 
-    public PostRequest(Context context, String url, JSONObject postData, ProgressBar pb, boolean isLoaderRequired, OnPostServiceCallListener listener) {
+    public PostRequest(Activity context, String url, JSONObject postData, ProgressBar pb, boolean isLoaderRequired, OnPostServiceCallListener listener) {
         this.listener = listener;
         this.postData = postData;
         this.context = context;
@@ -67,7 +68,7 @@ public class PostRequest {
         this.isLoaderRequired = isLoaderRequired;
     }
 
-    public PostRequest(Context context, String url, JSONObject postData, ProgressBar pb, boolean isLoaderRequired, boolean isDialog, OnPostServiceCallListener listener, OnNoInternetListener internetListener) {
+    public PostRequest(Activity context, String url, JSONObject postData, ProgressBar pb, boolean isLoaderRequired, boolean isDialog, OnPostServiceCallListener listener, OnNoInternetListener internetListener) {
         this.listener = listener;
         this.postData = postData;
         this.context = context;

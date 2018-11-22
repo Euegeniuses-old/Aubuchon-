@@ -9,5 +9,8 @@ public class Constant {
     public static final String AU_StatusCode = "StatusCode";
     public static final String AU_Data = "Data";
     public static final String AU_TotalCount = "TotalCount";
+    public static final String AU_ip = "ip";
+    public static final String AU_PublicIp = "PublicIp";
+    public static final String AU_IpAddress = "IpAddress";
 }
 
