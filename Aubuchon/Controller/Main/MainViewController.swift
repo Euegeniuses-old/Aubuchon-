@@ -16,7 +16,7 @@ class MainViewController: UIViewController {
     
     //variables
     var imagePicker: UIImagePickerController!
-    
+    var isOnLoad:Bool = true
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +28,8 @@ class MainViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureOpenCameraRecognizer(tapGestureRecognizer:)))
         self.lblCaptureImage.isUserInteractionEnabled = true
         self.lblCaptureImage.addGestureRecognizer(tapGestureRecognizer)
-        
+        isOnLoad = true
+        publicAPICall()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,12 +51,17 @@ class MainViewController: UIViewController {
                 let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
                 
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-                    exit(0);
+                    // exit(0);
+                    UIControl().sendAction(#selector(NSXPCConnection.suspend),
+                                           to: UIApplication.shared, for: nil)
                 }))
                 
                 self.present(alert, animated: true, completion: nil)
             } else {
-                self.openCamera()
+                if !self.isOnLoad {
+                    self.openCamera()
+                }
+                
             }
             
         }) { (response, isSuccess) in
@@ -64,7 +70,10 @@ class MainViewController: UIViewController {
                 let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
                 
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-                    exit(0);
+                    // exit(0);
+                    UIControl().sendAction(#selector(NSXPCConnection.suspend),
+                                           to: UIApplication.shared, for: nil)
+                    
                 }))
                 
                 self.present(alert, animated: true, completion: nil)
@@ -74,10 +83,12 @@ class MainViewController: UIViewController {
     }
     
     
+    
     //MARK:- Private functions
     
     //Label gesture recognizer
     @objc func tapGestureOpenCameraRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
+        isOnLoad = false
         publicAPICall()
     }
     //Open camera
@@ -97,6 +108,7 @@ class MainViewController: UIViewController {
     
     //Capture button action
     @IBAction func btnCaptureImage_Action(_ sender: Any) {
+        isOnLoad = false
         publicAPICall()
     }
 }
