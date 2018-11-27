@@ -1,9 +1,12 @@
 package com.aubuchon;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
@@ -53,14 +56,17 @@ public class MainActivity extends AppCompatActivity {
     AppCompatImageView iv_selected_image;
 
     File selectedImage;
+    boolean isFromCameraClick = false;
+    Globals globals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
+        globals = (Globals) getApplicationContext();
+        isFromCameraClick = false;
+        doRequestForGetPublicIP();
     }
 
     @OnClick({R.id.ll_camera, R.id.btn_rescan})
@@ -68,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
         // ll_captured_image.setVisibility(View.GONE);
         // ll_camera.setVisibility(View.VISIBLE);
         // selectedImage = null;
+        isFromCameraClick = true;
         doRequestForGetPublicIP();
 
     }
+
 
     @OnClick(R.id.btn_Upload)
     public void uploadImage() {
@@ -111,31 +119,33 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog.Builder builder = new Builder(MainActivity.this).setMessage(response.getString(Constant.AU_Message)).setCancelable(false).setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
+                                ExitActivity.exitApplication(getApplicationContext());
                             }
                         });
                         AlertDialog alert = builder.create();
                         alert.show();
                     } else {
-                        PermissionListener permissionlistener = new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted() {
-                                EasyImage.openCamera(MainActivity.this, 0);
-                            }
+                        if (isFromCameraClick) {
+                            PermissionListener permissionlistener = new PermissionListener() {
+                                @Override
+                                public void onPermissionGranted() {
+                                    EasyImage.openCamera(MainActivity.this, 0);
+                                }
 
-                            @Override
-                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                                Toast.makeText(MainActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-                            }
-                        };
+                                @Override
+                                public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                                    Toast.makeText(MainActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            };
 
-                        TedPermission.with(MainActivity.this)
-                                .setPermissionListener(permissionlistener)
-                                //.setRationaleMessage(getString(R.string.request_camera_permission))
-                                .setDeniedMessage(getString(R.string.on_denied_permission))
-                                .setGotoSettingButtonText(getString(R.string.setting))
-                                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .check();
+                            TedPermission.with(MainActivity.this)
+                                    .setPermissionListener(permissionlistener)
+                                    //.setRationaleMessage(getString(R.string.request_camera_permission))
+                                    .setDeniedMessage(getString(R.string.on_denied_permission))
+                                    .setGotoSettingButtonText(getString(R.string.setting))
+                                    .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .check();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

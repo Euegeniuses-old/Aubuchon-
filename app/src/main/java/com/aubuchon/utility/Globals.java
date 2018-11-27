@@ -1,9 +1,12 @@
 package com.aubuchon.utility;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
 import android.util.Base64;
@@ -17,6 +20,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 
 import es.dmoral.toasty.Toasty;
@@ -114,19 +118,6 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
 
-        //with native toast
-        /*if (toast == null) {
-            toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-        }
-        toast.setText(message);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();*/
-
-        //2nd way You can cache current Toast in Activity's variable, and then cancel it just before showing next toast
-        /*if (toast != null) toast.cancel();
-        toast = Toasty.normal(context, message);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();*/
     }
 
 
