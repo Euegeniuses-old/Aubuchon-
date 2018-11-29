@@ -48,7 +48,9 @@
         }
         else {
             $("#hdnDeviceType").val("web");
-            $("#spheadone").text("You are browsing site from web");
+            $("#spheadone").text("Sorry, but your browser is not supported");
+            $('#spheadtwo').hide();
+            $('#btndownload').hide();
         }
 
         function launchApp() {
