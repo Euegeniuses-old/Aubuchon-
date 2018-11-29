@@ -25,10 +25,40 @@
             android:id="@+id/android_device_ip_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_capture_image"
+            android:text="@string/text_scan_code"
             android:textColor="@color/textColor"
             android:textSize="@dimen/text_size_18" />
     </LinearLayout>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_10"
+        android:text="OR"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/et_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_10"
+        android:background="@drawable/edittext_bg"
+        android:gravity="center"
+        android:hint="Enter Code Here..."
+        android:inputType="numberDecimal"
+        android:padding="@dimen/dim_7"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/text_size_14" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dim_40"
+        android:layout_margin="@dimen/dim_10"
+        android:background="@color/colorPrimary"
+        android:text="OK"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_14" />
 
     <LinearLayout
         android:id="@+id/ll_captured_image"

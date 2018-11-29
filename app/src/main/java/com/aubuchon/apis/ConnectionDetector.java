@@ -4,45 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.provider.Settings;
-import android.view.Gravity;
-
 
 import com.aubuchon.R;
-import com.aubuchon.utility.Globals;
 
 
 public class ConnectionDetector {
-
-    /*public static boolean isConnectingToInternet(Context context) {
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network[] networks = connectivityManager.getAllNetworks();
-            NetworkInfo networkInfo;
-            for (Network mNetwork : networks) {
-                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
-                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                    return true;
-                }
-            }
-        } else {
-            if (connectivityManager != null) {
-                NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
-                if (info != null) {
-                    for (NetworkInfo anInfo : info) {
-                        if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }*/
 
     public static boolean isConnectingToInternet(Activity context) {
         ConnectivityManager connectivityManager
@@ -77,8 +45,7 @@ public class ConnectionDetector {
                             dialog.dismiss();
                             context.finish();
                           /*  Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-                            context.startActivity(intent);
-*/
+                            context.startActivity(intent);*/
 
                         }
                     });

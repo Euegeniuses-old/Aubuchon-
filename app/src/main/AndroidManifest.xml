@@ -37,7 +37,9 @@
             android:name=".ExitActivity"
             android:autoRemoveFromRecents="true"
             android:theme="@android:style/Theme.NoDisplay" />
-
+        <activity
+            android:name=".scanner.ScannerActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

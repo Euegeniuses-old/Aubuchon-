@@ -2,7 +2,6 @@ package com.aubuchon.apis;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
@@ -11,13 +10,11 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.orhanobut.logger.Logger;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import cc.cloudist.acplibrary.ACProgressConstant;
 import cc.cloudist.acplibrary.ACProgressFlower;

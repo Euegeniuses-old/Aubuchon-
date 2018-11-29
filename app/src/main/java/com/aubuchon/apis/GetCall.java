@@ -1,7 +1,6 @@
 package com.aubuchon.apis;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 

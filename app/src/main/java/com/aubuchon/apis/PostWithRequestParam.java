@@ -1,13 +1,11 @@
 package com.aubuchon.apis;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.aubuchon.R;
 import com.aubuchon.utility.Constant;
-
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.orhanobut.logger.Logger;

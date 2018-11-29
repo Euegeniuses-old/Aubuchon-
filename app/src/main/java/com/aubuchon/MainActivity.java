@@ -1,17 +1,15 @@
 package com.aubuchon;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,15 +21,13 @@ import com.aubuchon.apis.HttpRequestHandler;
 import com.aubuchon.apis.PostRequest;
 import com.aubuchon.apis.PostRequest.OnPostServiceCallListener;
 import com.aubuchon.apis.PostWithRequestParam;
-import com.aubuchon.apis.PostWithRequestParam.OnPostWithReqParamServiceCallListener;
+import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
-import com.google.gson.JsonObject;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.loopj.android.http.RequestParams;
-import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,10 +50,14 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ll_captured_image;
     @BindView(R.id.iv_selected_image)
     AppCompatImageView iv_selected_image;
+    @BindView(R.id.et_code)
+    AppCompatEditText et_code;
 
     File selectedImage;
     boolean isFromCameraClick = false;
     Globals globals;
+
+    public static final int SCAN_BARCODE_REQUEST = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +66,15 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         globals = (Globals) getApplicationContext();
         isFromCameraClick = false;
-        doRequestForGetPublicIP();
+        //   doRequestForGetPublicIP();
     }
 
     @OnClick({R.id.ll_camera, R.id.btn_rescan})
     public void getPermissionForCamera() {
-        // ll_captured_image.setVisibility(View.GONE);
-        // ll_camera.setVisibility(View.VISIBLE);
-        // selectedImage = null;
         isFromCameraClick = true;
-        doRequestForGetPublicIP();
+//        doRequestForGetPublicIP();
+        Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+        startActivityForResult(intent, SCAN_BARCODE_REQUEST);
 
     }
 
@@ -84,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
     public void uploadImage() {
         //  Toast.makeText(this, "Coming Soon...", Toast.LENGTH_SHORT).show();
         doRequestForUploadImage();
+
+    }
+
+    @OnClick(R.id.btn_ok)
+    public void doRequestForGetProductDetail() {
+        et_code.setText("");
     }
 
     public void doRequestForGetPublicIP() {
@@ -129,7 +134,10 @@ public class MainActivity extends AppCompatActivity {
                             PermissionListener permissionlistener = new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    EasyImage.openCamera(MainActivity.this, 0);
+                                    // EasyImage.openCamera(MainActivity.this, 0);
+                                    Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                                    startActivity(intent);
+
                                 }
 
                                 @Override
@@ -203,25 +211,30 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        EasyImage.handleActivityResult(requestCode, resultCode, data, MainActivity.this, new DefaultCallback() {
-            @Override
-            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                //Some error handling
-            }
-
-            @Override
-            public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                if (!imageFiles.isEmpty()) onPhotoReturned(new File(imageFiles.get(0).toURI()));
-            }
-
-            @Override
-            public void onCanceled(EasyImage.ImageSource source, int type) {
-                //Cancel handling, you might wanna remove taken photo if it was canceled
-                if (source == EasyImage.ImageSource.CAMERA) {
-                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivity.this);
-                    if (photoFile != null) photoFile.delete();
+        if (requestCode == SCAN_BARCODE_REQUEST && resultCode == RESULT_OK) {
+            et_code.setText(data.getStringExtra(Constant.AU_Data));
+            et_code.setSelection(et_code.getText().toString().trim().length());
+        } else {
+            EasyImage.handleActivityResult(requestCode, resultCode, data, MainActivity.this, new DefaultCallback() {
+                @Override
+                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                    //Some error handling
                 }
-            }
-        });
+
+                @Override
+                public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                    if (!imageFiles.isEmpty()) onPhotoReturned(new File(imageFiles.get(0).toURI()));
+                }
+
+                @Override
+                public void onCanceled(EasyImage.ImageSource source, int type) {
+                    //Cancel handling, you might wanna remove taken photo if it was canceled
+                    if (source == EasyImage.ImageSource.CAMERA) {
+                        File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivity.this);
+                        if (photoFile != null) photoFile.delete();
+                    }
+                }
+            });
+        }
     }
 }
