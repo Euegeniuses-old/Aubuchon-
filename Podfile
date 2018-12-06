@@ -8,6 +8,9 @@ target 'Aubuchon' do
   # Pods for Aubuchon
 	pod 'Alamofire', '~> 4.7'
     pod 'SVProgressHUD'
+    pod 'IQKeyboardManagerSwift'
+    pod 'MTBBarcodeScanner'
+    # pod 'swiftScan', '~> 1.1.2'
   target 'AubuchonTests' do
     inherit! :search_paths
     # Pods for testing

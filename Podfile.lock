@@ -1,20 +1,28 @@
 PODS:
   - Alamofire (4.7.3)
+  - IQKeyboardManagerSwift (6.2.0)
+  - MTBBarcodeScanner (5.0.7)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - IQKeyboardManagerSwift
+  - MTBBarcodeScanner
   - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - IQKeyboardManagerSwift
+    - MTBBarcodeScanner
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  MTBBarcodeScanner: 003bb85d24e25818852fb8a10b5dbfe039d0385b
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 5aa23aa6f340a30b6097583f0c8afab1d32d0577
+PODFILE CHECKSUM: 55e3be6ae74c2cc50e7f24b6ce308365728d590f
 
 COCOAPODS: 1.5.3

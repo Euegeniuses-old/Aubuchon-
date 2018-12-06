@@ -19,6 +19,7 @@
 		043A44E1219AA84C00D6DA2E /* AubuchonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A44E0219AA84C00D6DA2E /* AubuchonUITests.swift */; };
 		043A44FF219AAAA900D6DA2E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A44FE219AAAA900D6DA2E /* MainViewController.swift */; };
 		043A4501219AAAB800D6DA2E /* UploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043A4500219AAAB800D6DA2E /* UploadImageViewController.swift */; };
+		04FBA37121B6AD0C007669D8 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */; };
 		31A2A0F56234F66C5E5EC7DB /* Pods_AubuchonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE424A55356D0587F3EDFB0 /* Pods_AubuchonTests.framework */; };
 		EA74665ECA6AF2EB6058B315 /* Pods_AubuchonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B4C75070567AD553A5ACDB /* Pods_AubuchonUITests.framework */; };
 		FA585E72C1E0DF3BEE709CEC /* Pods_Aubuchon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D4D02286C4DCC125927E73 /* Pods_Aubuchon.framework */; };
@@ -61,6 +62,7 @@
 		043A44E2219AA84C00D6DA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		043A44FE219AAAA900D6DA2E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		043A4500219AAAB800D6DA2E /* UploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageViewController.swift; sourceTree = "<group>"; };
+		04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		1B749CBF98BCC46C119CDAFC /* Pods-AubuchonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonUITests/Pods-AubuchonUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5423DD00FFA7FDC194494B70 /* Pods-AubuchonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonTests/Pods-AubuchonTests.release.xcconfig"; sourceTree = "<group>"; };
 		542BF1C2B5EB82E74833DD03 /* Pods-AubuchonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonTests/Pods-AubuchonTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 		043A44F2219AA88000D6DA2E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				04FBA36D21B6ACCE007669D8 /* Scanner */,
 				043A44F4219AA8F800D6DA2E /* Main */,
 				043A44F5219AA8FE00D6DA2E /* UploadImage */,
 			);
@@ -229,6 +232,14 @@
 				043A4500219AAAB800D6DA2E /* UploadImageViewController.swift */,
 			);
 			path = UploadImage;
+			sourceTree = "<group>";
+		};
+		04FBA36D21B6ACCE007669D8 /* Scanner */ = {
+			isa = PBXGroup;
+			children = (
+				04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */,
+			);
+			path = Scanner;
 			sourceTree = "<group>";
 		};
 		DE3F4E7B9AED701DEF657832 /* Frameworks */ = {
@@ -398,11 +409,15 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Aubuchon/Pods-Aubuchon-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MTBBarcodeScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +492,7 @@
 				0405D9D1219AE15000200F55 /* Extentions.swift in Sources */,
 				043A4501219AAAB800D6DA2E /* UploadImageViewController.swift in Sources */,
 				0410CE97219D9496009EC83C /* ImageUpload.swift in Sources */,
+				04FBA37121B6AD0C007669D8 /* ScannerViewController.swift in Sources */,
 				043A44FF219AAAA900D6DA2E /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

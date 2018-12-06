@@ -7,45 +7,65 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class MainViewController: UIViewController {
     
     //Outlets
     @IBOutlet weak var lblCaptureImage: UILabel!
+    @IBOutlet weak var lblOR: UILabel!
+    @IBOutlet weak var txtCode: UITextField!
+    @IBOutlet weak var btnOk: UIButton!
+    @IBOutlet weak var btnCamera: UIButton!
     //@IBOutlet weak var imageTake: UIImageView!
     
     //variables
     var imagePicker: UIImagePickerController!
     var isOnLoad:Bool = true
+    var barCodeNumber:String = ""
+    
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         lblCaptureImage.textColor = Constant.Colors.textColor
-        
+        lblOR.textColor = Constant.Colors.textColor
+        txtCode.textColor = Constant.Colors.textColor
+        txtCode.layer.borderWidth = 1
+        txtCode.layer.cornerRadius = 5
+        txtCode.layer.borderColor = Constant.Colors.textColor.cgColor
+        btnOk.backgroundColor =  UIColor(red: 15/255, green: 109/255, blue: 166/255, alpha: 1.0)
+        // btnOk.setTitleColor(Constant.Colors.textColor, for: UIControlState.normal)
         // Tabgesture of lblCaptureImage
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureOpenCameraRecognizer(tapGestureRecognizer:)))
         self.lblCaptureImage.isUserInteractionEnabled = true
         self.lblCaptureImage.addGestureRecognizer(tapGestureRecognizer)
+        
+        btnCamera.isEnabled = true
+        lblCaptureImage.isUserInteractionEnabled = true
         isOnLoad = true
         publicAPICall()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        txtCode.text = barCodeNumber
+         btnCamera.isEnabled = true
+        lblCaptureImage.isUserInteractionEnabled = true
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
+    
     //MARK:- publicAPI call
     func publicAPICall() {
+        
         let url = URL(string: "https://api.ipify.org/")
         var ipAddress: String? = nil
         if let anUrl = url {
             ipAddress = try? String(contentsOf: anUrl, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
         }
-        //        print("My public IP address is: \(ipAddress ?? "")")
         ImageUpload.checkpublicIp(with: ipAddress ?? "", success: { (response, isSuccess) in
             if !isSuccess {
                 let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
@@ -59,7 +79,10 @@ class MainViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if !self.isOnLoad {
-                    self.openCamera()
+                    self.openMTBScanner()
+                    //Swift sacn library used
+                    //self.showScannerNewUI()
+                    //                    self.openCamera()
                 }
                 
             }
@@ -78,16 +101,15 @@ class MainViewController: UIViewController {
                 
                 self.present(alert, animated: true, completion: nil)
             }
-            
         }
     }
-    
-    
     
     //MARK:- Private functions
     
     //Label gesture recognizer
     @objc func tapGestureOpenCameraRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {
+        lblCaptureImage.isUserInteractionEnabled = false
+        btnCamera.isEnabled = false
         isOnLoad = false
         publicAPICall()
     }
@@ -104,12 +126,24 @@ class MainViewController: UIViewController {
         }
     }
     
+    // Open  MTBScanner
+    func openMTBScanner() {
+        let loginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ScannerView") as! ScannerViewController
+        self.navigationController?.pushViewController(loginVC, animated: true)
+    }
+   
     //MARK:- Button action
     
     //Capture button action
     @IBAction func btnCaptureImage_Action(_ sender: Any) {
+         btnCamera.isEnabled = false
+        lblCaptureImage.isUserInteractionEnabled = false
         isOnLoad = false
         publicAPICall()
+    }
+    
+    @IBAction func btnOk_Action(_ sender: Any) {
+        txtCode.text = ""
     }
 }
 
