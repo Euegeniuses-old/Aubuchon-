@@ -52,6 +52,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         mScannerView.setResultHandler(ScannerActivity.this);
         List<BarcodeFormat> formats = new ArrayList<>();
         formats.add(BarcodeFormat.UPC_A);
+        formats.add(BarcodeFormat.UPC_E);
         mScannerView.setFormats(formats);
         // You can optionally set aspect ratio tolerance level
         // that is used in calculating the optimal Camera preview size

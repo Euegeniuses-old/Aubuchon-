@@ -66,15 +66,35 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         globals = (Globals) getApplicationContext();
         isFromCameraClick = false;
-        //   doRequestForGetPublicIP();
+        doRequestForGetPublicIP();
     }
 
     @OnClick({R.id.ll_camera, R.id.btn_rescan})
     public void getPermissionForCamera() {
         isFromCameraClick = true;
-//        doRequestForGetPublicIP();
-        Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
-        startActivityForResult(intent, SCAN_BARCODE_REQUEST);
+       doRequestForGetPublicIP();
+     /*   PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                // EasyImage.openCamera(MainActivity.this, 0);
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, SCAN_BARCODE_REQUEST);
+
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                Toast.makeText(MainActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        TedPermission.with(MainActivity.this)
+                .setPermissionListener(permissionlistener)
+                //.setRationaleMessage(getString(R.string.request_camera_permission))
+                .setDeniedMessage(getString(R.string.on_denied_permission))
+                .setGotoSettingButtonText(getString(R.string.setting))
+                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .check();*/
 
     }
 
@@ -136,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                                 public void onPermissionGranted() {
                                     // EasyImage.openCamera(MainActivity.this, 0);
                                     Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
-                                    startActivity(intent);
+                                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);
 
                                 }
 
