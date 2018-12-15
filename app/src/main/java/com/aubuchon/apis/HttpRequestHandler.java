@@ -2,6 +2,7 @@ package com.aubuchon.apis;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
@@ -62,8 +63,8 @@ public class HttpRequestHandler {
     }
 
     public void postWithReqestParam(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        Logger.e("Server Url:=> ", url);
-        Logger.json(params.toString());
+        Logger.e("Server Url:=> "+ url);
+        Logger.d(params.toString());
         client.post(url, params, responseHandler);
     }
 
@@ -100,6 +101,15 @@ public class HttpRequestHandler {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        return params;
+    }
+
+    public RequestParams getProductDetailParams(String branchCode, String data) {
+        RequestParams params = new RequestParams();
+
+        params.put(Constant.AU_branchcode, branchCode);
+        params.put(Constant.AU_data, data);
+
         return params;
     }
 

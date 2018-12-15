@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".scanner.ItemDetailActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_5"
+        android:background="@drawable/light_gray_bg"
+        android:orientation="horizontal"
+        android:padding="@dimen/dim_1">
+
+        <RadioGroup
+            android:id="@+id/radio_group_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_inquiry"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_inquiry"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_local"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_local_inv"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_sales_history"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_sales_history"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/radio_group_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_photo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_photo"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_order_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_order_info"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_related_items"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_60"
+                android:layout_margin="@dimen/dim_0_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/str_related_items"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_16" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+    <ViewFlipper
+        android:id="@+id/view_flipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dim_5"
+        android:layout_weight="1"
+        android:background="@drawable/light_gray_border_white_bg"
+        android:gravity="center"
+        android:padding="@dimen/dim_5">
+
+        <!--1st View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_inquiry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <!--2nd View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/dim_5">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+        <!--3rd View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/local_inv_item_header_layout" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_local_inventory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/no_data_available"
+                android:textSize="@dimen/text_size_12"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+
+        <!--4th View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_order_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <!--5th View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Store 170"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_sales_history_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Company"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_14" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_sales_history_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--6th View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_related_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/related_image" />
+        </LinearLayout>
+    </ViewFlipper>
+</LinearLayout>

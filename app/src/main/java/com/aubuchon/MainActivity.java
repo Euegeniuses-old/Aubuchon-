@@ -21,9 +21,9 @@ import com.aubuchon.apis.HttpRequestHandler;
 import com.aubuchon.apis.PostRequest;
 import com.aubuchon.apis.PostRequest.OnPostServiceCallListener;
 import com.aubuchon.apis.PostWithRequestParam;
+import com.aubuchon.scanner.ItemDetailActivity;
 import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
-import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -72,30 +72,7 @@ public class MainActivity extends AppCompatActivity {
     @OnClick({R.id.ll_camera, R.id.btn_rescan})
     public void getPermissionForCamera() {
         isFromCameraClick = true;
-       doRequestForGetPublicIP();
-     /*   PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                // EasyImage.openCamera(MainActivity.this, 0);
-                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
-                startActivityForResult(intent, SCAN_BARCODE_REQUEST);
-
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                Toast.makeText(MainActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        TedPermission.with(MainActivity.this)
-                .setPermissionListener(permissionlistener)
-                //.setRationaleMessage(getString(R.string.request_camera_permission))
-                .setDeniedMessage(getString(R.string.on_denied_permission))
-                .setGotoSettingButtonText(getString(R.string.setting))
-                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .check();*/
-
+        doRequestForGetPublicIP();
     }
 
 
@@ -108,7 +85,12 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_ok)
     public void doRequestForGetProductDetail() {
-        et_code.setText("");
+        // et_code.setText("");
+        if (!et_code.getText().toString().isEmpty()) {
+            Intent intent = new Intent(MainActivity.this, ItemDetailActivity.class);
+            intent.putExtra(Constant.AU_data, et_code.getText().toString().trim());
+            startActivity(intent);
+        }
     }
 
     public void doRequestForGetPublicIP() {
@@ -221,10 +203,10 @@ public class MainActivity extends AppCompatActivity {
         ll_camera.setVisibility(View.GONE);
         ll_captured_image.setVisibility(View.VISIBLE);
 
-        GlideApp.with(MainActivity.this)
+      /*  GlideApp.with(MainActivity.this)
                 .load(photoFile)
                 .centerCrop()
-                .into(iv_selected_image);
+                .into(iv_selected_image);*/
     }
 
     @Override

@@ -12,5 +12,7 @@ public class Constant {
     public static final String AU_ip = "ip";
     public static final String AU_PublicIp = "PublicIp";
     public static final String AU_IpAddress = "IpAddress";
+    public static final String AU_branchcode = "branchcode";
+    public static final String AU_data = "data";
 }
 

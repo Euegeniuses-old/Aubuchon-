@@ -21,4 +21,11 @@
     <string name="msg_goto_settings">SETTINGS</string>
     <string name="msg_server_error">The server might be down, please try again later.</string>
     <string name="error_msg_connection_timeout">The request timed out please try again.</string>
+    <string name="no_data_available">No data available</string>
+    <string name="str_inquiry">Inquiry</string>
+    <string name="str_local_inv">Local INV</string>
+    <string name="str_sales_history">Sales History</string>
+    <string name="str_photo">Photo</string>
+    <string name="str_order_info">Order Info</string>
+    <string name="str_related_items">Related Items</string>
 </resources>
