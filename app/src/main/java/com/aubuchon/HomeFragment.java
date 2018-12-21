@@ -6,12 +6,15 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,7 +24,7 @@ import com.aubuchon.apis.HttpRequestHandler;
 import com.aubuchon.apis.PostRequest;
 import com.aubuchon.apis.PostRequest.OnPostServiceCallListener;
 import com.aubuchon.apis.PostWithRequestParam;
-import com.aubuchon.scanner.ItemDetailActivity;
+import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
@@ -34,15 +37,12 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.aprilapps.easyphotopicker.DefaultCallback;
-import pl.aprilapps.easyphotopicker.EasyImage;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeFragment extends Fragment {
 
     @BindView(R.id.ll_camera)
     LinearLayout ll_camera;
@@ -59,14 +59,22 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int SCAN_BARCODE_REQUEST = 1001;
 
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
+
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        globals = (Globals) getApplicationContext();
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+        ButterKnife.bind(this, view);
+
+        globals = (Globals) getActivity().getApplicationContext();
         isFromCameraClick = false;
         doRequestForGetPublicIP();
+        ((NavigationActivity) getActivity()).setToolbar();
+        return view;
     }
 
     @OnClick({R.id.ll_camera, R.id.btn_rescan})
@@ -78,24 +86,24 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_Upload)
     public void uploadImage() {
-        //  Toast.makeText(this, "Coming Soon...", Toast.LENGTH_SHORT).show();
         doRequestForUploadImage();
 
     }
 
     @OnClick(R.id.btn_ok)
     public void doRequestForGetProductDetail() {
-        // et_code.setText("");
         if (!et_code.getText().toString().isEmpty()) {
-            Intent intent = new Intent(MainActivity.this, ItemDetailActivity.class);
-            intent.putExtra(Constant.AU_data, et_code.getText().toString().trim());
-            startActivity(intent);
+            globals.setCurrentProductCode(et_code.getText().toString().trim());
+            if (getActivity() != null) {
+                ((NavigationActivity) getActivity()).setToolbar();
+                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance());
+            }
         }
     }
 
     public void doRequestForGetPublicIP() {
         String url = "https://api.ipify.org/?format=json";
-        new GetCall(MainActivity.this, url, new JSONObject(), new OnGetServiceCallListener() {
+        new GetCall(getActivity(), url, new JSONObject(), new OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
                 if (response.has(Constant.AU_ip)) {
@@ -109,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(MainActivity.this, getString(R.string.msg_server_error));
+                Globals.showToast(getActivity(), getString(R.string.msg_server_error));
             }
         }, true).doRequest();
     }
@@ -118,15 +126,15 @@ public class MainActivity extends AppCompatActivity {
         String url = getString(R.string.server_url) + getString(R.string.checkPublicIp_url);
         JSONObject param = HttpRequestHandler.getInstance().getCheckPublicIpParams(publicIP);
 
-        new PostRequest(MainActivity.this, url, param, true, new OnPostServiceCallListener() {
+        new PostRequest(getActivity(), url, param, true, new OnPostServiceCallListener() {
             @Override
             public void onSucceedToPostCall(JSONObject response) {
                 try {
                     if (!response.getBoolean(Constant.AU_IsSuccess)) {
-                        AlertDialog.Builder builder = new Builder(MainActivity.this).setMessage(response.getString(Constant.AU_Message)).setCancelable(false).setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
+                        AlertDialog.Builder builder = new Builder(getActivity()).setMessage(response.getString(Constant.AU_Message)).setCancelable(false).setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                ExitActivity.exitApplication(getApplicationContext());
+                                ExitActivity.exitApplication(getActivity().getApplicationContext());
                             }
                         });
                         AlertDialog alert = builder.create();
@@ -136,19 +144,19 @@ public class MainActivity extends AppCompatActivity {
                             PermissionListener permissionlistener = new PermissionListener() {
                                 @Override
                                 public void onPermissionGranted() {
-                                    // EasyImage.openCamera(MainActivity.this, 0);
-                                    Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                                    // EasyImage.openCamera(getActivity(), 0);
+                                    Intent intent = new Intent(getActivity(), ScannerActivity.class);
                                     startActivityForResult(intent, SCAN_BARCODE_REQUEST);
 
                                 }
 
                                 @Override
                                 public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                                    Toast.makeText(MainActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             };
 
-                            TedPermission.with(MainActivity.this)
+                            TedPermission.with(getActivity())
                                     .setPermissionListener(permissionlistener)
                                     //.setRationaleMessage(getString(R.string.request_camera_permission))
                                     .setDeniedMessage(getString(R.string.on_denied_permission))
@@ -164,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(MainActivity.this, msg);
+                Globals.showToast(getActivity(), msg);
             }
         }).execute();
     }
@@ -175,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
 
         RequestParams param = HttpRequestHandler.getInstance().getUploadImageParams(selectedImage);
 
-        new PostWithRequestParam(MainActivity.this, url, param, true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
+        new PostWithRequestParam(getActivity(), url, param, true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
             @Override
             public void onSucceedToPostCall(JSONObject response) {
 
                 try {
-                    Globals.showToast(MainActivity.this, response.getString(Constant.AU_Message));
+                    Globals.showToast(getActivity(), response.getString(Constant.AU_Message));
                     if (response.getBoolean(Constant.AU_IsSuccess)) {
                         ll_captured_image.setVisibility(View.GONE);
                         ll_camera.setVisibility(View.VISIBLE);
@@ -193,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(MainActivity.this, msg);
+                Globals.showToast(getActivity(), msg);
             }
         }).execute();
     }
@@ -203,40 +211,9 @@ public class MainActivity extends AppCompatActivity {
         ll_camera.setVisibility(View.GONE);
         ll_captured_image.setVisibility(View.VISIBLE);
 
-      /*  GlideApp.with(MainActivity.this)
+      /*  GlideApp.with(getActivity())
                 .load(photoFile)
                 .centerCrop()
                 .into(iv_selected_image);*/
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == SCAN_BARCODE_REQUEST && resultCode == RESULT_OK) {
-            et_code.setText(data.getStringExtra(Constant.AU_Data));
-            et_code.setSelection(et_code.getText().toString().trim().length());
-        } else {
-            EasyImage.handleActivityResult(requestCode, resultCode, data, MainActivity.this, new DefaultCallback() {
-                @Override
-                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                    //Some error handling
-                }
-
-                @Override
-                public void onImagesPicked(@NonNull List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                    if (!imageFiles.isEmpty()) onPhotoReturned(new File(imageFiles.get(0).toURI()));
-                }
-
-                @Override
-                public void onCanceled(EasyImage.ImageSource source, int type) {
-                    //Cancel handling, you might wanna remove taken photo if it was canceled
-                    if (source == EasyImage.ImageSource.CAMERA) {
-                        File photoFile = EasyImage.lastlyTakenButCanceledPhoto(MainActivity.this);
-                        if (photoFile != null) photoFile.delete();
-                    }
-                }
-            });
-        }
     }
 }

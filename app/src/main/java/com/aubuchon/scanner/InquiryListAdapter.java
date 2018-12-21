@@ -13,9 +13,6 @@ import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel.Product;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 
 public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.ViewHolder> {

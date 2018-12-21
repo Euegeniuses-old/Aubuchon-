@@ -1,14 +1,17 @@
 package com.aubuchon.scanner;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RadioGroup;
@@ -20,7 +23,6 @@ import com.aubuchon.apis.PostWithRequestParam;
 import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel;
 import com.aubuchon.model.ProductDetailModel.Product;
-import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItemDetailActivity extends AppCompatActivity implements OnCheckedChangeListener, OnItemClickListener {
+public class ItemDetailFragment extends Fragment implements OnCheckedChangeListener, OnItemClickListener {
 
     @BindView(R.id.radio_group_1)
     RadioGroup rg1;
@@ -57,16 +59,28 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
     @BindView(R.id.iv_photo)
     AppCompatImageView iv_photo;
 
+    Globals globals;
     ArrayList<ProductDetailModel.Product> productArrayList;
     ProductDetailModel productDetailModel;
     private LocalInvListAdapter localInvListAdapter;
     String data;
 
+    public static ItemDetailFragment newInstance() {
+        return new ItemDetailFragment();
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_detail);
-        ButterKnife.bind(this);
+        globals = (Globals) getActivity().getApplicationContext();
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_item_detail, container, false);
+        ButterKnife.bind(this, view);
         rg1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
         rg2.clearCheck();
         rg1.setOnCheckedChangeListener(this);
@@ -76,13 +90,12 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         for (int i = 0; i < 10; i++) {
             productArrayList.add(new Product());
         }
-        data = getIntent().getStringExtra(Constant.AU_data);
+        data = globals.getCurrentProductCode();
+
         doRequestForGetProductDetail();
         setAdapter();
-        getSupportActionBar().setTitle("Item Detail");
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        return view;
     }
 
     @Override
@@ -100,15 +113,18 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
                             //setInquiryData();
                             break;
 
-                        case R.id.btn_local:
-                            view_flipper.setDisplayedChild(2);
-                            break;
 
                         case R.id.btn_sales_history:
                             view_flipper.setDisplayedChild(4);
                             setSalesHistoryData();
                             break;
-
+                        case R.id.btn_order_info:
+                            view_flipper.setDisplayedChild(3);
+                            setOrderInfoData();
+                            break;
+                        case R.id.btn_related_items:
+                            view_flipper.setDisplayedChild(5);
+                            break;
                     }
                 }
                 break;
@@ -119,18 +135,15 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
                     rg1.setOnCheckedChangeListener(this);
 
                     switch (checkedId) {
+
+                        case R.id.btn_local:
+                            view_flipper.setDisplayedChild(2);
+                            break;
                         case R.id.btn_photo:
                             view_flipper.setDisplayedChild(1);
                             break;
 
-                        case R.id.btn_order_info:
-                            view_flipper.setDisplayedChild(3);
-                            setOrderInfoData();
-                            break;
 
-                        case R.id.btn_related_items:
-                            view_flipper.setDisplayedChild(5);
-                            break;
                     }
                 }
                 break;
@@ -140,7 +153,7 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
     public void doRequestForGetProductDetail() {
         String url = "http://50.206.125.135/webservice/GetProductStore.aspx?branchcode=1&data=" + data;
         // RequestParams param = HttpRequestHandler.getInstance().getProductDetailParams("001", "129991");
-        new PostWithRequestParam(ItemDetailActivity.this, url, new RequestParams(), true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
+        new PostWithRequestParam(getActivity(), url, new RequestParams(), true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
             @Override
             public void onSucceedToPostCall(JSONObject response) {
                 productDetailModel = new Gson().fromJson(response.toString(), new TypeToken<ProductDetailModel>() {
@@ -148,16 +161,16 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
                 if (productDetailModel.getProduct().size() > 0)
                     setInquiryData();
                 else {
-                    Globals.showToast(ItemDetailActivity.this, "No data available.");
-                    finish();
+                    Globals.showToast(getActivity(), "No data available.");
+                    //finish();
                 }
 
             }
 
             @Override
             public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(ItemDetailActivity.this, msg);
-                finish();
+                Globals.showToast(getActivity(), msg);
+                //  finish();
             }
 
         }).execute();
@@ -167,7 +180,7 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
 
         if (productArrayList != null && productArrayList.size() > 0) {
             if (localInvListAdapter == null) {
-                localInvListAdapter = new LocalInvListAdapter(this);
+                localInvListAdapter = new LocalInvListAdapter(getActivity());
                 localInvListAdapter.setOnItemClickListener(this);
             }
 
@@ -175,7 +188,7 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
 
             if (rv_local_inventory.getAdapter() == null) {
                 rv_local_inventory.setHasFixedSize(false);
-                rv_local_inventory.setLayoutManager(new LinearLayoutManager(this));
+                rv_local_inventory.setLayoutManager(new LinearLayoutManager(getActivity()));
                 rv_local_inventory.setAdapter(localInvListAdapter);
             }
         }
@@ -205,7 +218,8 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
             try {
                 item.setAccessible(true);
                 if (!item.getName().equalsIgnoreCase("imageURL"))
-                    inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                    if (item.get(productDetailModel.getProduct().get(0)) != null)
+                        inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -220,15 +234,15 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         inquiryData.add(new KeyValueModel("Section", "F030-002F"));
         inquiryData.add(new KeyValueModel("Speed#", "10"));*/
 
-        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(this);
+        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(getActivity());
         inquiryListAdapter.doRefresh(inquiryData);
         if (rv_inquiry.getAdapter() == null) {
             rv_inquiry.setHasFixedSize(false);
-            rv_inquiry.setLayoutManager(new LinearLayoutManager(this));
+            rv_inquiry.setLayoutManager(new LinearLayoutManager(getActivity()));
             rv_inquiry.setAdapter(inquiryListAdapter);
         }
 
-      /*  GlideApp.with(ItemDetailActivity.this)
+      /*  GlideApp.with(getActivity())
                 .load("https://awakenedmind.com/AwakenedmindAPI/Content/CategoryHeaderImage/metting4.png"*//*productDetailModel.getProduct().get(0).getImageURL()*//*)
                 .into(iv_photo);*/
     }
@@ -243,11 +257,11 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         inquiryData.add(new KeyValueModel("Delivery Date", "11/30/18"));
 
 
-        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(this);
+        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(getActivity());
         inquiryListAdapter.doRefresh(inquiryData);
         if (rv_order_info.getAdapter() == null) {
             rv_order_info.setHasFixedSize(false);
-            rv_order_info.setLayoutManager(new LinearLayoutManager(this));
+            rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
             rv_order_info.setAdapter(inquiryListAdapter);
 
         }
@@ -263,11 +277,11 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         storeData.add(new KeyValueModel("Dec 2017", "800"));
         storeData.add(new KeyValueModel("Jan 2017", "878"));
 
-        SalesHistoryListAdapter storeListAdapter = new SalesHistoryListAdapter(this);
+        SalesHistoryListAdapter storeListAdapter = new SalesHistoryListAdapter(getActivity());
         storeListAdapter.doRefresh(storeData);
         if (rv_sales_history_store.getAdapter() == null) {
             rv_sales_history_store.setHasFixedSize(false);
-            rv_sales_history_store.setLayoutManager(new LinearLayoutManager(this));
+            rv_sales_history_store.setLayoutManager(new LinearLayoutManager(getActivity()));
             rv_sales_history_store.setAdapter(storeListAdapter);
 
         }
@@ -280,13 +294,12 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         companyData.add(new KeyValueModel("Jul", "0006"));
         companyData.add(new KeyValueModel("Dec 2017", "8999"));
         companyData.add(new KeyValueModel("Jan 2017", "9789"));
-        SalesHistoryListAdapter companyListAdapter = new SalesHistoryListAdapter(this);
+        SalesHistoryListAdapter companyListAdapter = new SalesHistoryListAdapter(getActivity());
         companyListAdapter.doRefresh(companyData);
         if (rv_sales_history_company.getAdapter() == null) {
             rv_sales_history_company.setHasFixedSize(false);
-            rv_sales_history_company.setLayoutManager(new LinearLayoutManager(this));
+            rv_sales_history_company.setLayoutManager(new LinearLayoutManager(getActivity()));
             rv_sales_history_company.setAdapter(companyListAdapter);
-
         }
     }
 
@@ -296,7 +309,7 @@ public class ItemDetailActivity extends AppCompatActivity implements OnCheckedCh
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                finish();
+                //finish();
                 break;
 
         }

@@ -25,6 +25,7 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
 
     SharedPreferences sp;
     SharedPreferences.Editor editor;
+    private static String currentProductCode, previousProductCode;
     public static String TAG = "Globals";
     static Context context;
 
@@ -126,5 +127,27 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
         }
     }
 
+    public String getCurrentProductCode() {
+        return currentProductCode;
+    }
 
+    public void setCurrentProductCode(String currentProductCode) {
+        Globals.currentProductCode = currentProductCode;
+    }
+
+    public String getPreviousProductCode() {
+        return previousProductCode;
+    }
+
+    public void setPreviousProductCode(String previousProductCode) {
+        Globals.previousProductCode = previousProductCode;
+    }
+
+    public static String getToolbarTitle() {
+        if (previousProductCode != null && !previousProductCode.isEmpty()) {
+            return "SKU: " + previousProductCode;
+        } else if (currentProductCode != null && !currentProductCode.isEmpty()) {
+            return "SKU: " + currentProductCode;
+        } else return "";
+    }
 }

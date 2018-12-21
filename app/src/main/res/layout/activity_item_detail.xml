@@ -4,16 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
-    tools:context=".scanner.ItemDetailActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dim_5"
-        android:background="@drawable/light_gray_bg"
-        android:orientation="horizontal"
+        android:background="@drawable/gray_rounded_border_white_bg"
+        android:orientation="vertical"
         android:padding="@dimen/dim_1">
 
         <RadioGroup
@@ -21,46 +20,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/btn_inquiry"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_2"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
                 android:text="@string/str_inquiry"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_12" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_local"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
-                android:layout_weight="1"
-                android:background="@drawable/button_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:text="@string/str_local_inv"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/btn_sales_history"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_2"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
                 android:text="@string/str_sales_history"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_12" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_order_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_2"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
+                android:text="@string/str_order_info"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_12" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_related_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginBottom="@dimen/dim_2"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
+                android:text="@string/str_related_items"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_12" />
         </RadioGroup>
 
         <RadioGroup
@@ -68,48 +101,77 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/btn_local"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_4"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
+                android:text="@string/str_local_inv"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_12" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/btn_photo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_4"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
                 android:text="@string/str_photo"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
-
+                android:textSize="@dimen/text_size_12" />
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_order_info"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginRight="@dimen/dim_2"
+                android:layout_marginBottom="@dimen/dim_4"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:text="@string/str_order_info"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
+                android:text="TBD"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
-
+                android:textSize="@dimen/text_size_12" />
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_related_items"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_60"
-                android:layout_margin="@dimen/dim_0_5"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dim_2"
+                android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginRight="@dimen/dim_4"
+                android:layout_marginBottom="@dimen/dim_4"
                 android:layout_weight="1"
                 android:background="@drawable/button_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:text="@string/str_related_items"
+                android:maxLines="1"
+                android:padding="@dimen/dim_5"
+                android:text="TBD"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_12" />
 
         </RadioGroup>
     </LinearLayout>
@@ -120,7 +182,7 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/dim_5"
         android:layout_weight="1"
-        android:background="@drawable/light_gray_border_white_bg"
+        android:background="@drawable/gray_rounded_border_white_bg"
         android:gravity="center"
         android:padding="@dimen/dim_5">
 
@@ -213,7 +275,8 @@
                     android:gravity="center"
                     android:text="Store 170"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_sales_history_store"
@@ -237,7 +300,8 @@
                     android:gravity="center"
                     android:text="Company"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_sales_history_company"

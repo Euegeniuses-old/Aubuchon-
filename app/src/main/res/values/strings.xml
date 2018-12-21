@@ -9,7 +9,7 @@
     </string>
     <string name="permission_denied">Permission Denied</string>
     <string name="text_capture_image">Capture Image</string>
-    <string name="text_scan_code">Scan Code</string>
+    <string name="text_scan_code">Scan UPC or SKU</string>
     <string name="text_rescan">Rescan</string>
     <string name="text_upload">Upload</string>
 
@@ -28,4 +28,7 @@
     <string name="str_photo">Photo</string>
     <string name="str_order_info">Order Info</string>
     <string name="str_related_items">Related Items</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
