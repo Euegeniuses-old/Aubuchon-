@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.aubuchon.MainActivity">
-
+    <!--Check Commit-->
     <LinearLayout
         android:id="@+id/ll_camera"
         android:layout_width="wrap_content"
