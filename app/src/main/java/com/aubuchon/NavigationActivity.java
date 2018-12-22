@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.utility.Globals;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -24,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NavigationActivity extends AppCompatActivity {
+    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
@@ -31,7 +31,6 @@ public class NavigationActivity extends AppCompatActivity {
     @BindView(R.id.iv_home)
     AppCompatImageView iv_home;
     Globals globals;
-    private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,15 @@ public class NavigationActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            toolbar_title.setText(Globals.getToolbarTitle());
+
+            List<Fragment> frags = getSupportFragmentManager().getFragments();
+            for (Fragment f : frags) {
+                if (!(f instanceof HomeFragment)) {
+                    toolbar_title.setText(Globals.getToolbarTitle());
+                } else {
+                    toolbar_title.setText("");
+                }
+            }
 
             // Handle Navigation Option Click
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -64,8 +71,11 @@ public class NavigationActivity extends AppCompatActivity {
                     List<Fragment> frags = getSupportFragmentManager().getFragments();
                     for (Fragment f : frags) {
                         if (!(f instanceof HomeFragment)) {
-                            onBackPressed();
+                            // onBackPressed();
+                            setToolbar();
                             toolbar_title.setText("");
+                            getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            addFragmentOnTop(HomeFragment.newInstance());
                         }
                     }
                 }
@@ -90,7 +100,6 @@ public class NavigationActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, fragment)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -115,7 +124,8 @@ public class NavigationActivity extends AppCompatActivity {
                 List<Fragment> frags = getSupportFragmentManager().getFragments();
                 for (Fragment f : frags) {
                     if (!(f instanceof HomeFragment)) {
-                        onBackPressed();
+                        getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        addFragmentOnTop(HomeFragment.newInstance());
                         toolbar_title.setText("");
                     }
                 }
@@ -126,10 +136,20 @@ public class NavigationActivity extends AppCompatActivity {
         tv_popup_product_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (globals.getPreviousProductCode() != null && !globals.getPreviousProductCode().isEmpty()) {
-                  //  Globals.showToast(NavigationActivity.this, "Not Empty: " + globals.getPreviousProductCode());
-                    addFragmentOnTop(ItemDetailFragment.newInstance());
+                    List<Fragment> frags = getSupportFragmentManager().getFragments();
+                    for (Fragment f : frags) {
+                        if (f instanceof HomeFragment) {
+                            addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
+                        } else if(f instanceof ItemDetailFragment) {
+                            addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
+                        }
+                    }
                 }
+
+              //  addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
+
                 popupWindow.dismiss();
             }
         });
@@ -138,18 +158,23 @@ public class NavigationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // Pop off everything up to and including the current tab
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() == 1)
-            finish();
-        else {
-            fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            super.onBackPressed();
-        }
+        //FragmentManager fragmentManager = getSupportFragmentManager();
+        /*if (fragmentManager.getBackStackEntryCount() == 0){
 
+        }
+        else {
+            super.onBackPressed();
+        }*/
+
+        //clear toolbar
         List<Fragment> frags = getSupportFragmentManager().getFragments();
         for (Fragment f : frags) {
             if (f instanceof HomeFragment) {
                 toolbar_title.setText("");
+                //finish();
+                super.onBackPressed();
+            } else {
+                addFragmentOnTop(HomeFragment.newInstance());
             }
         }
     }

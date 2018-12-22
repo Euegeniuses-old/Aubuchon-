@@ -76,9 +76,20 @@ public class HomeFragment extends Fragment {
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
             globals.setCurrentProductCode(et_code.getText().toString().trim());
+
+            /* Handle Previous Product option not working*/
+         /*   if(globals.getCurrentProductCode().isEmpty()){
+                globals.setCurrentProductCode(et_code.getText().toString().trim());
+            }else{
+                String temp = globals.getCurrentProductCode();
+                globals.setPreviousProductCode(temp);
+                globals.setCurrentProductCode(et_code.getText().toString().trim());
+            }*/
+
+
             if (getActivity() != null) {
                 ((NavigationActivity) getActivity()).setToolbar();
-                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance());
+                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.getCurrentProductCode()));
                 et_code.setText("");
             }
         } else {

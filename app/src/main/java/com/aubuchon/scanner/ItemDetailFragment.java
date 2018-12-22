@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,15 +25,11 @@ import com.aubuchon.apis.GetCall;
 import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel;
 import com.aubuchon.model.ProductDetailModel.Product;
+import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.orhanobut.logger.Logger;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
@@ -72,11 +66,16 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     Globals globals;
     ArrayList<ProductDetailModel.Product> productArrayList;
     ProductDetailModel productDetailModel;
-    private LocalInvListAdapter localInvListAdapter;
     String data;
+    private LocalInvListAdapter localInvListAdapter;
 
-    public static ItemDetailFragment newInstance() {
-        return new ItemDetailFragment();
+    public static ItemDetailFragment newInstance(String barcode) {
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.AU_data, barcode);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
@@ -100,7 +99,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         for (int i = 0; i < 10; i++) {
             productArrayList.add(new Product());
         }
-        data = globals.getCurrentProductCode();
+
+        data = getArguments().getString(Constant.AU_data);
 
         doRequestForGetProductDetail();
         setAdapter();
@@ -203,16 +203,19 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
                 if (productDetailModel.getProduct().size() == 0) {
                     Globals.showToast(getActivity(), getString(R.string.msg_invalid_barcode));
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    fragmentManager.popBackStack();
+                    globals.setCurrentProductCode("");
                     ((NavigationActivity) getActivity()).addFragmentOnTop(HomeFragment.newInstance());
+                    ((NavigationActivity) getActivity()).setToolbar();
+
                 } else {
 
                     if (productDetailModel.getProduct().size() > 0) {
 
+                        String temp = globals.getCurrentProductCode();
+                        globals.setPreviousProductCode(temp);
                         globals.setCurrentProductCode(data);
-                        globals.setPreviousProductCode(globals.getCurrentProductCode());
-                        ((NavigationActivity)getActivity()).setToolbar();
+
+                        ((NavigationActivity) getActivity()).setToolbar();
                         setInquiryData();
 
                     } else {
@@ -271,7 +274,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         for (Field item : productDetailModel.getProduct().get(0).getClass().getDeclaredFields()) {
             try {
                 item.setAccessible(true);
-                if (!item.getName().equalsIgnoreCase("imageURL") || !item.getName().equalsIgnoreCase("serialVersionUID"))
+                if (!item.getName().equalsIgnoreCase("imageURL"))
                     if (item.get(productDetailModel.getProduct().get(0)) != null && !item.isSynthetic())
                         inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
             } catch (IllegalAccessException e) {
@@ -305,7 +308,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         }
 
       /*  GlideApp.with(getActivity())
-                .load("https://awakenedmind.com/AwakenedmindAPI/Content/CategoryHeaderImage/metting4.png"*//*productDetailModel.getProduct().get(0).getImageURL()*//*)
+                .load("/*productDetailModel.getProduct().get(0).getImageURL()*//*)
                 .into(iv_photo);*/
     }
 
