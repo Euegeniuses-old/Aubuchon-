@@ -49,7 +49,6 @@ public class NavigationActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             toolbar_title.setText(Globals.getToolbarTitle());
 
-
             // Handle Navigation Option Click
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -144,13 +143,14 @@ public class NavigationActivity extends AppCompatActivity {
             finish();
         else {
             fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            List<Fragment> frags = getSupportFragmentManager().getFragments();
-            for (Fragment f : frags) {
-                if (f instanceof HomeFragment) {
-                    toolbar_title.setText("");
-                }
-            }
             super.onBackPressed();
+        }
+
+        List<Fragment> frags = getSupportFragmentManager().getFragments();
+        for (Fragment f : frags) {
+            if (f instanceof HomeFragment) {
+                toolbar_title.setText("");
+            }
         }
     }
 }
