@@ -126,4 +126,31 @@ class APIManager {
             connectionFailed(Constant.alertTitleMessage.internetNotAvailable)
         }
     }
+    
+    //MARK:- Pass query string in url as request data
+    class func makeRequestWithQueruyString(with url: String, method: HTTPMethod, parameter: [String:Any]?, success: @escaping (_ response: Any) -> Void, failure: @escaping (_ error: String) -> Void, connectionFailed: @escaping (_ error: String) -> Void) {
+        
+        if(isConnectedToNetwork()) {
+            print(method.rawValue, url)
+           
+            Alamofire.request(url, method: method, parameters: parameter, encoding: URLEncoding.default, headers: nil).responseJSON { (response) in
+               // print(response)
+                switch (response.result) {
+                case .success(let value):
+                    if let jsonData = try? JSONSerialization.data(withJSONObject: value, options: .prettyPrinted) {
+                        print("Response: \n",String(data: jsonData, encoding: String.Encoding.utf8) ?? "nil")
+                    }
+                    
+                    success(value)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    print(error)
+                    failure(Constant.alertTitleMessage.internetNotAvailable)
+                }
+            }
+        }
+        else {
+            connectionFailed(Constant.alertTitleMessage.internetNotAvailable)
+        }
+    }
 }

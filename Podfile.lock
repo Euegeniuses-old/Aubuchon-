@@ -2,12 +2,16 @@ PODS:
   - Alamofire (4.7.3)
   - IQKeyboardManagerSwift (6.2.0)
   - MTBBarcodeScanner (5.0.7)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - IQKeyboardManagerSwift
   - MTBBarcodeScanner
+  - SDWebImage (~> 4.0)
   - SVProgressHUD
 
 SPEC REPOS:
@@ -15,14 +19,16 @@ SPEC REPOS:
     - Alamofire
     - IQKeyboardManagerSwift
     - MTBBarcodeScanner
+    - SDWebImage
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   MTBBarcodeScanner: 003bb85d24e25818852fb8a10b5dbfe039d0385b
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 55e3be6ae74c2cc50e7f24b6ce308365728d590f
+PODFILE CHECKSUM: 13a0e933d9950264b1d773f30c21526f15f59908
 
 COCOAPODS: 1.5.3

@@ -23,18 +23,19 @@ class ScannerViewController: UIViewController {
     var mainViewScanner: MTBBarcodeScanner?
     var isCaptureIsFrozen = false
     var tempCaptureString = ""
+    var capturedBarcode:UIImage?
     
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        btnRescan.backgroundColor = Constant.Colors.textColor
-        btnOk.backgroundColor = Constant.Colors.textColor
+        btnRescan.backgroundColor = UIColor.lightGray
+        btnOk.backgroundColor = UIColor.lightGray
         btnRescan.layer.borderWidth = 1
-        btnRescan.layer.borderColor = UIColor.white.cgColor
+        btnRescan.layer.borderColor = UIColor.black.cgColor
         btnOk.layer.borderWidth = 1
-        btnOk.layer.borderColor = UIColor.white.cgColor
+        btnOk.layer.borderColor = UIColor.black.cgColor
         scanner = MTBBarcodeScanner(previewView: scannerPreview)
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -49,7 +50,7 @@ class ScannerViewController: UIViewController {
     }
     
     //MARK:- Private functions
-   
+    
     func capturedProcess() {
         showMsg(title: nil, message: tempCaptureString)
         
@@ -71,8 +72,9 @@ class ScannerViewController: UIViewController {
             for code: AVMetadataMachineReadableCodeObject in codes! {
                 if (code.stringValue != nil){
                     self.scanner?.freezeCapture()
+                    
                     self.isCaptureIsFrozen = true
-                   
+                    
                     if let codes = codes {
                         print(codes.count)
                         for code in codes {
@@ -108,19 +110,26 @@ class ScannerViewController: UIViewController {
     
     // btnrescan action
     @IBAction func btnRescan_Action(_ sender: Any) {
+        
         self.scanner?.unfreezeCapture()
     }
     
     // btnok action
     @IBAction func btnOk_Action(_ sender: Any) {
         if tempCaptureString != "" {
+            Constant.kAppDelegate.isBackFromProduct = false
             let viewController:
                 MainViewController = UIStoryboard(
                     name: "Main", bundle: nil
                     ).instantiateViewController(withIdentifier: "Main") as! MainViewController
             viewController.barCodeNumber = tempCaptureString
+            Constant.kAppDelegate.barcodeNumber = tempCaptureString
             let NavigationController = UINavigationController(rootViewController: viewController)
             UIApplication.shared.keyWindow?.rootViewController? = NavigationController
         }
+    }
+    
+    @IBAction func btnBack_Action(_ sender: Any) {
+        self.dismiss(animated: false, completion: nil)
     }
 }

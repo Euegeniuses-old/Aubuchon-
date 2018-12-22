@@ -19,6 +19,10 @@ enum ErrorType: String {
     case connection = "No connection"
     case response = ""
 }
+enum UserDefaultsKeys : String {
+    case kskuCurrent
+    case kskuOld
+}
 class Constant: NSObject {
     
     struct APIURLANDKEY {
@@ -30,21 +34,59 @@ class Constant: NSObject {
         static let baseUrl = "http://aubuchonapp.a.fgqa.net/AubuChonApi"
         static let uploadImageApi = baseUrl + "/api/Home/Upload"
         static let publicIp = baseUrl + "/api/Home/CheckPublicIp"
+        
+        //Temporary
+        static let productInfo = "http://50.206.125.135/webservice/GetProductStore.aspx"
     }
+    // Colors type
     struct Colors {
         //static let textColor =   UIColor(red: 15/255, green: 109/255, blue: 166/255, alpha: 1.0)
         static let textColor = hexStringToUIColor(hex: "#0F6DA6")
     }
     
+    // alert messages
     struct alertTitleMessage {
         static let comingsoonAlertMessage = "Coming Soon..."
         static let cameranotfoundTitleMessage = "Camera Not Found"
         static let cameranotfoundAlertMessage = "This device has no Camera"
         static let internetNotAvailable = "Check your internet connection"
         static let uploadImageSuccessfully = "Image uploaded sucessfully"
+        static let barcodeAlert = "Enter barcode"
+        static let validBarcode = "Enter valid barcode number"
     }
     
+    // productKeys
+    struct projectKeys {
+        static let kskuCurrent = "skuCurrent"
+        static let kskuOld = "skuOld"
+    }
+    
+    //screen size
+    struct ScreenSize {
+        static let SCREEN_WIDTH         = UIScreen.main.bounds.size.width
+        static let SCREEN_HEIGHT        = UIScreen.main.bounds.size.height
+        static let SCREEN_MAX_LENGTH    = max(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
+        static let SCREEN_MIN_LENGTH    = min(ScreenSize.SCREEN_WIDTH, ScreenSize.SCREEN_HEIGHT)
+    }
+    
+    //iPhone devicetype
+    struct DeviceType {
+        static let iOS                  = "2"
+        static let IS_IPHONE_4_OR_LESS  = ScreenSize.SCREEN_MAX_LENGTH < 568.0
+        static let IS_IPHONE_5          = ScreenSize.SCREEN_MAX_LENGTH == 568.0
+        static let IS_IPHONE_6          = ScreenSize.SCREEN_MAX_LENGTH == 667.0
+        static let IS_IPHONE_6P         = ScreenSize.SCREEN_MAX_LENGTH == 736.0
+        static let IS_IPHONE_X          = ScreenSize.SCREEN_HEIGHT == 812.0
+        static let IS_PAD               = UIDevice.current.userInterfaceIdiom == .pad
+        static let IS_IPAD              = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
+        static let IS_IPAD_PRO          = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1366.0
+    }
+    
+    // MARK: - Appdelegate variable initilize key
+   static let kAppDelegate = UIApplication.shared.delegate as! AppDelegate
 }
+
+//MARK:- color hexa value convert to color
 func hexStringToUIColor (hex:String) -> UIColor {
     var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     
@@ -65,4 +107,29 @@ func hexStringToUIColor (hex:String) -> UIColor {
         blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
         alpha: CGFloat(1.0)
     )
+}
+
+//store value in userdefault
+extension UserDefaults {
+    
+    //MARK: Save Current SKU Data
+    func setCurrentSKU(value: String) {
+        set(value, forKey: UserDefaultsKeys.kskuCurrent.rawValue)
+        //synchronize()
+    }
+    //MARK: Save Old SKU Data
+    func setOldSKU(value: String) {
+        set(value, forKey: UserDefaultsKeys.kskuOld.rawValue)
+        //synchronize()
+    }
+    
+    //MARK: Retrieve Current SKU Data
+    
+    func getCurrentSKU() -> String {
+        return string(forKey: UserDefaultsKeys.kskuCurrent.rawValue) ?? "0123456"
+    }
+    
+    func getOldSKU() -> String {
+        return string(forKey: UserDefaultsKeys.kskuOld.rawValue) ?? "012345"
+    }
 }

@@ -10,6 +10,7 @@ target 'Aubuchon' do
     pod 'SVProgressHUD'
     pod 'IQKeyboardManagerSwift'
     pod 'MTBBarcodeScanner'
+     pod 'SDWebImage', '~> 4.0'
     # pod 'swiftScan', '~> 1.1.2'
   target 'AubuchonTests' do
     inherit! :search_paths
