@@ -43,6 +43,6 @@
     <string name="header_text_qty">Qty</string>
     <string name="header_text_store_170">Store 170</string>
     <string name="header_text_company">Company</string>
-    <string name="text_sku">SKU :</string>
+    <string name="text_sku">SKU : %1$s</string>
 
 </resources>

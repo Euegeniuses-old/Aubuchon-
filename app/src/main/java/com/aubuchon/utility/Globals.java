@@ -29,6 +29,9 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public static String TAG = "Globals";
     static Context context;
 
+    public boolean isFromMenu = false;
+    public String passCode = "";
+
 
     private static final int MINUTES_IN_AN_HOUR = 60;
     private static final int SECONDS_IN_A_MINUTE = 60;

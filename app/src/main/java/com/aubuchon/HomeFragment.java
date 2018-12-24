@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,8 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.btn_ok)
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
-            globals.setCurrentProductCode(et_code.getText().toString().trim());
+
+            // globals.setCurrentProductCode(et_code.getText().toString().trim());
 
             /* Handle Previous Product option not working*/
          /*   if(globals.getCurrentProductCode().isEmpty()){
@@ -86,10 +86,12 @@ public class HomeFragment extends Fragment {
                 globals.setCurrentProductCode(et_code.getText().toString().trim());
             }*/
 
+            globals.passCode = et_code.getText().toString().trim();
 
             if (getActivity() != null) {
+                globals.isFromMenu = false;
                 ((NavigationActivity) getActivity()).setToolbar();
-                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.getCurrentProductCode()));
+                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
                 et_code.setText("");
             }
         } else {
@@ -180,7 +182,7 @@ public class HomeFragment extends Fragment {
         String scannedCode = "";
         if (data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-            ((NavigationActivity) getActivity()).toolbar_title.setText("SKU: " + scannedCode);
+            ((NavigationActivity) getActivity()).toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
             et_code.setText(scannedCode);
         }
     }

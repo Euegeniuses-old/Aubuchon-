@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
 public class NavigationActivity extends AppCompatActivity {
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
-    TextView toolbar_title;
+    public TextView toolbar_title;
     @BindView(R.id.iv_home)
     AppCompatImageView iv_home;
     Globals globals;
@@ -47,14 +47,14 @@ public class NavigationActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-            List<Fragment> frags = getSupportFragmentManager().getFragments();
+           /* List<Fragment> frags = getSupportFragmentManager().getFragments();
             for (Fragment f : frags) {
                 if (!(f instanceof HomeFragment)) {
                     toolbar_title.setText(Globals.getToolbarTitle());
                 } else {
                     toolbar_title.setText("");
                 }
-            }
+            }*/
 
             // Handle Navigation Option Click
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -141,8 +141,10 @@ public class NavigationActivity extends AppCompatActivity {
                     List<Fragment> frags = getSupportFragmentManager().getFragments();
                     for (Fragment f : frags) {
                         if (f instanceof HomeFragment) {
-                            addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
+                            globals.isFromMenu = true;
+                            addFragmentOnTop(ItemDetailFragment.newInstance(globals.getCurrentProductCode()));
                         } else if(f instanceof ItemDetailFragment) {
+                            globals.isFromMenu = true;
                             addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
                         }
                     }
@@ -175,6 +177,7 @@ public class NavigationActivity extends AppCompatActivity {
                 super.onBackPressed();
             } else {
                 addFragmentOnTop(HomeFragment.newInstance());
+                toolbar_title.setText("");
             }
         }
     }

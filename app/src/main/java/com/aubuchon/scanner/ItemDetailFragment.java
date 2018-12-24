@@ -102,6 +102,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
         data = getArguments().getString(Constant.AU_data);
 
+        ((NavigationActivity) getActivity()).toolbar_title.setText(String.format(getString(R.string.text_sku), data));
+
         doRequestForGetProductDetail();
         setAdapter();
 
@@ -201,28 +203,36 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 productDetailModel = new Gson().fromJson(response.toString(), new TypeToken<ProductDetailModel>() {
                 }.getType());
 
-                if (productDetailModel.getProduct().size() == 0) {
+                /*if (productDetailModel.getProduct().size() == 0) {
                     Globals.showToast(getActivity(), getString(R.string.msg_invalid_barcode));
                     globals.setCurrentProductCode("");
                     ((NavigationActivity) getActivity()).addFragmentOnTop(HomeFragment.newInstance());
                     ((NavigationActivity) getActivity()).setToolbar();
 
-                } else {
-
-                    if (productDetailModel.getProduct().size() > 0) {
-
-                        String temp = globals.getCurrentProductCode();
-                        globals.setPreviousProductCode(temp);
-                        globals.setCurrentProductCode(data);
-
-                        ((NavigationActivity) getActivity()).setToolbar();
-                        setInquiryData();
-
-                    } else {
-                        Globals.showToast(getActivity(), getString(R.string.msg_no_data_available));
-                        //finish();
-                    }
                 }
+
+                else {*/
+
+                if (productDetailModel.getProduct().size() > 0) {
+
+                    if (!globals.isFromMenu) {
+                        setCurrentPrevious();
+                    }
+
+                    setInquiryData();
+
+                } else {
+                    //Globals.showToast(getActivity(), getString(R.string.msg_no_data_available));
+                    //finish();
+
+                    Globals.showToast(getActivity(), getString(R.string.msg_enter_valid_barcode));
+                    globals.setPreviousProductCode(globals.getCurrentProductCode());
+                    ((NavigationActivity) getActivity()).toolbar_title.setText("");
+                    /*globals.setCurrentProductCode("");*/
+                    ((NavigationActivity) getActivity()).addFragmentOnTop(HomeFragment.newInstance());
+
+                }
+                /* }*/
             }
 
             @Override
@@ -230,6 +240,41 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 Globals.showToast(getActivity(), getString(R.string.msg_not_found));
             }
         }, true).doRequest();
+
+    }
+
+    private void setCurrentPrevious() {
+        String current = globals.getCurrentProductCode();
+        String old = globals.getPreviousProductCode();
+
+        if (current == null && old == null) {
+            globals.setPreviousProductCode(data);
+            globals.setCurrentProductCode(data);
+        } else if (current != null && !current.equals(data)) {
+            if (current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        } else if ((current != null && old != null && !current.isEmpty() && !old.isEmpty())) {
+            if (current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        } else {
+            if (current != null && current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        }
 
     }
 
@@ -274,9 +319,14 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         for (Field item : productDetailModel.getProduct().get(0).getClass().getDeclaredFields()) {
             try {
                 item.setAccessible(true);
-                if (!item.getName().equalsIgnoreCase("imageURL"))
-                    if (item.get(productDetailModel.getProduct().get(0)) != null && !item.isSynthetic())
+                if (!item.getName().equalsIgnoreCase("imageURL") && !item.getName().equalsIgnoreCase("serialVersionUID"))
+                    if (item.get(productDetailModel.getProduct().get(0)) != null) {
                         inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                        if (item.getName().equalsIgnoreCase("prodcode")) {
+                            /*Globals.showToast(getActivity(), item.get(productDetailModel.getProduct().get(0)).toString());*/
+                            ((NavigationActivity) getActivity()).setToolbar();
+                        }
+                    }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
