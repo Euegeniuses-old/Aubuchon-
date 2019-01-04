@@ -35,7 +35,7 @@
     <string name="str_sales_history">Sales History</string>
     <string name="str_photo">Photo</string>
     <string name="str_order_info">Order Info</string>
-    <string name="str_related_items">Related Items</string>
+    <string name="str_related">Related</string>
 
     <!--Header texts-->
     <string name="header_text_store">Store</string>

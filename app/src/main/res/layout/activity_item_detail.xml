@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".scanner.ItemDetailActivity">
@@ -12,10 +12,10 @@
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dim_5"
-        android:layout_marginBottom="@dimen/dim_2"
         android:layout_marginStart="@dimen/dim_5"
+        android:layout_marginTop="@dimen/dim_5"
         android:layout_marginEnd="@dimen/dim_5"
+        android:layout_marginBottom="@dimen/dim_2"
         android:background="@drawable/gray_rounded_border_white_bg"
         android:orientation="vertical"
         android:padding="@dimen/dim_1">
@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/dim_5"
-                android:text="@string/str_related_items"
+                android:text="@string/str_related"
                 android:textColor="@drawable/text_selector"
                 android:textSize="@dimen/text_size_12" />
         </RadioGroup>
@@ -145,7 +145,7 @@
 
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_order_info"
+                android:id="@+id/btn_TBD"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dim_2"
@@ -164,7 +164,7 @@
 
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_related_items"
+                android:id="@+id/btn_TBD_two"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dim_2"
@@ -188,10 +188,10 @@
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dim_2"
-        android:layout_marginBottom="@dimen/dim_5"
         android:layout_marginStart="@dimen/dim_5"
+        android:layout_marginTop="@dimen/dim_2"
         android:layout_marginEnd="@dimen/dim_5"
+        android:layout_marginBottom="@dimen/dim_5"
         android:layout_weight="1"
         android:background="@drawable/gray_rounded_border_white_bg"
         android:gravity="center"
@@ -201,8 +201,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dim_2">
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_inquiry"
@@ -216,16 +216,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/dim_2"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/dim_5"
-            android:layout_margin="@dimen/dim_2">
+            android:padding="@dimen/dim_5">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/photo"/>
+                app:srcCompat="@drawable/photo" />
 
         </LinearLayout>
 
@@ -265,8 +265,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dim_2">
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_order_info"
@@ -280,8 +280,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/dim_2">
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -350,8 +350,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/dim_2">
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical">
 
 
             <android.support.v7.widget.AppCompatImageView

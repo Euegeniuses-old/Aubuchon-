@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.ll_camera)
     LinearLayout ll_camera;
     @BindView(R.id.et_code)
-    AppCompatEditText et_code;
+    public AppCompatEditText et_code;
     boolean isFromCameraClick = false;
     Globals globals;
 
@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String scannedCode = "";
-        if (data != null) {
+        if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
             ((NavigationActivity) getActivity()).toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
             et_code.setText(scannedCode);

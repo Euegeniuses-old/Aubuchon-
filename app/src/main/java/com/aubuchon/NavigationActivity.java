@@ -1,5 +1,6 @@
 package com.aubuchon;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.aubuchon.scanner.ItemDetailFragment;
+import com.aubuchon.scanner.ScannerActivity;
+import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
 
 import java.util.List;
@@ -23,9 +26,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NavigationActivity extends AppCompatActivity {
+
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+
+    public static final int SCAN_BARCODE_REQUEST = 1002;
+
     @BindView(R.id.toolbar)
-     Toolbar toolbar;
+    Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     public TextView toolbar_title;
     @BindView(R.id.iv_home)
@@ -68,16 +75,24 @@ public class NavigationActivity extends AppCompatActivity {
             iv_home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    List<Fragment> frags = getSupportFragmentManager().getFragments();
+                  /*  List<Fragment> frags = getSupportFragmentManager().getFragments();
                     for (Fragment f : frags) {
                         if (!(f instanceof HomeFragment)) {
                             // onBackPressed();
-                            setToolbar();
+
+                            //Old Functionality commented on 04/01/2019
+                            *//*setToolbar();
                             toolbar_title.setText("");
                             getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            addFragmentOnTop(HomeFragment.newInstance());
+                            addFragmentOnTop(HomeFragment.newInstance());*//*
+
                         }
-                    }
+
+                    }*/
+
+                    Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
+                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);
+
                 }
             });
         }
@@ -143,14 +158,14 @@ public class NavigationActivity extends AppCompatActivity {
                         if (f instanceof HomeFragment) {
                             globals.isFromMenu = true;
                             addFragmentOnTop(ItemDetailFragment.newInstance(globals.getCurrentProductCode()));
-                        } else if(f instanceof ItemDetailFragment) {
+                        } else if (f instanceof ItemDetailFragment) {
                             globals.isFromMenu = true;
                             addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
                         }
                     }
                 }
 
-              //  addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
+                //  addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
 
                 popupWindow.dismiss();
             }
@@ -181,4 +196,37 @@ public class NavigationActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    // Handle Result come from Scanning
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String scannedCode = "";
+        if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
+
+            scannedCode = data.getExtras().getString(Constant.AU_Data);
+
+            List<Fragment> frags = getSupportFragmentManager().getFragments();
+            for (Fragment f : frags) {
+                if (!(f instanceof HomeFragment)) {
+                /*    getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addFragmentOnTop(HomeFragment.newInstance());*/
+
+                    addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
+                }else{
+                    toolbar_title.setText("");
+                    scannedCode = data.getExtras().getString(Constant.AU_Data);
+                    toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
+                }
+            }
+
+            /*setToolbar();
+            toolbar_title.setText("");
+            scannedCode = data.getExtras().getString(Constant.AU_Data);
+            toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));*/
+
+        }
+    }
+
 }

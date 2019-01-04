@@ -174,44 +174,11 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     public void doRequestForGetProductDetail() {
         String url = getString(R.string.product_store_url) + "branchcode=1&data=" + data;
 
-        /*RequestParams param = HttpRequestHandler.getInstance().getProductDetailParams("1", "129999");*/
-        /*new PostWithRequestParam(getActivity(), url, param, true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
-            @Override
-            public void onSucceedToPostCall(JSONObject response) {
-                productDetailModel = new Gson().fromJson(response.toString(), new TypeToken<ProductDetailModel>() {
-                }.getType());
-                if (productDetailModel.getProduct().size() > 0)
-                    setInquiryData();
-                else {
-                    Globals.showToast(getActivity(), "No data available.");
-                    //finish();
-                }
-            }
-
-            @Override
-            public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(getActivity(), msg);
-                //  finish();
-            }
-
-        }).execute();*/
-
-
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
                 productDetailModel = new Gson().fromJson(response.toString(), new TypeToken<ProductDetailModel>() {
                 }.getType());
-
-                /*if (productDetailModel.getProduct().size() == 0) {
-                    Globals.showToast(getActivity(), getString(R.string.msg_invalid_barcode));
-                    globals.setCurrentProductCode("");
-                    ((NavigationActivity) getActivity()).addFragmentOnTop(HomeFragment.newInstance());
-                    ((NavigationActivity) getActivity()).setToolbar();
-
-                }
-
-                else {*/
 
                 if (productDetailModel.getProduct().size() > 0) {
 
@@ -232,7 +199,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     ((NavigationActivity) getActivity()).addFragmentOnTop(HomeFragment.newInstance());
 
                 }
-                /* }*/
+
             }
 
             @Override
