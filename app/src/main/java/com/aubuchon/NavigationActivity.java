@@ -116,6 +116,7 @@ public class NavigationActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+
     }
 
 
@@ -218,6 +219,10 @@ public class NavigationActivity extends AppCompatActivity {
                     toolbar_title.setText("");
                     scannedCode = data.getExtras().getString(Constant.AU_Data);
                     toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
+
+                    globals.barCode = scannedCode;
+                    addFragmentOnTop(HomeFragment.newInstance());
+
                 }
             }
 

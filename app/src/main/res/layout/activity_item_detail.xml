@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".scanner.ItemDetailActivity">
+    tools:context=".scanner.ItemDetailFragment">
 
     <LinearLayout
         android:id="@+id/ll_header"
@@ -31,8 +30,10 @@
                 android:id="@+id/btn_inquiry"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_4"
                 android:layout_marginLeft="@dimen/dim_4"
                 android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginEnd="@dimen/dim_2"
                 android:layout_marginRight="@dimen/dim_2"
                 android:layout_marginBottom="@dimen/dim_2"
                 android:layout_weight="1"
@@ -85,8 +86,10 @@
                 android:id="@+id/btn_related_items"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_2"
                 android:layout_marginLeft="@dimen/dim_2"
                 android:layout_marginTop="@dimen/dim_4"
+                android:layout_marginEnd="@dimen/dim_4"
                 android:layout_marginRight="@dimen/dim_4"
                 android:layout_marginBottom="@dimen/dim_2"
                 android:layout_weight="1"
@@ -111,8 +114,10 @@
                 android:id="@+id/btn_local"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_4"
                 android:layout_marginLeft="@dimen/dim_4"
                 android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginEnd="@dimen/dim_2"
                 android:layout_marginRight="@dimen/dim_2"
                 android:layout_marginBottom="@dimen/dim_4"
                 android:layout_weight="1"
@@ -145,7 +150,7 @@
 
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_TBD"
+                android:id="@+id/btn_review"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dim_2"
@@ -158,17 +163,19 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/dim_5"
-                android:text="TBD"
+                android:text="@string/str_review"
                 android:textColor="@drawable/text_selector"
                 android:textSize="@dimen/text_size_12" />
 
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_TBD_two"
+                android:id="@+id/btn_tbd"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/dim_2"
                 android:layout_marginLeft="@dimen/dim_2"
                 android:layout_marginTop="@dimen/dim_2"
+                android:layout_marginEnd="@dimen/dim_4"
                 android:layout_marginRight="@dimen/dim_4"
                 android:layout_marginBottom="@dimen/dim_4"
                 android:layout_weight="1"
@@ -224,8 +231,7 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/photo" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
@@ -359,6 +365,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/related_image" />
+        </LinearLayout>
+
+
+        <!--7th View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_review_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Review Coming Soon" />
+        </LinearLayout>
+
+        <!--8th View-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dim_2"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_tbd_dummy_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text=" TBD Coming Soon" />
         </LinearLayout>
     </ViewFlipper>
 </LinearLayout>

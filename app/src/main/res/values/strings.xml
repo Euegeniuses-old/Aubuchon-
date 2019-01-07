@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TCB</string>
+    <string name="app_name">WEATCB</string>
     <string name="request_camera_permission">we need Camera permission</string>
     <string name="request_storage_permission">we need Storage permission</string>
     <string name="setting">Setting</string>
@@ -36,6 +36,7 @@
     <string name="str_photo">Photo</string>
     <string name="str_order_info">Order Info</string>
     <string name="str_related">Related</string>
+    <string name="str_review">Review</string>
 
     <!--Header texts-->
     <string name="header_text_store">Store</string>
@@ -44,5 +45,6 @@
     <string name="header_text_store_170">Store 170</string>
     <string name="header_text_company">Company</string>
     <string name="text_sku">SKU : %1$s</string>
+
 
 </resources>

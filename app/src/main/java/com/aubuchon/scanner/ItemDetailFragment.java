@@ -26,7 +26,10 @@ import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel;
 import com.aubuchon.model.ProductDetailModel.Product;
 import com.aubuchon.utility.Constant;
+import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,8 +37,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -146,23 +147,29 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     rg1.setOnCheckedChangeListener(this);
 
                     switch (checkedId) {
-
                         case R.id.btn_local:
                             view_flipper.setDisplayedChild(2);
                             break;
                         case R.id.btn_photo:
                             view_flipper.setDisplayedChild(1);
-                          /*  String path="";
-                            if(productDetailModel.getProduct().get(0).getImageURL()!=null && !productDetailModel.getProduct().get(0).getImageURL().isEmpty()){
+
+                          /*  String path = "";
+                            if (productDetailModel.getProduct().get(0).getImageURL() != null && !productDetailModel.getProduct().get(0).getImageURL().isEmpty()) {
                                 path = productDetailModel.getProduct().get(0).getImageURL();
-                            }
-*/
+                                *//*"https://developer.android.com/images/fundamentals/fragments.png"*//*
+                                GlideApp.with(this)
+                                        .load(path)
+                                        .apply(new RequestOptions().placeholder(R.drawable.photo))
+                                        .into(iv_photo);
+                            }*/
 
-                        /*    Glide.with(getActivity())
-                                    .load(productDetailModel.getProduct().get(0).getImageURL())
-                                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL) .error(ContextCompat.getDrawable(getActivity(),R.drawable.photo)))
-                                    .into(iv_photo);*/
 
+                            break;
+                        case R.id.btn_review:
+                            view_flipper.setDisplayedChild(6);
+                            break;
+                        case R.id.btn_tbd:
+                            view_flipper.setDisplayedChild(7);
                             break;
 
                     }
@@ -286,26 +293,56 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         for (Field item : productDetailModel.getProduct().get(0).getClass().getDeclaredFields()) {
             try {
                 item.setAccessible(true);
-                if (!item.getName().equalsIgnoreCase("imageURL") && !item.getName().equalsIgnoreCase("serialVersionUID"))
+                if (item.getName().equalsIgnoreCase("prodcode")) {
+                    inquiryData.add(new KeyValueModel("Item Number", item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase("proddesc")) {
+                    inquiryData.add(new KeyValueModel("Desc", item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase("retailPrice")) {
+                    String price = "";
+                    if (item.get(productDetailModel.getProduct().get(0)).toString().equalsIgnoreCase("0.0")) {
+                        price = " - ";
+                    } else {
+                        price = item.get(productDetailModel.getProduct().get(0)).toString();
+                    }
+                    inquiryData.add(new KeyValueModel("Price", price));
+                }
+                /*else if (item.getName().equalsIgnoreCase("")) {
+                    inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase("")) {
+                    inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase("")) {
+                    inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase("")) {
+                    inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                }*/
+
+                /*Main Functionality implemented to show all the data*/
+               /* if (!item.getName().equalsIgnoreCase("imageURL") && !item.getName().equalsIgnoreCase("serialVersionUID"))
                     if (item.get(productDetailModel.getProduct().get(0)) != null) {
                         inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
                         if (item.getName().equalsIgnoreCase("prodcode")) {
-                            /*Globals.showToast(getActivity(), item.get(productDetailModel.getProduct().get(0)).toString());*/
+                            *//*Globals.showToast(getActivity(), item.get(productDetailModel.getProduct().get(0)).toString());*//*
                             ((NavigationActivity) getActivity()).setToolbar();
                         }
-                    }
+                    }*/
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
 
+        inquiryData.add(new KeyValueModel("Promo", " - "));
+        inquiryData.add(new KeyValueModel("OH", " - "));
+        inquiryData.add(new KeyValueModel("Available", " - "));
+        inquiryData.add(new KeyValueModel("Section", " - "));
+        inquiryData.add(new KeyValueModel("Speed #", " - "));
+
         /*Sorting in ArrayList*/
-        Collections.sort(inquiryData, new Comparator<KeyValueModel>() {
+      /*  Collections.sort(inquiryData, new Comparator<KeyValueModel>() {
             @Override
             public int compare(KeyValueModel o1, KeyValueModel o2) {
                 return o1.getKey().toLowerCase().compareTo(o2.getKey().toLowerCase());
             }
-        });
+        });*/
 
        /* inquiryData.add(new KeyValueModel("Item Number", "129991"));
         inquiryData.add(new KeyValueModel("Desc", "Pellet Green Supreme"));
@@ -324,8 +361,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             rv_inquiry.setAdapter(inquiryListAdapter);
         }
 
-      /*  GlideApp.with(getActivity())
-                .load("/*productDetailModel.getProduct().get(0).getImageURL()*//*)
+       /* Glide.with(getActivity())
+                .load(productDetailModel.getProduct().get(0).getImageURL())
                 .into(iv_photo);*/
     }
 

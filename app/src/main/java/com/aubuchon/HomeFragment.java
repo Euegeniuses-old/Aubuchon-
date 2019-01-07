@@ -1,6 +1,7 @@
 package com.aubuchon;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -52,6 +53,13 @@ public class HomeFragment extends Fragment {
         return new HomeFragment();
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        /*Globals.showToast(getContext(), "Attached");*/
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,10 +67,22 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         globals = (Globals) getActivity().getApplicationContext();
-        isFromCameraClick = false;
-        doRequestForGetPublicIP();
-        ((NavigationActivity) getActivity()).setToolbar();
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isFromCameraClick = false;
+
+        if (!globals.barCode.isEmpty()) {
+            et_code.setText(globals.barCode);
+            globals.barCode = "";
+        }
+
+        ((NavigationActivity) getActivity()).setToolbar();
+        doRequestForGetPublicIP();
     }
 
     @OnClick({R.id.ll_camera})
@@ -105,6 +125,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
                 if (response.has(Constant.AU_ip)) {
+                        /*Globals.showToast(getContext(), "doRequestForGetPublicIP()");*/
                     try {
                         doRequestForCheckPublicIP(response.getString(Constant.AU_ip));
                     } catch (JSONException e) {
@@ -128,6 +149,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSucceedToPostCall(JSONObject response) {
                 try {
+
                     if (!response.getBoolean(Constant.AU_IsSuccess)) {
                         AlertDialog.Builder builder = new Builder(getActivity()).setMessage(response.getString(Constant.AU_Message)).setCancelable(false).setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
                             @Override
