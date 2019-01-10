@@ -14,5 +14,11 @@ public class Constant {
     public static final String AU_IpAddress = "IpAddress";
     public static final String AU_branchcode = "branchcode";
     public static final String AU_data = "data";
+
+    public static final String AU_prodcode = "prodcode";
+    public static final String AU_proddesc = "proddesc";
+    public static final String AU_retailPrice = "retailPrice";
+
+
 }
 

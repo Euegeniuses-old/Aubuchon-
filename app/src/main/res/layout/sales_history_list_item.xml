@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/dim_5">
+    android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_key"
@@ -13,7 +12,8 @@
         android:gravity="center"
         android:text="Section"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:padding="@dimen/dim_5"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_value"
@@ -23,5 +23,6 @@
         android:gravity="center"
         android:text="F030-002F"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:padding="@dimen/dim_5"/>
 </LinearLayout>

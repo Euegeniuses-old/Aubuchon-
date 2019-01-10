@@ -17,6 +17,10 @@ import com.aubuchon.model.ProductDetailModel.Product;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
 
+import android.graphics.Color;
+import android.support.annotation.NonNull;
+
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -57,8 +61,15 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         }
 
         void setDataToView(ProductDetailModel.Product pDetails, final int position) {
-
-
+            if (position % 2 == 0) {
+                tv_store.setBackgroundColor(Color.GRAY);
+                tv_num.setBackgroundColor(Color.GRAY);
+                tv_qty.setBackgroundColor(Color.GRAY);
+            } else {
+                tv_store.setBackgroundColor(Color.WHITE);
+                tv_num.setBackgroundColor(Color.WHITE);
+                tv_qty.setBackgroundColor(Color.WHITE);
+            }
         }
 
         @Override
@@ -80,14 +91,15 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             onItemClickListener.onItemClick(null, holder.itemView, holder.getAdapterPosition(), holder.getItemId());
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.local_inv_item_layout, parent, false);
         return new ViewHolder(v, this);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ProductDetailModel.Product product = mDataSetFilterData.get(position);
         try {
             holder.setDataToView(product, position);

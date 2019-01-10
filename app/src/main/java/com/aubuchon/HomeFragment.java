@@ -1,6 +1,7 @@
 package com.aubuchon;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +23,16 @@ import com.aubuchon.apis.GetCall.OnGetServiceCallListener;
 import com.aubuchon.apis.HttpRequestHandler;
 import com.aubuchon.apis.PostRequest;
 import com.aubuchon.apis.PostRequest.OnPostServiceCallListener;
-import com.aubuchon.apis.PostWithRequestParam;
 import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -44,25 +41,31 @@ import butterknife.OnClick;
 
 public class HomeFragment extends Fragment {
 
+    public static final int SCAN_BARCODE_REQUEST = 1001;
+
     @BindView(R.id.ll_camera)
     LinearLayout ll_camera;
-    @BindView(R.id.ll_captured_image)
-    LinearLayout ll_captured_image;
-    @BindView(R.id.iv_selected_image)
-    AppCompatImageView iv_selected_image;
     @BindView(R.id.et_code)
-    AppCompatEditText et_code;
+    public AppCompatEditText et_code;
 
-    File selectedImage;
+    NavigationActivity mContext;
+    public String scannedCode = "";
     boolean isFromCameraClick = false;
     Globals globals;
-
-    public static final int SCAN_BARCODE_REQUEST = 1001;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mContext = (NavigationActivity) context;
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Nullable
     @Override
@@ -71,39 +74,53 @@ public class HomeFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         globals = (Globals) getActivity().getApplicationContext();
-        isFromCameraClick = false;
-        doRequestForGetPublicIP();
-        ((NavigationActivity) getActivity()).setToolbar();
         return view;
     }
 
-    @OnClick({R.id.ll_camera, R.id.btn_rescan})
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isFromCameraClick = false;
+
+        if (!globals.barCode.isEmpty()) {
+            et_code.setText(globals.barCode);
+            globals.barCode = "";
+        }
+
+        mContext.setToolbar();
+        doRequestForGetPublicIP();
+    }
+
+    @OnClick({R.id.ll_camera})
     public void getPermissionForCamera() {
         isFromCameraClick = true;
         doRequestForGetPublicIP();
     }
 
-
-    @OnClick(R.id.btn_Upload)
-    public void uploadImage() {
-        doRequestForUploadImage();
-
-    }
-
     @OnClick(R.id.btn_ok)
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
-            globals.setCurrentProductCode(et_code.getText().toString().trim());
+
+            // globals.setCurrentProductCode(et_code.getText().toString().trim());
+
+            globals.passCode = et_code.getText().toString().trim();
+            et_code.setText("");
             if (getActivity() != null) {
+                globals.isFromMenu = false;
                 ((NavigationActivity) getActivity()).setToolbar();
-                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance());
+                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
+                globals.passCode = "";
+
+                globals.barCode = "";
             }
+        } else {
+            Globals.showToast(getActivity(), getString(R.string.msg_enter_barcode));
         }
     }
 
     public void doRequestForGetPublicIP() {
         String url = "https://api.ipify.org/?format=json";
-        new GetCall(getActivity(), url, new JSONObject(), new OnGetServiceCallListener() {
+        new GetCall(mContext, url, new JSONObject(), new OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
                 if (response.has(Constant.AU_ip)) {
@@ -123,20 +140,24 @@ public class HomeFragment extends Fragment {
     }
 
     public void doRequestForCheckPublicIP(String publicIP) {
-        String url = getString(R.string.server_url) + getString(R.string.checkPublicIp_url);
+        String url = mContext.getString(R.string.server_url) + mContext.getString(R.string.checkPublicIp_url);
         JSONObject param = HttpRequestHandler.getInstance().getCheckPublicIpParams(publicIP);
 
-        new PostRequest(getActivity(), url, param, true, new OnPostServiceCallListener() {
+        new PostRequest(mContext, url, param, true, new OnPostServiceCallListener() {
             @Override
             public void onSucceedToPostCall(JSONObject response) {
                 try {
+
                     if (!response.getBoolean(Constant.AU_IsSuccess)) {
-                        AlertDialog.Builder builder = new Builder(getActivity()).setMessage(response.getString(Constant.AU_Message)).setCancelable(false).setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ExitActivity.exitApplication(getActivity().getApplicationContext());
-                            }
-                        });
+                        AlertDialog.Builder builder = new Builder(mContext)
+                                .setMessage(response.getString(Constant.AU_Message))
+                                .setCancelable(false)
+                                .setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        ExitActivity.exitApplication(mContext);
+                                    }
+                                });
                         AlertDialog alert = builder.create();
                         alert.show();
                     } else {
@@ -156,7 +177,7 @@ public class HomeFragment extends Fragment {
                                 }
                             };
 
-                            TedPermission.with(getActivity())
+                            TedPermission.with(mContext)
                                     .setPermissionListener(permissionlistener)
                                     //.setRationaleMessage(getString(R.string.request_camera_permission))
                                     .setDeniedMessage(getString(R.string.on_denied_permission))
@@ -172,48 +193,23 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(getActivity(), msg);
+                Globals.showToast(mContext, msg);
             }
         }).execute();
     }
 
-    public void doRequestForUploadImage() {
+    // Handle Result come from Scanning(Camera Image)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
+            scannedCode = data.getExtras().getString(Constant.AU_Data);
+            mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
+            mContext.ll_desc.setVisibility(View.VISIBLE);
+            et_code.setText(scannedCode);
+            /*Handle a flow to redirect on detail screen After done scan from Camera Image */
+            doRequestForGetProductDetail();
 
-        String url = getString(R.string.server_url) + getString(R.string.upload_url);
-
-        RequestParams param = HttpRequestHandler.getInstance().getUploadImageParams(selectedImage);
-
-        new PostWithRequestParam(getActivity(), url, param, true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
-            @Override
-            public void onSucceedToPostCall(JSONObject response) {
-
-                try {
-                    Globals.showToast(getActivity(), response.getString(Constant.AU_Message));
-                    if (response.getBoolean(Constant.AU_IsSuccess)) {
-                        ll_captured_image.setVisibility(View.GONE);
-                        ll_camera.setVisibility(View.VISIBLE);
-                        selectedImage = null;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(getActivity(), msg);
-            }
-        }).execute();
-    }
-
-    private void onPhotoReturned(File photoFile) {
-        selectedImage = photoFile;
-        ll_camera.setVisibility(View.GONE);
-        ll_captured_image.setVisibility(View.VISIBLE);
-
-      /*  GlideApp.with(getActivity())
-                .load(photoFile)
-                .centerCrop()
-                .into(iv_selected_image);*/
+        }
     }
 }

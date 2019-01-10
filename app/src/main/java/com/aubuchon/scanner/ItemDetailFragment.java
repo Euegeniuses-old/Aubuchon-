@@ -1,15 +1,17 @@
 package com.aubuchon.scanner;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,15 +20,18 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ViewFlipper;
 
+import com.aubuchon.HomeFragment;
+import com.aubuchon.NavigationActivity;
 import com.aubuchon.R;
-import com.aubuchon.apis.PostWithRequestParam;
+import com.aubuchon.apis.GetCall;
 import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel;
 import com.aubuchon.model.ProductDetailModel.Product;
+import com.aubuchon.utility.Constant;
+import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
@@ -62,11 +67,28 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     Globals globals;
     ArrayList<ProductDetailModel.Product> productArrayList;
     ProductDetailModel productDetailModel;
-    private LocalInvListAdapter localInvListAdapter;
     String data;
+    private LocalInvListAdapter localInvListAdapter;
+    NavigationActivity mContext;
 
-    public static ItemDetailFragment newInstance() {
-        return new ItemDetailFragment();
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mContext = (NavigationActivity) context;
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ItemDetailFragment newInstance(String barcode) {
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.AU_data, barcode);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
@@ -90,7 +112,19 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         for (int i = 0; i < 10; i++) {
             productArrayList.add(new Product());
         }
-        data = globals.getCurrentProductCode();
+
+        data = getArguments().getString(Constant.AU_data);
+
+        mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), data));
+        mContext.ll_desc.setVisibility(View.GONE);
+
+        /*Handle click of "More" TextView of Toolbar*/
+        mContext.navigationActivity.tv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rg1.check(R.id.btn_inquiry);
+            }
+        });
 
         doRequestForGetProductDetail();
         setAdapter();
@@ -141,9 +175,26 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                             break;
                         case R.id.btn_photo:
                             view_flipper.setDisplayedChild(1);
+
+                            if (productDetailModel != null && productDetailModel.getProduct().get(0).getImageURL() != null && !productDetailModel.getProduct().get(0).getImageURL().isEmpty()) {
+                                GlideApp.with(mContext)
+                                        .load(productDetailModel.getProduct().get(0).getImageURL())
+                                        .placeholder(R.drawable.camera)
+                                        .into(iv_photo);
+                            } else {
+                                GlideApp.with(mContext)
+                                        .load(R.drawable.camera)
+                                        .placeholder(R.drawable.camera)
+                                        .into(iv_photo);
+                            }
+
                             break;
-
-
+                        case R.id.btn_review:
+                            view_flipper.setDisplayedChild(6);
+                            break;
+                        case R.id.btn_tbd:
+                            view_flipper.setDisplayedChild(7);
+                            break;
                     }
                 }
                 break;
@@ -151,29 +202,76 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     }
 
     public void doRequestForGetProductDetail() {
-        String url = "http://50.206.125.135/webservice/GetProductStore.aspx?branchcode=1&data=" + data;
-        // RequestParams param = HttpRequestHandler.getInstance().getProductDetailParams("001", "129991");
-        new PostWithRequestParam(getActivity(), url, new RequestParams(), true, new PostWithRequestParam.OnPostWithReqParamServiceCallListener() {
+        String url = getString(R.string.product_store_url) + "branchcode=1&data=" + data;
+
+        new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @Override
-            public void onSucceedToPostCall(JSONObject response) {
+            public void onSucceedToGetCall(JSONObject response) {
                 productDetailModel = new Gson().fromJson(response.toString(), new TypeToken<ProductDetailModel>() {
                 }.getType());
-                if (productDetailModel.getProduct().size() > 0)
+
+                if (productDetailModel.getProduct().size() > 0) {
+
+                    if (!globals.isFromMenu) {
+                        setCurrentPrevious();
+                    }
+
                     setInquiryData();
-                else {
-                    Globals.showToast(getActivity(), "No data available.");
+
+                } else {
+                    //Globals.showToast(getActivity(), getString(R.string.msg_no_data_available));
                     //finish();
+
+                    Globals.showToast(getActivity(), getString(R.string.msg_enter_valid_barcode));
+                    globals.setPreviousProductCode(globals.getCurrentProductCode());
+                    mContext.toolbar_title.setText("");
+                    mContext.ll_desc.setVisibility(View.GONE);
+                    mContext.addFragmentOnTop(HomeFragment.newInstance());
+
                 }
 
             }
 
             @Override
-            public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(getActivity(), msg);
-                //  finish();
+            public void onFailedToGetCall() {
+                Globals.showToast(getActivity(), getString(R.string.msg_not_found));
             }
+        }, true).doRequest();
 
-        }).execute();
+    }
+
+    private void setCurrentPrevious() {
+        String current = globals.getCurrentProductCode();
+        String old = globals.getPreviousProductCode();
+
+        if (current == null && old == null) {
+            globals.setPreviousProductCode(data);
+            globals.setCurrentProductCode(data);
+        } else if (current != null && !current.equals(data)) {
+            if (current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        } else if ((current != null && old != null && !current.isEmpty() && !old.isEmpty())) {
+            if (current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        } else {
+            if (current != null && current.equalsIgnoreCase(data)) {
+                globals.setPreviousProductCode(data);
+                globals.setCurrentProductCode(data);
+            } else {
+                globals.setPreviousProductCode(current);
+                globals.setCurrentProductCode(data);
+            }
+        }
     }
 
     private void setAdapter() {
@@ -214,17 +312,64 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
     public void setInquiryData() {
         ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
+
         for (Field item : productDetailModel.getProduct().get(0).getClass().getDeclaredFields()) {
             try {
                 item.setAccessible(true);
-                if (!item.getName().equalsIgnoreCase("imageURL"))
-                    if (item.get(productDetailModel.getProduct().get(0)) != null)
+                if (item.getName().equalsIgnoreCase(Constant.AU_prodcode)) {
+                    inquiryData.add(new KeyValueModel("Item Number", item.get(productDetailModel.getProduct().get(0)).toString()));
+                } else if (item.getName().equalsIgnoreCase(Constant.AU_proddesc)) {
+                    inquiryData.add(new KeyValueModel("Desc", item.get(productDetailModel.getProduct().get(0)).toString()));
+
+                    /*Set Description on Toolbar by below code*/
+                    String desc = item.get(productDetailModel.getProduct().get(0)).toString();
+                    if (!desc.isEmpty()) {
+                        String source = "<b>DESC: </b>" + desc;
+                        mContext.tv_desc.setText(Html.fromHtml(source));
+                        mContext.ll_desc.setVisibility(View.VISIBLE);
+                    } else {
+                        mContext.tv_desc.setText("");
+                        mContext.ll_desc.setVisibility(View.GONE);
+                    }
+                } else if (item.getName().equalsIgnoreCase(Constant.AU_retailPrice)) {
+                    String price = "";
+                    if (item.get(productDetailModel.getProduct().get(0)).toString().equalsIgnoreCase("0.0")) {
+                        price = " - ";
+                    } else {
+                        price = item.get(productDetailModel.getProduct().get(0)).toString();
+                    }
+                    inquiryData.add(new KeyValueModel("Price", price));
+                }
+
+                /*Main Functionality implemented to show all the data*/
+               /* if (!item.getName().equalsIgnoreCase("imageURL") && !item.getName().equalsIgnoreCase("serialVersionUID"))
+                    if (item.get(productDetailModel.getProduct().get(0)) != null) {
                         inquiryData.add(new KeyValueModel(item.getName(), item.get(productDetailModel.getProduct().get(0)).toString()));
+                        if (item.getName().equalsIgnoreCase("prodcode")) {
+                            *//*Globals.showToast(getActivity(), item.get(productDetailModel.getProduct().get(0)).toString());*//*
+                            ((NavigationActivity) getActivity()).setToolbar();
+                        }
+                    }*/
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
 
+        inquiryData.add(new KeyValueModel("Promo", " - "));
+        inquiryData.add(new KeyValueModel("OH", " - "));
+        inquiryData.add(new KeyValueModel("Available", " - "));
+        inquiryData.add(new KeyValueModel("Section", " - "));
+        inquiryData.add(new KeyValueModel("Speed #", " - "));
+
+        /*Sorting in ArrayList*/
+      /*  Collections.sort(inquiryData, new Comparator<KeyValueModel>() {
+            @Override
+            public int compare(KeyValueModel o1, KeyValueModel o2) {
+                return o1.getKey().toLowerCase().compareTo(o2.getKey().toLowerCase());
+            }
+        });*/
+
+        // Dummy Data
        /* inquiryData.add(new KeyValueModel("Item Number", "129991"));
         inquiryData.add(new KeyValueModel("Desc", "Pellet Green Supreme"));
         inquiryData.add(new KeyValueModel("Price", "6.99"));
@@ -242,9 +387,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             rv_inquiry.setAdapter(inquiryListAdapter);
         }
 
-      /*  GlideApp.with(getActivity())
-                .load("https://awakenedmind.com/AwakenedmindAPI/Content/CategoryHeaderImage/metting4.png"*//*productDetailModel.getProduct().get(0).getImageURL()*//*)
-                .into(iv_photo);*/
     }
 
     public void setOrderInfoData() {
@@ -303,16 +445,4 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                //finish();
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

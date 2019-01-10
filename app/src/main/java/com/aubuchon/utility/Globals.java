@@ -20,7 +20,6 @@ import java.io.UnsupportedEncodingException;
 
 import es.dmoral.toasty.Toasty;
 
-
 public class Globals extends MultiDexApplication implements ActivityLifecycleCallbacks {
 
     SharedPreferences sp;
@@ -29,6 +28,9 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public static String TAG = "Globals";
     static Context context;
 
+    public boolean isFromMenu = false;
+    public String passCode = "";
+    public String barCode = "";
 
     private static final int MINUTES_IN_AN_HOUR = 60;
     private static final int SECONDS_IN_A_MINUTE = 60;
@@ -150,4 +152,14 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
             return "SKU: " + currentProductCode;
         } else return "";
     }
+
+    public static int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
 }

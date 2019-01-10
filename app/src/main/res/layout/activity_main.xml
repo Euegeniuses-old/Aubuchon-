@@ -8,9 +8,7 @@
     android:orientation="vertical"
     tools:context="com.aubuchon.HomeFragment">
 
-
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -26,75 +24,50 @@
             <android.support.v7.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/launcher" />
+                app:srcCompat="@drawable/camera" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/android_device_ip_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_15"
                 android:text="@string/text_scan_code"
-                android:textColor="@color/textColor"
-                android:textSize="@dimen/text_size_18" />
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_17"
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_10"
-            android:gravity="center"
-            android:hint="Manually Enter #"
-            android:inputType="numberDecimal"
-            android:padding="@dimen/dim_7"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/text_size_14" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dim_40"
-            android:layout_margin="@dimen/dim_10"
-            android:background="@color/colorAccent"
-            android:text="OK"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_14" />
-
         <LinearLayout
-            android:id="@+id/ll_captured_image"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_15"
             android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_selected_image"
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_10"
-                android:layout_marginBottom="@dimen/dim_10"
+                android:background="@drawable/input"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:hint="@string/hint_manually_enter"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/dim_7"
+                android:textCursorDrawable="@null"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/color_dark_gray"
+                android:textSize="@dimen/text_size_18" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_rescan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_rescan"
-                    android:textColor="@color/textColor" />
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/btn_ok"
+                android:layout_width="@dimen/dim_30"
+                android:layout_height="@dimen/dim_30"
+                android:layout_marginStart="@dimen/dim_4"
+                android:layout_marginLeft="@dimen/dim_4"
+                android:layout_gravity="bottom"
+                android:background="@drawable/send"
+                android:scaleType="centerInside" />
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btn_Upload"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_upload"
-                    android:textColor="@color/textColor" />
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

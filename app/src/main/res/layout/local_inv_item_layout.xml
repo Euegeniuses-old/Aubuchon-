@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/dim_5">
+    android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="@dimen/dim_5"
         android:text="Gardner"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_14" />
@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="@dimen/dim_5"
         android:text="004"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_14" />
@@ -28,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:padding="@dimen/dim_5"
         android:text="1877"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_14" />

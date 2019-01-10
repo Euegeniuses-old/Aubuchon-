@@ -1,6 +1,9 @@
 package com.aubuchon.scanner;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +57,14 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
             tv_key.setText(pDetails.getKey());
             tv_value.setText(pDetails.getValue());
 
+            if (position % 2 == 0){
+                tv_key.setBackgroundColor(Color.GRAY);
+                tv_value.setBackgroundColor(Color.GRAY);
+            }else{
+                tv_key.setBackgroundColor(Color.WHITE);
+                tv_value.setBackgroundColor(Color.WHITE);
+            }
+
 
         }
 
@@ -76,14 +87,15 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
             onItemClickListener.onItemClick(null, holder.itemView, holder.getAdapterPosition(), holder.getItemId());
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sales_history_list_item, parent, false);
         return new ViewHolder(v, this);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         KeyValueModel product = mDataSetFilterData.get(position);
         try {
             holder.setDataToView(product, position);

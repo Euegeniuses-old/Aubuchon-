@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -28,11 +27,11 @@
         app:titleTextColor="@android:color/white">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -42,27 +41,56 @@
                 android:layout_marginLeft="@dimen/dim_5"
                 android:layout_marginEnd="@dimen/dim_5"
                 android:layout_marginRight="@dimen/dim_5"
-                android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:text="SKU :"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_17" />
+                android:textSize="@dimen/text_size_15"
+                android:textStyle="bold|normal" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_home"
+            <LinearLayout
+                android:id="@+id/ll_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/launcher" />
+                android:layout_margin="@dimen/dim_5"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxEms="10"
+                    android:maxLines="1"
+                    android:textColor="@color/color_dark_gray"
+                    android:textSize="@dimen/text_size_13"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dim_2"
+                    android:layout_marginLeft="@dimen/dim_2"
+                    android:text="@string/text_more"
+                    android:textColor="@color/color_dark_gray"
+                    android:textSize="@dimen/text_size_13"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_home"
+            android:layout_width="@dimen/dim_35"
+            android:layout_height="@dimen/dim_35"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/dim_16"
+            android:layout_marginRight="@dimen/dim_16"
+            android:scaleType="centerInside"
+            android:src="@drawable/barcode" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dim_1"
-        android:background="@android:color/darker_gray" />
+    </android.support.v7.widget.Toolbar>
 </LinearLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aubuchon</string>
+    <string name="app_name">WEATCB</string>
     <string name="request_camera_permission">we need Camera permission</string>
     <string name="request_storage_permission">we need Storage permission</string>
     <string name="setting">Setting</string>
@@ -12,7 +12,10 @@
     <string name="text_scan_code">Scan UPC or SKU</string>
     <string name="text_rescan">Rescan</string>
     <string name="text_upload">Upload</string>
-
+    <string name="text_ok">OK</string>
+    <string name="hint_manually_enter">Manually Enter #</string>
+    <string name="text_home">Home</string>
+    <string name="text_product_info">Product Info</string>
 
     <!--Error message-->
     <string name="msg_NO_INTERNET_TITLE">Internet connection required</string>
@@ -20,6 +23,11 @@
     <string name="msg_NO_INTERNET_webview">Your internet connection may not be active or %1$s.</string>
     <string name="msg_goto_settings">SETTINGS</string>
     <string name="msg_server_error">The server might be down, please try again later.</string>
+    <string name="msg_enter_barcode">Enter barcode</string>
+    <string name="msg_enter_valid_barcode">Enter valid barcode number</string>
+    <string name="msg_invalid_barcode">Invalid Barcode</string>
+    <string name="msg_no_data_available">No data available.</string>
+    <string name="msg_not_found">Product detail Not Found</string>
     <string name="error_msg_connection_timeout">The request timed out please try again.</string>
     <string name="no_data_available">No data available</string>
     <string name="str_inquiry">Inquiry</string>
@@ -27,8 +35,17 @@
     <string name="str_sales_history">Sales History</string>
     <string name="str_photo">Photo</string>
     <string name="str_order_info">Order Info</string>
-    <string name="str_related_items">Related Items</string>
+    <string name="str_related">Related</string>
+    <string name="str_review">Review</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Header texts-->
+    <string name="header_text_store">Store</string>
+    <string name="header_text_num">Num</string>
+    <string name="header_text_qty">Qty</string>
+    <string name="header_text_store_170">Store 170</string>
+    <string name="header_text_company">Company</string>
+    <string name="text_sku">SKU : %1$s</string>
+    <string name="text_more"><u>More</u></string>
+
+
 </resources>

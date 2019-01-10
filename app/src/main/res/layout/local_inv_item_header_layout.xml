@@ -2,33 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/dim_5">
+    android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Store"
-        android:textStyle="bold"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_store"
+        android:textAllCaps="true"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Num"
-        android:textStyle="bold"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_num"
+        android:textAllCaps="true"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Qty"
-        android:textStyle="bold"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_qty"
+        android:textAllCaps="true"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:textStyle="bold" />
 </LinearLayout>

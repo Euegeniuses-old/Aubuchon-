@@ -28,7 +28,7 @@
         <View
             android:layout_width="@dimen/dim_1"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/black" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_ok"

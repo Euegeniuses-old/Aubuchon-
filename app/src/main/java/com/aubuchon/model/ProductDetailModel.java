@@ -3,16 +3,17 @@ package com.aubuchon.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ProductDetailModel {
+public class ProductDetailModel implements Serializable {
 
+  //  private static final long serialVersionUID = 1L;
 
     @SerializedName("codes")
     private List<Codes> codes;
     @SerializedName("product")
     private List<Product> product;
-
 
     public List<Codes> getCodes() {
         return codes;
@@ -30,7 +31,7 @@ public class ProductDetailModel {
         this.product = product;
     }
 
-    public static class Product {
+    public static class Product implements Serializable{
         @SerializedName("SupplierName")
         private String SupplierName;
         @SerializedName("Supplier")
@@ -252,7 +253,7 @@ public class ProductDetailModel {
             this.prodint = prodint;
         }
     }
-    public static class Codes {
+    public static class Codes implements Serializable{
         @SerializedName("altUPC")
         private String altUPC;
 
