@@ -1,89 +1,143 @@
-
 package com.aubuchon.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
-public class ProductDetailModel implements Serializable {
+public class ProductDetailsModel {
 
-    //  private static final long serialVersionUID = 1L;
+    @SerializedName("product") /* Mapping with Inquiry Screen Data*/
+    private ArrayList<Product> product = null;
 
-    @SerializedName("codes")
-    private List<Codes> codes;
-    @SerializedName("product")
-    private List<Product> product;
+    @SerializedName("StoresByMonth") /* Mapping with Sales History Screen STORE 170 */
+    private ArrayList<StoresByMonth> storesByMonth = null;
 
-    public List<Codes> getCodes() {
-        return codes;
-    }
+    @SerializedName("CompanyByMonth") /* Mapping with Sales History Screen COMPANY*/
+    private ArrayList<CompanyByMonth> companyByMonth = null;
 
-    public void setCodes(List<Codes> codes) {
-        this.codes = codes;
-    }
+    @SerializedName("StoreStock") /*Mapping with Local Inv Screen Data*/
+    private ArrayList<StoreStock> storeStock = null;
 
-    public List<Product> getProduct() {
+    @SerializedName("RelatedProducts") /*Mapping with Related Screen*/
+    private ArrayList<RelatedProduct> relatedProducts = null;
+
+    public ArrayList<Product> getProduct() {
         return product;
     }
 
-    public void setProduct(List<Product> product) {
+    public void setProduct(ArrayList<Product> product) {
         this.product = product;
     }
 
-    public static class Product implements Serializable {
+    public ArrayList<StoresByMonth> getStoresByMonth() {
+        return storesByMonth;
+    }
+
+    public void setStoresByMonth(ArrayList<StoresByMonth> storesByMonth) {
+        this.storesByMonth = storesByMonth;
+    }
+
+    public ArrayList<CompanyByMonth> getCompanyByMonth() {
+        return companyByMonth;
+    }
+
+    public void setCompanyByMonth(ArrayList<CompanyByMonth> companyByMonth) {
+        this.companyByMonth = companyByMonth;
+    }
+
+    public ArrayList<StoreStock> getStoreStock() {
+        return storeStock;
+    }
+
+    public void setStoreStock(ArrayList<StoreStock> storeStock) {
+        this.storeStock = storeStock;
+    }
+
+    public ArrayList<RelatedProduct> getRelatedProducts() {
+        return relatedProducts;
+    }
+
+    public void setRelatedProducts(ArrayList<RelatedProduct> relatedProducts) {
+        this.relatedProducts = relatedProducts;
+    }
+
+    public class Product {
+
         @SerializedName("store")
         private String store;
+
         @SerializedName("sku")
         private String sku;
+
         @SerializedName("webDesc")
         private String webDesc;
+
         @SerializedName("posDesc")
         private String posDesc;
+
         @SerializedName("departmentName")
         private String departmentName;
+
         @SerializedName("className")
         private String className;
+
         @SerializedName("subClassName")
         private String subClassName;
+
         @SerializedName("section")
         private String section;
+
         @SerializedName("sectionDesc")
         private String sectionDesc;
+
         @SerializedName("speedNo")
         private String speedNo;
+
         @SerializedName("ordUnit")
         private String ordUnit;
+
         @SerializedName("discDate")
         private String discDate;
+
         @SerializedName("prodStatus")
         private String prodStatus;
 
         @SerializedName("retailPrice")
-        private int retailPrice;
+        private Double retailPrice;
+
         @SerializedName("imageURL")
         private String imageURL;
+
         @SerializedName("companyYrSales")
         private int companyYrSales;
+
         @SerializedName("storeYrSales")
         private int storeYrSales;
+
         @SerializedName("supplier")
         private String supplier;
+
         @SerializedName("supplierName")
         private String supplierName;
+
         @SerializedName("promoPrice")
         private String promoPrice;
 
         @SerializedName("lastSoldDate")
         private String lastSoldDate;
+
         @SerializedName("lastDelDate")
         private String lastDelDate;
+
         @SerializedName("onHandAmt")
         private int onHandAmt;
+
         @SerializedName("available")
         private int available;
+
         @SerializedName("onOrderAmt")
         private int onOrderAmt;
+
         @SerializedName("onOrderPO")
         private String onOrderPO;
 
@@ -191,11 +245,11 @@ public class ProductDetailModel implements Serializable {
             this.prodStatus = prodStatus;
         }
 
-        public int getRetailPrice() {
+        public Double getRetailPrice() {
             return retailPrice;
         }
 
-        public void setRetailPrice(int retailPrice) {
+        public void setRetailPrice(Double retailPrice) {
             this.retailPrice = retailPrice;
         }
 
@@ -263,27 +317,27 @@ public class ProductDetailModel implements Serializable {
             this.lastDelDate = lastDelDate;
         }
 
-        public int getOnHandAmt() {
+        public Integer getOnHandAmt() {
             return onHandAmt;
         }
 
-        public void setOnHandAmt(int onHandAmt) {
+        public void setOnHandAmt(Integer onHandAmt) {
             this.onHandAmt = onHandAmt;
         }
 
-        public int getAvailable() {
+        public Integer getAvailable() {
             return available;
         }
 
-        public void setAvailable(int available) {
+        public void setAvailable(Integer available) {
             this.available = available;
         }
 
-        public int getOnOrderAmt() {
+        public Integer getOnOrderAmt() {
             return onOrderAmt;
         }
 
-        public void setOnOrderAmt(int onOrderAmt) {
+        public void setOnOrderAmt(Integer onOrderAmt) {
             this.onOrderAmt = onOrderAmt;
         }
 
@@ -294,19 +348,229 @@ public class ProductDetailModel implements Serializable {
         public void setOnOrderPO(String onOrderPO) {
             this.onOrderPO = onOrderPO;
         }
+
     }
 
-    public static class Codes implements Serializable {
-        @SerializedName("altUPC")
-        private String altUPC;
+    public class StoresByMonth {
 
-        public String getAltUPC() {
-            return altUPC;
+        @SerializedName("qty")
+        private Integer qty;
+
+        @SerializedName("monStr")
+        private String monStr;
+
+        @SerializedName("mon")
+        private Integer mon;
+
+        @SerializedName("yr")
+        private Integer yr;
+
+        public Integer getQty() {
+            return qty;
         }
 
-        public void setAltUPC(String altUPC) {
-            this.altUPC = altUPC;
+        public void setQty(Integer qty) {
+            this.qty = qty;
         }
+
+        public String getMonStr() {
+            return monStr;
+        }
+
+        public void setMonStr(String monStr) {
+            this.monStr = monStr;
+        }
+
+        public Integer getMon() {
+            return mon;
+        }
+
+        public void setMon(Integer mon) {
+            this.mon = mon;
+        }
+
+        public Integer getYr() {
+            return yr;
+        }
+
+        public void setYr(Integer yr) {
+            this.yr = yr;
+        }
+
+    }
+
+    public class CompanyByMonth {
+
+        @SerializedName("qty")
+        private Integer qty;
+
+        @SerializedName("monStr")
+        private String monStr;
+
+        @SerializedName("mon")
+        private Integer mon;
+
+        @SerializedName("yr")
+        private Integer yr;
+
+        public Integer getQty() {
+            return qty;
+        }
+
+        public void setQty(Integer qty) {
+            this.qty = qty;
+        }
+
+        public String getMonStr() {
+            return monStr;
+        }
+
+        public void setMonStr(String monStr) {
+            this.monStr = monStr;
+        }
+
+        public Integer getMon() {
+            return mon;
+        }
+
+        public void setMon(Integer mon) {
+            this.mon = mon;
+        }
+
+        public Integer getYr() {
+            return yr;
+        }
+
+        public void setYr(Integer yr) {
+            this.yr = yr;
+        }
+
+    }
+
+    public class StoreStock {
+
+        @SerializedName("store")
+        private String store;
+
+        @SerializedName("name")
+        private String name;
+
+        @SerializedName("qty")
+        private int qty;
+
+        @SerializedName("local")
+        private int local;
+
+        public String getStore() {
+            return store;
+        }
+
+        public void setStore(String store) {
+            this.store = store;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getQty() {
+            return qty;
+        }
+
+        public void setQty(Integer qty) {
+            this.qty = qty;
+        }
+
+        public Integer getLocal() {
+            return local;
+        }
+
+        public void setLocal(Integer local) {
+            this.local = local;
+        }
+
+    }
+
+    public class RelatedProduct {
+
+        @SerializedName("sku")
+        private String sku;
+
+        @SerializedName("image")
+        private String image;
+
+        @SerializedName("webDesc")
+        private String webDesc;
+
+        @SerializedName("retailPrice")
+        private Double retailPrice;
+
+        @SerializedName("promoPrice")
+        private String promoPrice;
+
+        @SerializedName("ranking")
+        private Integer ranking;
+
+        public String getSku() {
+            return sku;
+        }
+
+        public void setSku(String sku) {
+            this.sku = sku;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getWebDesc() {
+            return webDesc;
+        }
+
+        public void setWebDesc(String webDesc) {
+            this.webDesc = webDesc;
+        }
+
+        public Double getRetailPrice() {
+            return retailPrice;
+        }
+
+        public void setRetailPrice(Double retailPrice) {
+            this.retailPrice = retailPrice;
+        }
+
+        public String getPromoPrice() {
+            return promoPrice;
+        }
+
+        public void setPromoPrice(String promoPrice) {
+            this.promoPrice = promoPrice;
+        }
+
+        public Integer getRanking() {
+            return ranking;
+        }
+
+        public void setRanking(Integer ranking) {
+            this.ranking = ranking;
+        }
+
     }
 
 }
+
+
+
+
+
+
+
+

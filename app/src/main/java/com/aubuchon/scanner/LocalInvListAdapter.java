@@ -1,10 +1,9 @@
 package com.aubuchon.scanner;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
+import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +11,17 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.aubuchon.R;
-import com.aubuchon.model.ProductDetailModel;
 import com.aubuchon.model.ProductDetailModel.Product;
-import com.aubuchon.utility.Constant;
-import com.aubuchon.utility.Globals;
-
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-
+import com.aubuchon.model.ProductDetailsModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapter.ViewHolder> {
 
     private Context context;
     private AdapterView.OnItemClickListener onItemClickListener;
-    private ArrayList<ProductDetailModel.Product> mDataSetFilterData;
+    private ArrayList<ProductDetailsModel.StoreStock> mDataSetFilterData;
     private Product pDetails;
 
 
@@ -37,7 +29,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         this.context = context;
     }
 
-    public void doRefresh(ArrayList<ProductDetailModel.Product> dataSet) {
+    public void doRefresh(ArrayList<ProductDetailsModel.StoreStock> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }
@@ -46,7 +38,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         private LocalInvListAdapter mAdapter;
 
         TextView tv_store, tv_num, tv_qty;
-        private Product pDetails;
+        private ProductDetailsModel.StoreStock storeStock;
 
         ViewHolder(View itemView, final LocalInvListAdapter mAdapter) {
             super(itemView);
@@ -60,7 +52,12 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             itemView.setOnClickListener(this);
         }
 
-        void setDataToView(ProductDetailModel.Product pDetails, final int position) {
+        void setDataToView(ProductDetailsModel.StoreStock storeStock, final int position) {
+
+            tv_store.setText(storeStock.getName());
+            tv_num.setText(storeStock.getStore());
+            tv_qty.setText(String.valueOf(storeStock.getQty()));
+
             if (position % 2 == 0) {
                 tv_store.setBackgroundColor(Color.GRAY);
                 tv_num.setBackgroundColor(Color.GRAY);
@@ -100,9 +97,9 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductDetailModel.Product product = mDataSetFilterData.get(position);
+        ProductDetailsModel.StoreStock stock = mDataSetFilterData.get(position);
         try {
-            holder.setDataToView(product, position);
+            holder.setDataToView(stock, position);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,14 +107,14 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
 
     @Override
     public int getItemCount() {
-        return 10;//mDataSetFilterData.size();
+        return mDataSetFilterData.size();
     }
 
-    public ProductDetailModel.Product getDataByPosition(int position) {
+  /*  public ProductDetailModel.Product getDataByPosition(int position) {
         if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
             return mDataSetFilterData.get(position);
         return null;
-    }
+    }*/
 
 
 }

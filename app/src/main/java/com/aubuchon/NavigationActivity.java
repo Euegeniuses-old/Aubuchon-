@@ -59,7 +59,6 @@ public class NavigationActivity extends AppCompatActivity {
         navigationActivity = NavigationActivity.this;
         globals = (Globals) getApplicationContext();
         addFragmentOnTop(HomeFragment.newInstance());
-
     }
 
     public void setToolbar() {

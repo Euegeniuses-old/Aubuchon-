@@ -58,7 +58,11 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
         void setDataToView(KeyValueModel pDetails, final int position) {
 
             tv_key.setText(pDetails.getKey());
-            tv_value.setText(pDetails.getValue());
+            if(pDetails.getValue().equalsIgnoreCase("") || pDetails.getValue().equalsIgnoreCase("0.0")){
+                tv_value.setText("");
+            }else{
+                tv_value.setText(pDetails.getValue());
+            }
 
             if (position % 2 == 0){
                 tv_key.setBackgroundColor(Color.GRAY);

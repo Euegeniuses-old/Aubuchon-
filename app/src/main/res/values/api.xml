@@ -7,7 +7,12 @@
     <string name="server_url">http://aubuchonapp.a.fgqa.net/AubuChonApi/api/</string>
 
     <!--Base Url of ProductStore Used in ItemDetailsFragment.java-->
-    <string name="product_store_url">"http://50.206.125.135/webservice/GetProductStore.aspx?</string>
+
+    <!--Old Url-->
+    <!--<string name="product_store_url">"http://50.206.125.135/webservice/GetProductStore.aspx?</string>-->
+
+    <!--New Url-->
+    <string name="product_store_url">http://50.206.125.135/WebService/getproductTCB.aspx?</string>
 
     <string name="upload_url">Home/Upload</string>
     <string name="checkPublicIp_url">Home/CheckPublicIp</string>

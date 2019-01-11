@@ -15,9 +15,14 @@ public class Constant {
     public static final String AU_branchcode = "branchcode";
     public static final String AU_data = "data";
 
-    public static final String AU_prodcode = "prodcode";
-    public static final String AU_proddesc = "proddesc";
+    public static final String AU_prodcode = "sku";
+    public static final String AU_proddesc = "webDesc";
     public static final String AU_retailPrice = "retailPrice";
+    public static final String AU_promoPrice = "promoPrice";
+    public static final String AU_onHandAmt = "onHandAmt";
+    public static final String AU_available = "available";
+    public static final String AU_section = "section";
+    public static final String AU_speedNo = "speedNo";
 
 
 }
