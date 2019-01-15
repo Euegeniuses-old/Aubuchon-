@@ -24,7 +24,7 @@ class ScannerViewController: UIViewController {
     var isCaptureIsFrozen = false
     var tempCaptureString = ""
     var capturedBarcode:UIImage?
-    
+    var isFromMain:Bool = false
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,15 +117,27 @@ class ScannerViewController: UIViewController {
     // btnok action
     @IBAction func btnOk_Action(_ sender: Any) {
         if tempCaptureString != "" {
-            Constant.kAppDelegate.isBackFromProduct = false
-            let viewController:
-                MainViewController = UIStoryboard(
-                    name: "Main", bundle: nil
-                    ).instantiateViewController(withIdentifier: "Main") as! MainViewController
-            viewController.barCodeNumber = tempCaptureString
-            Constant.kAppDelegate.barcodeNumber = tempCaptureString
-            let NavigationController = UINavigationController(rootViewController: viewController)
-            UIApplication.shared.keyWindow?.rootViewController? = NavigationController
+//            if isFromMain {
+//                Constant.kAppDelegate.isBackFromProduct = false
+//                let viewController:
+//                    MainViewController = UIStoryboard(
+//                        name: "Main", bundle: nil
+//                        ).instantiateViewController(withIdentifier: "Main") as! MainViewController
+//                viewController.barCodeNumber = tempCaptureString
+//                Constant.kAppDelegate.barcodeNumber = tempCaptureString
+//                let NavigationController = UINavigationController(rootViewController: viewController)
+//                UIApplication.shared.keyWindow?.rootViewController? = NavigationController
+//            } else {
+            Constant.kAppDelegate.isOldProductData = false
+                let viewController:
+                    ProductInformationViewController = UIStoryboard(
+                        name: "Main", bundle: nil
+                        ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
+                viewController.barcode = tempCaptureString
+                Constant.kAppDelegate.barcodeNumber = tempCaptureString
+                let NavigationController = UINavigationController(rootViewController: viewController)
+                UIApplication.shared.keyWindow?.rootViewController? = NavigationController
+          //  }
         }
     }
     

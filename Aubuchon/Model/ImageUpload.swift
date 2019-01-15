@@ -40,6 +40,22 @@ let kORDNUM = "ORDNUM"
 let kDiscDate = "DiscDate"
 let kprodint = "prodint"
 let kaltUPC = "altUPC"
+let kStore = "store"
+let kName = "name"
+let kQty = "qty"
+
+class StoreStock: NSObject {
+    let store, name: String
+    let qty: Int
+    var storeINVData: [ImageUpload]
+     init?(dictionary: [String:Any]) {
+         self.storeINVData = (dictionary["StoreStock"] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
+        self.store = dictionary[kStore] as? String ?? ""
+        self.name = dictionary[kName] as? String ?? ""
+        self.qty = dictionary[kQty] as? Int ?? 0
+    }
+    
+}
 class ImageUpload: NSObject, NSCoding {
     var Planogram:String
     var PlangramDesc:String
@@ -64,6 +80,10 @@ class ImageUpload: NSObject, NSCoding {
     var DiscDate:String
     var prodint:Int
     var altUPC:String
+    var store:String
+    var storeName:String
+    var qty:Int
+   // var storeINVData:[ImageUpload]
     
     init?(dictionary: [String:Any]) {
         self.Planogram = dictionary[kPlanogram] as? String ?? ""
@@ -89,6 +109,12 @@ class ImageUpload: NSObject, NSCoding {
         self.DiscDate = dictionary[kDiscDate] as? String ?? ""
         self.prodint = dictionary[kprodint] as? Int ?? 0
         self.altUPC = dictionary[kaltUPC] as? String ?? ""
+        self.store = dictionary[kStore] as? String ?? ""
+        self.storeName = dictionary[kName] as? String ?? ""
+        self.qty = dictionary[kQty] as? Int ?? 0
+       
+        
+        
     }
     
     // MARK: - NSCoding
@@ -117,6 +143,11 @@ class ImageUpload: NSObject, NSCoding {
         DiscDate = aDecoder.decodeObject(forKey: kDiscDate) as? String ?? ""
         prodint = aDecoder.decodeObject(forKey: kprodint) as? Int ?? 0
         altUPC = aDecoder.decodeObject(forKey: kaltUPC) as? String ?? ""
+        store = aDecoder.decodeObject(forKey:kStore) as? String ?? ""
+        storeName = aDecoder.decodeObject(forKey:kName) as? String ?? ""
+        qty = aDecoder.decodeObject(forKey:kQty) as? Int ?? 0
+       
+        
     }
     
     func encode(with aCoder: NSCoder) {
@@ -143,6 +174,9 @@ class ImageUpload: NSObject, NSCoding {
         aCoder.encode(DiscDate, forKey: kDiscDate)
         aCoder.encode(prodint, forKey: kprodint)
         aCoder.encode(altUPC, forKey: kaltUPC)
+        aCoder.encode(store, forKey: kStore)
+        aCoder.encode(storeName, forKey: kName)
+        aCoder.encode(qty, forKey: kQty)
     }
     
     // MARK:- Image upload  function
@@ -201,7 +235,9 @@ class ImageUpload: NSObject, NSCoding {
     }
     
     //MARK:- display product information
-    class func displayProductInfo(with branchcode: Int, data:String, success withResponse: @escaping (_ response : [String:Any],_ isSuccess: Bool)-> (), failure: @escaping FailureBlock) {
+    class func displayProductInfo(with branchcode: Int,
+                                  data:String,
+                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ localINV: [StoreStock])-> (), failure: @escaping FailureBlock) {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
         let param:[String:Any] = [kbarcode:branchcode,kdata:data]
@@ -216,15 +252,25 @@ class ImageUpload: NSObject, NSCoding {
             let dict = response as? [String:Any] ?? [:]
             //print(dict)
             
-            let responseDic = dict["product"] as? [[String:Any]] ?? [[:]]
+           let responseDic = dict["product"] as? [[String:Any]] ?? [[:]]
+            let arrayStock = dict["StoreStock"] as? [[String:Any]] ?? [[:]]
+            
+          
             if responseDic.count == 0 {
                
                 failure(Constant.alertTitleMessage.validBarcode,false)
             } else {
                 
                 let res = responseDic[0]
-                print(res)
-                withResponse(res , true)
+                
+
+                var array1 = [StoreStock]()
+                for i in arrayStock {
+                    if let obj = StoreStock(dictionary: i){
+                        array1.append(obj)
+                    }
+                }
+                withResponse(res , true, array1)
             }
 
         }, failure: { (error) in

@@ -63,6 +63,9 @@ class MainViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    
+    //MARK:- button action
+    
     //MARK:- publicAPI call
     func publicAPICall() {
         
@@ -145,6 +148,9 @@ class MainViewController: UIViewController {
         
         // menu cell xib register
         tblMenu.register(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuTableViewCell")
+        
+        self.navigationItem.setHidesBackButton(true, animated:true);
+        self.navigationController?.isToolbarHidden = true
     }
     
     
@@ -175,6 +181,7 @@ class MainViewController: UIViewController {
             ScannerViewController = UIStoryboard(
                 name: "Main", bundle: nil
                 ).instantiateViewController(withIdentifier: "ScannerView") as! ScannerViewController
+        ScannerVC.isFromMain = true
         self.present(ScannerVC, animated: false, completion: nil)
     }
     
@@ -297,6 +304,11 @@ class MainViewController: UIViewController {
             self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")
         }
         hideMenuView()
+    }
+    @IBAction func btnBarcode_Action(_ sender: Any) {
+        Constant.kAppDelegate.isOldProductData = false
+        self.openMTBScanner()
+        
     }
 }
 

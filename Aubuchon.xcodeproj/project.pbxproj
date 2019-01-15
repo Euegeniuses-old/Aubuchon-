@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040287BE21E77EFB0083929C /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040287BC21E77EFB0083929C /* ReviewTableViewCell.swift */; };
+		040287BF21E77EFB0083929C /* ReviewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040287BD21E77EFB0083929C /* ReviewTableViewCell.xib */; };
 		0405D9D1219AE15000200F55 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0405D9D0219AE15000200F55 /* Extentions.swift */; };
 		0410CE93219D9075009EC83C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CE92219D9075009EC83C /* APIManager.swift */; };
 		0410CE97219D9496009EC83C /* ImageUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CE96219D9496009EC83C /* ImageUpload.swift */; };
@@ -64,12 +66,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		040287BC21E77EFB0083929C /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		040287BD21E77EFB0083929C /* ReviewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTableViewCell.xib; sourceTree = "<group>"; };
 		0405D9D0219AE15000200F55 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
 		0410CE92219D9075009EC83C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		0410CE96219D9496009EC83C /* ImageUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUpload.swift; sourceTree = "<group>"; };
 		0410CE98219D9738009EC83C /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		041BD80C219FCD8B00E4A37C /* Aubuchon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Aubuchon.entitlements; sourceTree = "<group>"; };
-		043A44BD219AA84B00D6DA2E /* TCB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCB.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		043A44BD219AA84B00D6DA2E /* WEATCB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WEATCB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		043A44C0219AA84B00D6DA2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		043A44C5219AA84B00D6DA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		043A44C7219AA84C00D6DA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -144,6 +148,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040287BB21E77EFB0083929C /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				040287BC21E77EFB0083929C /* ReviewTableViewCell.swift */,
+				040287BD21E77EFB0083929C /* ReviewTableViewCell.xib */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		0405D9CF219AE13400200F55 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +181,7 @@
 		043A44BE219AA84B00D6DA2E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				043A44BD219AA84B00D6DA2E /* TCB.app */,
+				043A44BD219AA84B00D6DA2E /* WEATCB.app */,
 				043A44D1219AA84C00D6DA2E /* AubuchonTests.xctest */,
 				043A44DC219AA84C00D6DA2E /* AubuchonUITests.xctest */,
 			);
@@ -238,6 +251,7 @@
 		043A44F1219AA87A00D6DA2E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				040287BB21E77EFB0083929C /* Review */,
 				0484BF0221C909C80093A891 /* Menu */,
 				0465303221C7BF190040EE64 /* OrderInfo */,
 				0452B38B21BFE32600062945 /* Sales History */,
@@ -435,7 +449,7 @@
 			);
 			name = Aubuchon;
 			productName = Aubuchon;
-			productReference = 043A44BD219AA84B00D6DA2E /* TCB.app */;
+			productReference = 043A44BD219AA84B00D6DA2E /* WEATCB.app */;
 			productType = "com.apple.product-type.application";
 		};
 		043A44D0219AA84C00D6DA2E /* AubuchonTests */ = {
@@ -532,6 +546,7 @@
 				043A44CB219AA84C00D6DA2E /* LaunchScreen.storyboard in Resources */,
 				0452B38021BFCB4B00062945 /* LocalINV.xib in Resources */,
 				0465303421C7BF3F0040EE64 /* OrderInfo.xib in Resources */,
+				040287BF21E77EFB0083929C /* ReviewTableViewCell.xib in Resources */,
 				0452B38521BFCD0100062945 /* RelatedItems.xib in Resources */,
 				0452B38D21BFE33F00062945 /* SalesHistory.xib in Resources */,
 				0452B39921BFEE0100062945 /* SalesHistoryHeader.xib in Resources */,
@@ -666,6 +681,7 @@
 				0410CE97219D9496009EC83C /* ImageUpload.swift in Sources */,
 				0452B37821BFC4B700062945 /* InquiryCollectionViewCell.swift in Sources */,
 				0452B38721BFCD0F00062945 /* RelatedItemsCollectionViewCell.swift in Sources */,
+				040287BE21E77EFB0083929C /* ReviewTableViewCell.swift in Sources */,
 				04FBA37121B6AD0C007669D8 /* ScannerViewController.swift in Sources */,
 				043A44FF219AAAA900D6DA2E /* MainViewController.swift in Sources */,
 			);
@@ -853,7 +869,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.developer.aubuchon;
-				PRODUCT_NAME = TCB;
+				PRODUCT_NAME = WEATCB;
 				PROVISIONING_PROFILE_SPECIFIER = Aubuchon_devlopment_13Nov_2018;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -875,7 +891,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.developer.aubuchon;
-				PRODUCT_NAME = TCB;
+				PRODUCT_NAME = WEATCB;
 				PROVISIONING_PROFILE_SPECIFIER = Aubuchon_distribution_13Nov_2018;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

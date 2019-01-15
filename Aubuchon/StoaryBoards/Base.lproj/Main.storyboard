@@ -13,7 +13,7 @@
         <!--Main View Controller-->
         <scene sceneID="QgM-We-O0y">
             <objects>
-                <viewController storyboardIdentifier="Main" id="KpU-JQ-eUI" customClass="MainViewController" customModule="TCB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Main" id="KpU-JQ-eUI" customClass="MainViewController" customModule="WEATCB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xdU-MH-Oh8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,6 +48,9 @@
                                                     <constraint firstAttribute="width" constant="60" id="TWT-3I-Otm"/>
                                                 </constraints>
                                                 <state key="normal" image="barcode"/>
+                                                <connections>
+                                                    <action selector="btnBarcode_Action:" destination="KpU-JQ-eUI" eventType="touchUpInside" id="4Ko-qQ-Xt6"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -184,7 +187,7 @@
         <!--Product Information View Controller-->
         <scene sceneID="R7g-bQ-ZDu">
             <objects>
-                <viewController storyboardIdentifier="ProductInfo" id="wYy-1T-VjH" customClass="ProductInformationViewController" customModule="TCB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductInfo" id="wYy-1T-VjH" customClass="ProductInformationViewController" customModule="WEATCB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vWY-vo-VmY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -255,7 +258,7 @@
                                                     <constraint firstAttribute="height" constant="40" id="kxx-Yg-V6K"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Related Items">
+                                                <state key="normal" title="Related">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -276,9 +279,12 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLa-vz-Ubk">
                                                 <rect key="frame" x="161" y="60" width="74" height="40"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="TBD">
+                                                <state key="normal" title="Review">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="btnReview_Action:" destination="wYy-1T-VjH" eventType="touchUpInside" id="Iq8-ZE-zR4"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1BH-hB-aXo">
                                                 <rect key="frame" x="241" y="60" width="73.5" height="40"/>
@@ -286,6 +292,9 @@
                                                 <state key="normal" title="TBD">
                                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="btnTBDtwo_Action:" destination="wYy-1T-VjH" eventType="touchUpInside" id="HHV-8x-lCg"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -337,7 +346,7 @@
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SKU:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ne-db-l9b">
-                                                <rect key="frame" x="141.5" y="26" width="37" height="18"/>
+                                                <rect key="frame" x="142" y="10" width="36.5" height="18"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -350,19 +359,71 @@
                                                 </constraints>
                                                 <state key="normal" image="barcode"/>
                                                 <connections>
-                                                    <action selector="btnBarcode_Action:" destination="wYy-1T-VjH" eventType="touchUpInside" id="h1e-Fo-xDv"/>
+                                                    <action selector="btnBarcode_Action:" destination="wYy-1T-VjH" eventType="touchUpInside" id="PF5-Yp-uMT"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zJb-lW-adv">
+                                                <rect key="frame" x="45" y="33" width="210" height="37"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="auV-Wa-xji">
+                                                        <rect key="frame" x="105" y="18.5" width="0.0" height="0.0"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j9u-tE-cx1">
+                                                        <rect key="frame" x="105" y="8.5" width="35" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="35" id="8Qh-zg-pYQ"/>
+                                                            <constraint firstAttribute="height" constant="20" id="bcd-qz-L1g"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
+                                                        <state key="normal" title="More">
+                                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="btnMore_Action:" destination="wYy-1T-VjH" eventType="touchUpInside" id="jB7-ex-jxp"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEC-Y1-QWD">
+                                                        <rect key="frame" x="105" y="23.5" width="35" height="1"/>
+                                                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="RD5-OZ-pYz"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="j9u-tE-cx1" firstAttribute="centerY" secondItem="auV-Wa-xji" secondAttribute="centerY" id="8h2-bY-Wgx"/>
+                                                    <constraint firstItem="auV-Wa-xji" firstAttribute="centerY" secondItem="zJb-lW-adv" secondAttribute="centerY" id="ABS-zo-bj1"/>
+                                                    <constraint firstItem="nEC-Y1-QWD" firstAttribute="width" secondItem="j9u-tE-cx1" secondAttribute="width" id="YKx-ao-YIa"/>
+                                                    <constraint firstItem="nEC-Y1-QWD" firstAttribute="centerX" secondItem="j9u-tE-cx1" secondAttribute="centerX" id="ZW6-Zo-4HX"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j9u-tE-cx1" secondAttribute="trailing" constant="52" id="gka-Il-6hc"/>
+                                                    <constraint firstItem="nEC-Y1-QWD" firstAttribute="top" secondItem="j9u-tE-cx1" secondAttribute="bottom" constant="-5" id="j9H-P3-cQn"/>
+                                                    <constraint firstItem="j9u-tE-cx1" firstAttribute="leading" secondItem="auV-Wa-xji" secondAttribute="trailing" id="k48-1g-foT"/>
+                                                    <constraint firstItem="auV-Wa-xji" firstAttribute="centerX" secondItem="zJb-lW-adv" secondAttribute="centerX" id="wxb-ak-9ti"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="zJb-lW-adv" firstAttribute="leading" secondItem="UI9-aC-Uf2" secondAttribute="trailing" id="5vT-ww-o0J"/>
+                                            <constraint firstItem="9ne-db-l9b" firstAttribute="centerX" secondItem="ntM-aC-fbs" secondAttribute="centerX" id="74Z-aq-ME8"/>
                                             <constraint firstItem="UI9-aC-Uf2" firstAttribute="leading" secondItem="ntM-aC-fbs" secondAttribute="leading" constant="5" id="8zO-0L-4cd"/>
+                                            <constraint firstItem="9ne-db-l9b" firstAttribute="top" secondItem="ntM-aC-fbs" secondAttribute="top" constant="10" id="CIE-Bl-lf9"/>
                                             <constraint firstAttribute="height" constant="70" id="K2n-9p-mIf"/>
-                                            <constraint firstItem="9ne-db-l9b" firstAttribute="centerX" secondItem="ntM-aC-fbs" secondAttribute="centerX" id="OPO-Qq-Qjt"/>
                                             <constraint firstAttribute="trailing" secondItem="joS-qc-rHY" secondAttribute="trailing" constant="5" id="SdX-PJ-S38"/>
+                                            <constraint firstItem="zJb-lW-adv" firstAttribute="top" secondItem="9ne-db-l9b" secondAttribute="bottom" constant="5" id="Sj6-Tw-NpJ"/>
+                                            <constraint firstItem="joS-qc-rHY" firstAttribute="leading" secondItem="zJb-lW-adv" secondAttribute="trailing" id="VeF-0P-0sQ"/>
                                             <constraint firstItem="joS-qc-rHY" firstAttribute="centerY" secondItem="ntM-aC-fbs" secondAttribute="centerY" id="n68-Gr-t2h"/>
-                                            <constraint firstItem="9ne-db-l9b" firstAttribute="centerY" secondItem="ntM-aC-fbs" secondAttribute="centerY" id="uLJ-rR-1Wb"/>
                                             <constraint firstItem="UI9-aC-Uf2" firstAttribute="centerY" secondItem="ntM-aC-fbs" secondAttribute="centerY" id="vfV-Kf-v6B"/>
+                                            <constraint firstAttribute="bottom" secondItem="zJb-lW-adv" secondAttribute="bottom" id="ySQ-hH-7xr"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYh-2T-AbW">
@@ -440,6 +501,7 @@
                         <outlet property="btnInquery" destination="nQu-cH-FtC" id="OvX-rY-kst"/>
                         <outlet property="btnInqueryLeadingConstrain" destination="zAg-Im-3h5" id="8ga-re-Jsk"/>
                         <outlet property="btnLocalINV" destination="JRV-UQ-dsQ" id="nbR-Uz-FuK"/>
+                        <outlet property="btnMore" destination="j9u-tE-cx1" id="Q2I-96-BXh"/>
                         <outlet property="btnOrderInfo" destination="fze-Dh-oio" id="o2w-nf-mMl"/>
                         <outlet property="btnPhoto" destination="BUz-b2-i5F" id="3fJ-w8-RL9"/>
                         <outlet property="btnRelatedIntems" destination="b78-c5-95f" id="XpN-lj-zyV"/>
@@ -448,6 +510,8 @@
                         <outlet property="btnTBDTwo" destination="1BH-hB-aXo" id="yyd-ID-KO9"/>
                         <outlet property="buttonsView" destination="w6T-d7-yR7" id="Pal-de-J9s"/>
                         <outlet property="headerView" destination="ntM-aC-fbs" id="B8L-65-fFL"/>
+                        <outlet property="lblDesc" destination="auV-Wa-xji" id="IZ6-qC-N0X"/>
+                        <outlet property="lblMoreUndreLine" destination="nEC-Y1-QWD" id="usP-yI-3dM"/>
                         <outlet property="lblSKU" destination="9ne-db-l9b" id="Q5e-1Q-IW9"/>
                         <outlet property="menuView" destination="kYh-2T-AbW" id="EOK-H3-dtr"/>
                         <outlet property="productTableView" destination="gPU-48-gWu" id="GH7-Mq-069"/>
@@ -462,7 +526,7 @@
         <!--Scanner View Controller-->
         <scene sceneID="ZUM-cH-7uC">
             <objects>
-                <viewController storyboardIdentifier="ScannerView" id="DoN-tI-UxB" customClass="ScannerViewController" customModule="TCB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ScannerView" id="DoN-tI-UxB" customClass="ScannerViewController" customModule="WEATCB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nU7-ds-EoZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -565,7 +629,7 @@
         <!--Upload Image View Controller-->
         <scene sceneID="1N7-cM-HKB">
             <objects>
-                <viewController storyboardIdentifier="uploadImage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JOF-Pl-sQh" customClass="UploadImageViewController" customModule="TCB" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="uploadImage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JOF-Pl-sQh" customClass="UploadImageViewController" customModule="WEATCB" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4r5-3K-Bkr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -36,7 +36,9 @@ class Constant: NSObject {
         static let publicIp = baseUrl + "/api/Home/CheckPublicIp"
         
         //Temporary
-        static let productInfo = "http://50.206.125.135/webservice/GetProductStore.aspx"
+        //static let productInfo = "http://50.206.125.135/webservice/GetProductStore.aspx"
+        //11_1_19 12:49 pm
+        static let productInfo = "http://50.206.125.135/WebService/getproductTCB.aspx"
     }
     // Colors type
     struct Colors {
