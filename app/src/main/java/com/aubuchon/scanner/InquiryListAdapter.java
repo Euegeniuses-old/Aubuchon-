@@ -13,13 +13,8 @@ import android.widget.TextView;
 import com.aubuchon.R;
 import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.ProductDetailModel.Product;
-import com.aubuchon.utility.Globals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 
 public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.ViewHolder> {
 
@@ -29,11 +24,11 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
     private Product pDetails;
 
 
-    public InquiryListAdapter(Context context) {
+    InquiryListAdapter(Context context) {
         this.context = context;
     }
 
-    public void doRefresh(ArrayList<KeyValueModel> dataSet) {
+    void doRefresh(ArrayList<KeyValueModel> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }
@@ -48,9 +43,7 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
             this.mAdapter = mAdapter;
 
             tv_key = itemView.findViewById(R.id.tv_key);
-
             tv_value = itemView.findViewById(R.id.tv_value);
-
 
             itemView.setOnClickListener(this);
         }
@@ -58,16 +51,16 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
         void setDataToView(KeyValueModel pDetails, final int position) {
 
             tv_key.setText(pDetails.getKey());
-            if(pDetails.getValue().equalsIgnoreCase("") || pDetails.getValue().equalsIgnoreCase("0.0")){
-                tv_value.setText("");
-            }else{
+            if (pDetails.getValue().equalsIgnoreCase("") || pDetails.getValue().equalsIgnoreCase("0.0")) {
+                tv_value.setText(" - ");
+            } else {
                 tv_value.setText(pDetails.getValue());
             }
 
-            if (position % 2 == 0){
+            if (position % 2 == 0) {
                 tv_key.setBackgroundColor(Color.GRAY);
                 tv_value.setBackgroundColor(Color.GRAY);
-            }else{
+            } else {
                 tv_key.setBackgroundColor(Color.WHITE);
                 tv_value.setBackgroundColor(Color.WHITE);
             }

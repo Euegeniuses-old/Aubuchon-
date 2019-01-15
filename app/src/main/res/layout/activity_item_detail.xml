@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -150,7 +151,7 @@
 
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/btn_review"
+                android:id="@+id/btn_tbd_one"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dim_2"
@@ -163,7 +164,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/dim_5"
-                android:text="@string/str_review"
+                android:text="@string/str_tbd"
                 android:textColor="@drawable/text_selector"
                 android:textSize="@dimen/text_size_12" />
 
@@ -184,7 +185,7 @@
                 android:gravity="center"
                 android:maxLines="2"
                 android:padding="@dimen/dim_5"
-                android:text="TBD"
+                android:text="@string/str_tbd"
                 android:textColor="@drawable/text_selector"
                 android:textSize="@dimen/text_size_12" />
 
@@ -195,6 +196,7 @@
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/ll_header"
         android:layout_marginStart="@dimen/dim_5"
         android:layout_marginTop="@dimen/dim_2"
         android:layout_marginEnd="@dimen/dim_5"
@@ -204,7 +206,7 @@
         android:gravity="center"
         android:padding="@dimen/dim_1">
 
-        <!--1st View-->
+        <!--1st View--> <!--Inquiry Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -219,7 +221,7 @@
         </LinearLayout>
 
 
-        <!--2nd View-->
+        <!--2nd View--><!---->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -236,7 +238,7 @@
         </LinearLayout>
 
 
-        <!--3rd View-->
+        <!--3rd View--><!--Local Inv Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -267,7 +269,7 @@
         </LinearLayout>
 
 
-        <!--4th View-->
+        <!--4th View--><!--Order Info Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -282,93 +284,117 @@
         </LinearLayout>
 
 
-        <!--5th View-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_2"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/header_text_store_170"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_14"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dim_1"
-                    android:background="@android:color/black" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_sales_history_store"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/dim_5" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/header_text_company"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/text_size_14"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dim_1"
-                    android:background="@android:color/black" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_sales_history_company"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/dim_5" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <!--6th View-->
+        <!--5th View--><!--Sales History Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
             android:orientation="vertical">
 
+            <include layout="@layout/sales_history_item_header_layout" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_related_image"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/related_image" />
+                android:layout_height="@dimen/dim_1"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_sales_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical">
+
+                 <android.support.v7.widget.AppCompatTextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:gravity="center"
+                     android:text="@string/header_text_store_170"
+                     android:textAllCaps="true"
+                     android:textColor="@android:color/black"
+                     android:textSize="@dimen/text_size_14"
+                     android:textStyle="bold" />
+
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dim_1"
+                     android:background="@android:color/black" />
+
+                 <android.support.v7.widget.RecyclerView
+                     android:id="@+id/rv_sales_history_store"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_marginTop="@dimen/dim_5" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_weight="1"
+                 android:gravity="center"
+                 android:orientation="vertical">
+
+                 <android.support.v7.widget.AppCompatTextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:gravity="center"
+                     android:text="@string/header_text_company"
+                     android:textAllCaps="true"
+                     android:textColor="@android:color/black"
+                     android:textSize="@dimen/text_size_14"
+                     android:textStyle="bold" />
+
+                 <View
+                     android:layout_width="match_parent"
+                     android:layout_height="@dimen/dim_1"
+                     android:background="@android:color/black" />
+
+                 <android.support.v7.widget.RecyclerView
+                     android:id="@+id/rv_sales_history_company"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_marginTop="@dimen/dim_5" />
+
+             </LinearLayout>-->
         </LinearLayout>
 
 
-        <!--7th View-->
+        <!--6th View--><!--Related Screen-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_related_products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- <android.support.v7.widget.AppCompatImageView
+                 android:id="@+id/iv_related_image"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:src="@drawable/related_image" />-->
+        </LinearLayout>
+
+
+        <!--7th View--><!--TBD (1) Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -383,10 +409,11 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Review Coming Soon" />
+                android:text="TBD Coming Soon" />
         </LinearLayout>
 
-        <!--8th View-->
+
+        <!--8th View--><!--TBD (2) Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -405,4 +432,17 @@
                 android:text=" TBD Coming Soon" />
         </LinearLayout>
     </ViewFlipper>
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_prev_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dim_16"
+        android:src="@android:drawable/ic_menu_revert"
+        android:visibility="gone"
+        app:fabSize="auto" />
+
+</RelativeLayout>

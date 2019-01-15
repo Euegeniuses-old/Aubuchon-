@@ -2,9 +2,10 @@ package com.aubuchon.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ProductDetailsModel {
+public class ProductDetailsModel implements Serializable {
 
     @SerializedName("product") /* Mapping with Inquiry Screen Data*/
     private ArrayList<Product> product = null;
@@ -61,7 +62,7 @@ public class ProductDetailsModel {
         this.relatedProducts = relatedProducts;
     }
 
-    public class Product {
+    public class Product implements Serializable {
 
         @SerializedName("store")
         private String store;
@@ -351,7 +352,7 @@ public class ProductDetailsModel {
 
     }
 
-    public class StoresByMonth {
+    public class StoresByMonth implements Serializable {
 
         @SerializedName("qty")
         private Integer qty;
@@ -399,7 +400,7 @@ public class ProductDetailsModel {
 
     }
 
-    public class CompanyByMonth {
+    public class CompanyByMonth implements Serializable {
 
         @SerializedName("qty")
         private Integer qty;
@@ -447,7 +448,7 @@ public class ProductDetailsModel {
 
     }
 
-    public class StoreStock {
+    public class StoreStock implements Serializable {
 
         @SerializedName("store")
         private String store;
@@ -495,7 +496,7 @@ public class ProductDetailsModel {
 
     }
 
-    public class RelatedProduct {
+    public class RelatedProduct implements Serializable {
 
         @SerializedName("sku")
         private String sku;

@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.aubuchon.R;
-import com.aubuchon.model.ProductDetailModel.Product;
 import com.aubuchon.model.ProductDetailsModel;
 
 import java.util.ArrayList;
@@ -22,14 +21,12 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
     private Context context;
     private AdapterView.OnItemClickListener onItemClickListener;
     private ArrayList<ProductDetailsModel.StoreStock> mDataSetFilterData;
-    private Product pDetails;
 
-
-    public LocalInvListAdapter(Context context) {
+    LocalInvListAdapter(Context context) {
         this.context = context;
     }
 
-    public void doRefresh(ArrayList<ProductDetailsModel.StoreStock> dataSet) {
+    void doRefresh(ArrayList<ProductDetailsModel.StoreStock> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }

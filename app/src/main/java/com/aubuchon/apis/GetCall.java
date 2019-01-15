@@ -3,6 +3,7 @@ package com.aubuchon.apis;
 import android.app.Activity;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -65,6 +66,7 @@ public class GetCall {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Logger.json(response.toString());
                 listener.onSucceedToGetCall(response);
             }
 

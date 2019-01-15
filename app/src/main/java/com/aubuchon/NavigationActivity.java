@@ -1,5 +1,6 @@
 package com.aubuchon;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -14,12 +15,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,9 +105,31 @@ public class NavigationActivity extends AppCompatActivity {
                             addFragmentOnTop(HomeFragment.newInstance());*//*
                         }
                     }*/
+                    PermissionListener permissionlistener = new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted() {
+                            // EasyImage.openCamera(getActivity(), 0);
+                            Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
+                            startActivityForResult(intent, SCAN_BARCODE_REQUEST);
 
-                    Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
-                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);
+                        }
+
+                        @Override
+                        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                            Toast.makeText(NavigationActivity.this, getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    };
+
+                    TedPermission.with(NavigationActivity.this)
+                            .setPermissionListener(permissionlistener)
+                            //.setRationaleMessage(getString(R.string.request_camera_permission))
+                            .setDeniedMessage(getString(R.string.on_denied_permission))
+                            .setGotoSettingButtonText(getString(R.string.setting))
+                            .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .check();
+
+                    /*Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
+                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);*/
 
                 }
             });
@@ -178,7 +205,7 @@ public class NavigationActivity extends AppCompatActivity {
                     }
                 }*/
 
-                if(!isHomeFragment()){
+                if (!isHomeFragment()) {
                     getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addFragmentOnTop(HomeFragment.newInstance());
 

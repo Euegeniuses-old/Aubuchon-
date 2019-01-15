@@ -2,18 +2,17 @@ package com.aubuchon.scanner;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aubuchon.R;
-import com.aubuchon.model.KeyValueModel;
-import com.aubuchon.model.ProductDetailModel.Product;
+import com.aubuchon.model.SalesHistoryModel;
 
 import java.util.ArrayList;
 
@@ -22,15 +21,13 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
 
     private Context context;
     private AdapterView.OnItemClickListener onItemClickListener;
-    private ArrayList<KeyValueModel> mDataSetFilterData;
-    private Product pDetails;
+    private ArrayList<SalesHistoryModel> mDataSetFilterData;
 
-
-    public SalesHistoryListAdapter(Context context) {
+    SalesHistoryListAdapter(Context context) {
         this.context = context;
     }
 
-    public void doRefresh(ArrayList<KeyValueModel> dataSet) {
+    void doRefresh(ArrayList<SalesHistoryModel> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }
@@ -38,34 +35,31 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SalesHistoryListAdapter mAdapter;
 
-        TextView tv_key, tv_value;
+        TextView tv_sales_month, tv_sales_store, tv_sales_company;
+        LinearLayout ll_sales_history_item;
 
         ViewHolder(View itemView, final SalesHistoryListAdapter mAdapter) {
             super(itemView);
             this.mAdapter = mAdapter;
 
-            tv_key = itemView.findViewById(R.id.tv_key);
-
-            tv_value = itemView.findViewById(R.id.tv_value);
-
+            ll_sales_history_item = itemView.findViewById(R.id.ll_sales_history_item);
+            tv_sales_month = itemView.findViewById(R.id.tv_sales_month);
+            tv_sales_store = itemView.findViewById(R.id.tv_sales_store);
+            tv_sales_company = itemView.findViewById(R.id.tv_sales_company);
 
             itemView.setOnClickListener(this);
         }
 
-        void setDataToView(KeyValueModel pDetails, final int position) {
+        void setDataToView(SalesHistoryModel sDetails, final int position) {
+            tv_sales_month.setText(sDetails.getMonth());
+            tv_sales_store.setText(String.valueOf(sDetails.getStore()));
+            tv_sales_company.setText(String.valueOf(sDetails.getCompany()));
 
-            tv_key.setText(pDetails.getKey());
-            tv_value.setText(pDetails.getValue());
-
-            if (position % 2 == 0){
-                tv_key.setBackgroundColor(Color.GRAY);
-                tv_value.setBackgroundColor(Color.GRAY);
-            }else{
-                tv_key.setBackgroundColor(Color.WHITE);
-                tv_value.setBackgroundColor(Color.WHITE);
+            if (position % 2 == 0) {
+                ll_sales_history_item.setBackgroundColor(Color.GRAY);
+            } else {
+                ll_sales_history_item.setBackgroundColor(Color.WHITE);
             }
-
-
         }
 
         @Override
@@ -76,7 +70,6 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
             }
         }
     }
-
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -96,9 +89,9 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        KeyValueModel product = mDataSetFilterData.get(position);
+        SalesHistoryModel salesHistoryModel = mDataSetFilterData.get(position);
         try {
-            holder.setDataToView(product, position);
+            holder.setDataToView(salesHistoryModel, position);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,11 +102,11 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
         return mDataSetFilterData.size();
     }
 
-    public KeyValueModel getDataByPosition(int position) {
+    /*public KeyValueModel getDataByPosition(int position) {
         if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
             return mDataSetFilterData.get(position);
         return null;
-    }
+    }*/
 
 
 }

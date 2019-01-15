@@ -1,28 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_sales_history_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_key"
+        android:id="@+id/tv_sales_month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Section"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_month"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14"
-        android:padding="@dimen/dim_5"/>
+        android:textSize="@dimen/text_size_14" />
+
+    <View
+        android:layout_width="@dimen/dim_1"
+        android:layout_height="match_parent"
+        android:background="@android:color/black" />
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/tv_value"
+        android:id="@+id/tv_sales_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="F030-002F"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_store_170"
+        android:textAllCaps="false"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size_14"
-        android:padding="@dimen/dim_5"/>
+        android:textSize="@dimen/text_size_14" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_sales_company"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="@dimen/dim_5"
+        android:text="@string/header_text_company"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_size_14" />
 </LinearLayout>
+
+
+    <!--
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Section"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_14"
+            android:padding="@dimen/dim_5"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="F030-002F"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_14"
+            android:padding="@dimen/dim_5"/>
+    </LinearLayout>
+    -->
