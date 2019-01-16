@@ -24,4 +24,10 @@
 
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="colorControlNormal">@color/color_gray</item>
+        <item name="colorControlActivated">@android:color/black</item>
+    </style>
+
 </resources>

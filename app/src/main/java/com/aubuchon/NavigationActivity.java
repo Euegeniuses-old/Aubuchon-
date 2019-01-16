@@ -151,33 +151,6 @@ public class NavigationActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
-   /* @OnClick({R.id.ll_desc, R.id.tv_desc, R.id.tv_more})
-    public void moreClick() {
-       *//* if (!HomeFragment.newInstance().et_code.getText().toString().isEmpty()) {
-
-            globals.passCode = HomeFragment.newInstance().et_code.getText().toString().trim();
-
-            globals.isFromMenu = false;
-            setToolbar();
-            addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
-            HomeFragment.newInstance().et_code.setText("");
-
-        } else {
-            Globals.showToast(this, getString(R.string.msg_enter_barcode));
-        }*//*
-
-        List<Fragment> frags = getSupportFragmentManager().getFragments();
-        for (Fragment f : frags) {
-            if (f instanceof HomeFragment) {
-                addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
-                scannedCode = "";
-            } else {
-                Globals.showToast(this, "More Item Detail");
-            }
-        }
-    }*/
-
-
     private void showFilterPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.layout_popup_window, null);
@@ -277,7 +250,6 @@ public class NavigationActivity extends AppCompatActivity {
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
 
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-
             toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
             /*globals.passCode = scannedCode;*/
             /*globals.barCode = scannedCode;*/

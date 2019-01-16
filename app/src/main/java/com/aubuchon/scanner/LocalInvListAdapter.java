@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aubuchon.R;
 import com.aubuchon.model.ProductDetailsModel;
 
 import java.util.ArrayList;
-
 
 public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapter.ViewHolder> {
 
@@ -35,17 +35,19 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         private LocalInvListAdapter mAdapter;
 
         TextView tv_store, tv_num, tv_qty;
+        LinearLayout ll_local_inv;
+        View view_separator;
         private ProductDetailsModel.StoreStock storeStock;
 
         ViewHolder(View itemView, final LocalInvListAdapter mAdapter) {
             super(itemView);
             this.mAdapter = mAdapter;
 
+            ll_local_inv = itemView.findViewById(R.id.ll_local_inv);
             tv_store = itemView.findViewById(R.id.tv_store);
-
             tv_num = itemView.findViewById(R.id.tv_num);
-
             tv_qty = itemView.findViewById(R.id.tv_qty);
+            view_separator = itemView.findViewById(R.id.view_separator);
             itemView.setOnClickListener(this);
         }
 
@@ -55,14 +57,14 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             tv_num.setText(storeStock.getStore());
             tv_qty.setText(String.valueOf(storeStock.getQty()));
 
+            /*Handle visibility of Black Horizontal Separator line*/
+            view_separator.setVisibility((position == 4) ? View.VISIBLE : View.GONE);
+
+            /*Handle Background color*/
             if (position % 2 == 0) {
-                tv_store.setBackgroundColor(Color.GRAY);
-                tv_num.setBackgroundColor(Color.GRAY);
-                tv_qty.setBackgroundColor(Color.GRAY);
+                ll_local_inv.setBackgroundColor(Color.GRAY);
             } else {
-                tv_store.setBackgroundColor(Color.WHITE);
-                tv_num.setBackgroundColor(Color.WHITE);
-                tv_qty.setBackgroundColor(Color.WHITE);
+                ll_local_inv.setBackgroundColor(Color.WHITE);
             }
         }
 
@@ -74,7 +76,6 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             }
         }
     }
-
 
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -97,6 +98,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         ProductDetailsModel.StoreStock stock = mDataSetFilterData.get(position);
         try {
             holder.setDataToView(stock, position);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,11 +109,10 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         return mDataSetFilterData.size();
     }
 
-  /*  public ProductDetailModel.Product getDataByPosition(int position) {
+    /*  public ProductDetailModel.Product getDataByPosition(int position) {
         if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
             return mDataSetFilterData.get(position);
         return null;
     }*/
-
 
 }

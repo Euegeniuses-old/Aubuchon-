@@ -4,11 +4,13 @@ public class SalesHistoryModel {
     private String month;
     private int store;
     private int company;
+    private int year;
 
-    public SalesHistoryModel(String month, int store, int company) {
+    public SalesHistoryModel(String month, int store, int company, int year) {
         this.month = month;
         this.store = store;
         this.company = company;
+        this.year = year;
     }
 
     public String getMonth() {
@@ -33,5 +35,13 @@ public class SalesHistoryModel {
 
     public void setCompany(int company) {
         this.company = company;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }

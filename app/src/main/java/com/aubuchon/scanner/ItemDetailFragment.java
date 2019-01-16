@@ -35,6 +35,8 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,7 +78,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     NavigationActivity mContext;
     Globals globals;
     boolean isFromRelated = false;
-
 
     @Override
     public void onAttach(Context context) {
@@ -228,7 +229,10 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
                     if (isFromRelated) {
                         fab_prev_item.setVisibility(View.VISIBLE);
+                    } else {
+                        fab_prev_item.setVisibility(View.GONE);
                     }
+
                     rg1.check(R.id.btn_inquiry);
 
                     setInquiryData();
@@ -352,7 +356,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         inquiryData.add(new KeyValueModel("Available", String.valueOf(productArrayList.get(0).getAvailable())));
         inquiryData.add(new KeyValueModel("Section", productArrayList.get(0).getSection()));
         inquiryData.add(new KeyValueModel("Speed #", productArrayList.get(0).getSpeedNo()));
-
+        /* inquiryData.add(new KeyValueModel("Rating",String.valueOf(3)));*/
 
         /*Sorting in ArrayList*/
         /*Collections.sort(inquiryData, new Comparator<KeyValueModel>() {
@@ -375,14 +379,45 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     public void setLocalInvData() {
 
         stockArrayList = new ArrayList<>();
+        ArrayList<ProductDetailsModel.StoreStock> storeStockArrayList = new ArrayList<>();
         if (productDetailModel.getStoreStock() != null && productDetailModel.getStoreStock().size() > 0) {
             stockArrayList = productDetailModel.getStoreStock();
-        } else {
-            stockArrayList = new ArrayList<>();
+
+            Collections.sort(stockArrayList, new Comparator<ProductDetailsModel.StoreStock>() {
+                @Override
+                public int compare(ProductDetailsModel.StoreStock o1, ProductDetailsModel.StoreStock o2) {
+                    /*Descending order*/
+                    /* return o2.getLocal() - o1.getLocal();*/
+
+                    return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+                }
+            });
+
+            for (int i = 0; i < stockArrayList.size(); i++) {
+                if (stockArrayList.get(i).getLocal() == 1) {
+                    storeStockArrayList.add(stockArrayList.get(i));
+                }
+            }
+            for (int i = 0; i < stockArrayList.size(); i++) {
+                if (stockArrayList.get(i).getLocal() == 1) {
+                    stockArrayList.remove(i);
+                }
+            }
+
+            //Sorting in Alphabetic order
+           /* Collections.sort(stockArrayList, new Comparator<ProductDetailsModel.StoreStock>() {
+                @Override
+                public int compare(ProductDetailsModel.StoreStock o1, ProductDetailsModel.StoreStock o2) {
+                    *//*return o2.getLocal() - o1.getLocal();*//*
+                    return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
+                }
+            });*/
+
+            storeStockArrayList.addAll(stockArrayList);
         }
 
         LocalInvListAdapter localInvListAdapter = new LocalInvListAdapter(getActivity());
-        localInvListAdapter.doRefresh(stockArrayList);
+        localInvListAdapter.doRefresh(storeStockArrayList);
         if (rv_local_inventory.getAdapter() == null) {
             rv_local_inventory.setHasFixedSize(false);
             rv_local_inventory.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -402,9 +437,24 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             for (int i = 0; i < storesByMonthsList.size(); i++) {
                 salesHistoryModel.add(new SalesHistoryModel(storesByMonthsList.get(i).getMonStr() + " " + storesByMonthsList.get(i).getYr(),
                         storesByMonthsList.get(i).getQty(),
-                        companyByMonthsList.get(i).getQty()));
+                        companyByMonthsList.get(i).getQty(), storesByMonthsList.get(i).getYr()));
             }
         }
+
+        /*Collections.sort(salesHistoryModel, new Comparator<SalesHistoryModel>() {
+            @Override
+            public int compare(SalesHistoryModel o1, SalesHistoryModel o2) {
+                return o1.getMonth().toLowerCase().compareTo(o2.getMonth().toLowerCase());
+            }
+        });*/
+
+        Collections.sort(salesHistoryModel, new Comparator<SalesHistoryModel>() {
+            @Override
+            public int compare(SalesHistoryModel o1, SalesHistoryModel o2) {
+                return o2.getYear() - o1.getYear();
+            }
+        });
+
 
         SalesHistoryListAdapter storeListAdapter = new SalesHistoryListAdapter(getActivity());
         storeListAdapter.doRefresh(salesHistoryModel);
@@ -413,9 +463,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             rv_sales_history.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
         rv_sales_history.setAdapter(storeListAdapter);
-
     }
 
+    /*Related Data*/
     public void setRelatedData() {
         relatedProducts = new ArrayList<>();
         relatedProducts = productDetailModel.getRelatedProducts();
@@ -425,24 +475,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         if (rv_related_products.getAdapter() == null) {
             rv_related_products.setHasFixedSize(false);
             rv_related_products.setLayoutManager(new LinearLayoutManager(getActivity()));
-            rv_related_products.setAdapter(relatedProductsAdapter);
         }
+        rv_related_products.setAdapter(relatedProductsAdapter);
 
-    }
-
-    @OnClick(R.id.fab_prev_item)
-    public void fabClick() {
-        // Globals.showToast(mContext, "Previous SKU: " + globals.getPreviousProductCode());
-        data = globals.getPreviousProductCode();
-        doRequestForGetProductDetail();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        //  Globals.showToast(mContext, relatedProducts.get(i).getSku());
-        data = relatedProducts.get(i).getSku();
-        isFromRelated = true;
-        doRequestForGetProductDetail();
     }
 
     /*Order Info Data*/
@@ -463,6 +498,24 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
         rv_order_info.setAdapter(inquiryListAdapter);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @OnClick(R.id.fab_prev_item)
+    public void fabClick() {
+        /*  fab_prev_item.setVisibility(View.GONE);*/
+        data = globals.getPreviousProductCode();
+        isFromRelated = false;
+        globals.isFromMenu = false;
+        doRequestForGetProductDetail();
+    }
+
+    /*Handle Click event of Related Items*/
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        data = relatedProducts.get(i).getSku();
+        isFromRelated = true;
+        doRequestForGetProductDetail();
     }
 
 }
