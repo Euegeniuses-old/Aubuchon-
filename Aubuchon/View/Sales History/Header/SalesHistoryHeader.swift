@@ -15,7 +15,10 @@ class SalesHistoryHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var lblStore: UILabel!
     @IBOutlet weak var lblCompany: UILabel!
     
-     override func awakeFromNib() {
-        
+    @IBOutlet weak var monthView: UIView!
+    override func awakeFromNib() {
+//        monthView.layer.borderWidth = 1
+//        monthView.layer.borderColor = UIColor.black.cgColor
+      //  monthView.addBorder(toEdges: [ .top], color: UIColor.black, thickness: 1)
     }
 }

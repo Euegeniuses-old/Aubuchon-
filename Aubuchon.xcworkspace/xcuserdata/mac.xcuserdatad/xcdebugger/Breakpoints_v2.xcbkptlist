@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"
             endingLineNumber = "97"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "132"
             endingLineNumber = "132"
-            landmarkName = "fetchProductInfo(barcodeForProduct:)"
+            landmarkName = "relatedItemsCelldataNotification(notification:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -415,7 +415,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "579"
             endingLineNumber = "579"
-            landmarkName = "moveOnMainScreen()"
+            landmarkName = "showAndHideFilterMenu()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -495,7 +495,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "552"
             endingLineNumber = "552"
-            landmarkName = "registerXib()"
+            landmarkName = "storeDataInUserDefault()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -527,7 +527,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "458"
             endingLineNumber = "458"
-            landmarkName = "storeDataInUserDefault()"
+            landmarkName = "buttonColorFormattor(button:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -575,7 +575,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "515"
             endingLineNumber = "515"
-            landmarkName = "uiButtons()"
+            landmarkName = "buttonColorFormattor(button:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -591,7 +591,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "572"
             endingLineNumber = "572"
-            landmarkName = "registerXib()"
+            landmarkName = "showAndHideFilterMenu()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -623,7 +623,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "99"
             endingLineNumber = "99"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -687,7 +687,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
             endingLineNumber = "120"
-            landmarkName = "fetchProductInfo(barcodeForProduct:)"
+            landmarkName = "viewDidDisappear(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -719,7 +719,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
             endingLineNumber = "96"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
             <Locations>
                <Location
@@ -767,7 +767,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
             endingLineNumber = "100"
-            landmarkName = "viewWillAppear(_:)"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

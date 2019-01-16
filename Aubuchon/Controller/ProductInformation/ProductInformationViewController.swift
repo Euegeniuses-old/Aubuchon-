@@ -12,6 +12,11 @@ struct Objects {
     var inqueryValues : String!
     var id:Int!
 }
+struct orderInfoObjects {
+    var orderInfoTitle : String!
+    var orderInfoValues : String!
+    var id:Int!
+}
 class ProductInformationViewController: UIViewController {
     
     //Outlets
@@ -23,6 +28,8 @@ class ProductInformationViewController: UIViewController {
     @IBOutlet weak var btnRelatedIntems: UIButton!
     @IBOutlet weak var btnTBDOne: UIButton!
     @IBOutlet weak var btnTBDTwo: UIButton!
+    
+    @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var productCollectionView: UICollectionView!
     @IBOutlet weak var productTableView: UITableView!
     @IBOutlet weak var collectionViewCell: UICollectionViewCell!
@@ -49,6 +56,7 @@ class ProductInformationViewController: UIViewController {
     var inquiryValue:[String] = []
     var inqueryData : [String:Any] = [:]
     var objectsArray = [Objects]()
+    var onderInfoArray = [orderInfoObjects]()
     var localNVStore : [String] = ["Gardner","Lunenburg","Littleton","Keene","Winchester","Walpole","Lunenburg"]
     var localINVNum : [String] = ["004","069","065","030","101","044","069"]
     var localINVQty : [String] = ["1877","0012","0001","1585","1001","9988","0012"]
@@ -63,12 +71,16 @@ class ProductInformationViewController: UIViewController {
     var menu : [String] = ["Home","Product Info"]
     var isMenuVisible : Bool = false
     var dataforInquery:String = ""
+    var isfromBack:Bool = false
+    var isTopFiveINV:Bool = true
     var storeStockArray = [StoreStock]()
-    
+    var storeByMonthArray = [StoresByMonth]()
+    var storeCompanyByMonthArray = [CompanyByMonth]()
+    var storeRelatedProductArray = [RelatedProduct]()
     //MARK:- life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        isfromBack = false
         screen = 1
         btnInquery.backgroundColor = UIColor.black
         btnInquery.setTitleColor(.white, for: .normal)
@@ -84,10 +96,10 @@ class ProductInformationViewController: UIViewController {
         hideMenuView()
         registerXib()
         uiButtons()
-        objectsArray.removeAll()
-        storeStockArray.removeAll()
+        removeAllArrayData()
         fetchProductInfo(barcodeForProduct: barcode)
-        
+         NotificationCenter.default.addObserver(self, selector:#selector(relatedItemsCelldataNotification), name: NSNotification.Name(rawValue: "relatedItemsCelldata"), object: nil)
+        isTopFiveINV = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,12 +113,31 @@ class ProductInformationViewController: UIViewController {
         }
         
     }
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        //remove observer notification
+      
+        NotificationCenter.default.removeObserver("relatedItemsCelldata")
+    }
+    @objc func relatedItemsCelldataNotification(notification: NSNotification){
+        
+        screen = 1
+        buttonColorFormattor(button: btnInquery)
+        isfromBack = false
+        self.btnBack.isHidden = false
+        self.removeAllArrayData()
+       barcode = Constant.kAppDelegate.relatedItemCellSku
+        fetchProductInfo(barcodeForProduct: Constant.kAppDelegate.relatedItemCellSku)
+        lblSKU.text = "SKU:\(Constant.kAppDelegate.relatedItemCellSku)"
+    }
     //MARK:- Product API call
     func fetchProductInfo(barcodeForProduct:String) {
-        ImageUpload.displayProductInfo(with: 156, data: barcodeForProduct, success: { (response, isSuccess,localINV) in
-            print(response.count)
+        ImageUpload.displayProductInfo(with: 156, data: barcodeForProduct, success: { (response, isSuccess,storeByMonth,companyByMonth,localINV,relatedProduct) in
+           
             self.inqueryData = response
+            if self.isfromBack == true {
+                self.btnBack.isHidden = true
+            }
             if response.count != 0 {
                 if Constant.kAppDelegate.isOldProductData != true {
                     self.storeDataInUserDefault()
@@ -128,24 +159,29 @@ class ProductInformationViewController: UIViewController {
                         self.objectsArray.append(Objects(inqueryTitle: "Item Number" , inqueryValues: value as? String ?? "-",id:1))
                         
                         
-                    } else if key as? String ?? "" == "webDesc" {
-                        self.btnMore.isHidden = false
-                        self.lblMoreUndreLine.isHidden = false
-                        var desc = value as? String
-                        self.lblDesc.text = "DESC:" + desc!
-                        self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: value as? String ?? "-",id:2))
-                        
-                    } else if key as? String ?? "" == "retailPrice" {
+                    }
+//                    else if key as? String ?? "" == "webDesc" {
+//                        self.btnMore.isHidden = false
+//
+//                        self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: value as? String ?? "-",id:2))
+//
+//                    }
+                    else if key as? String ?? "" == "retailPrice" {
                         var Price = value as! Double
                         self.dataforInquery = String(Price)
                         self.objectsArray.append(Objects(inqueryTitle: "Price" , inqueryValues: self.dataforInquery ?? "-",id:3))
                         
                     } else if key as? String ?? "" == "promoPrice" {
-                        self.objectsArray.append(Objects(inqueryTitle: "promo" , inqueryValues: value as? String ?? "-",id:3))
+                        if value as? String == "" {
+                            self.objectsArray.append(Objects(inqueryTitle: "promo" , inqueryValues: "-",id:3))
+                        } else {
+                            self.objectsArray.append(Objects(inqueryTitle: "promo" , inqueryValues: value as? String ?? "-",id:3))
+                        }
                     } else if key as? String ?? "" == "onHandAmt" {
                         var onHandAmtdata = value as! Int
                         self.dataforInquery = String(onHandAmtdata)
                         self.objectsArray.append(Objects(inqueryTitle: "OH" , inqueryValues: self.dataforInquery ?? "-",id:4))
+                        self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "QTY on Order" , orderInfoValues: self.dataforInquery,id:2))
                     } else if key as? String ?? "" == "available" {
                         var availableData =  value as! Int
                         self.dataforInquery = String(availableData)
@@ -155,13 +191,38 @@ class ProductInformationViewController: UIViewController {
                     } else if key as? String ?? "" == "speedNo" {
                         self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: value as? String ?? "-",id:7))
                         
+                    } else if key as? String ?? "" == "posDesc" {
+                        self.lblMoreUndreLine.isHidden = false
+                        self.btnMore.isHidden = false
+                        var desc = value as? String
+                        self.lblDesc.text =  desc ?? ""
+                        self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: value as? String ?? "-",id:2))
+                    } else if key as? String ?? "" == "lastSoldDate" {
+                        self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:value as? String ?? "-",id:1))
+                    } else if key as? String ?? "" ==  "supplierName" {
+                         self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Primary Vendor" , orderInfoValues:value as? String ?? "-",id:3))
+                    }  else if key as? String ?? "" == "supplier" {
+                         self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Vendor#" , orderInfoValues:value as? String ?? "-",id:4))
+                    } else if key as? String ?? "" ==  "lastDelDate" {
+                        self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Delivery Date" , orderInfoValues:value as? String ?? "-",id:5))
                     }
+                    
                 }
-                self.storeStockArray = localINV
-                print(self.storeStockArray.count)
+                
 
                 
+                self.storeStockArray = localINV
+                self.storeStockArray.sort(by: { $0.local < $1.local })
+                
+                self.storeByMonthArray = storeByMonth
+                self.storeByMonthArray.sort(by: { $0.yr > $1.yr})
+                self.storeCompanyByMonthArray = companyByMonth
+                self.storeCompanyByMonthArray.sort(by: { $0.yr > $1.yr })
+               self.storeRelatedProductArray = relatedProduct
+               
+                
                 self.objectsArray.sort(by: { $0.id < $1.id })
+                self.onderInfoArray.sort(by:{$0.id < $1.id})
                 self.productTableView.reloadData()
             } else {
                 // UserDefaults.standard.setCurrentSKU(value: "")
@@ -180,7 +241,7 @@ class ProductInformationViewController: UIViewController {
                 }
             }
         }) { (response, issuccess) in
-            print(response)
+            
             if response == Constant.alertTitleMessage.validBarcode {
                 DispatchQueue.main.async {
                     UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
@@ -206,9 +267,7 @@ class ProductInformationViewController: UIViewController {
     @IBAction func btnInquiry_Action(_ sender: Any) {
         screen = 1
         buttonColorFormattor(button: btnInquery)
-//        objectsArray.removeAll()
-//        storeStockArray.removeAll()
-//        fetchProductInfo(barcodeForProduct: barcode)
+
          self.productTableView.reloadData()
     }
     
@@ -222,6 +281,7 @@ class ProductInformationViewController: UIViewController {
     //btnLocalInv action
     @IBAction func btnLocalINV_Action(_ sender: Any) {
         screen = 3
+        isTopFiveINV = true
         buttonColorFormattor(button: btnLocalINV)
         self.productTableView.reloadData()
     }
@@ -237,6 +297,7 @@ class ProductInformationViewController: UIViewController {
     @IBAction func btnSalesHistory_Action(_ sender: Any) {
         screen = 5
         buttonColorFormattor(button: btnSalesHistory)
+
         self.productTableView.reloadData()
     }
     
@@ -244,6 +305,7 @@ class ProductInformationViewController: UIViewController {
     @IBAction func btnRelatedItems_Action(_ sender: Any) {
         screen = 6
         buttonColorFormattor(button: btnRelatedIntems)
+
         self.productTableView.reloadData()
     }
     
@@ -276,16 +338,32 @@ class ProductInformationViewController: UIViewController {
         if screen != 1 {
             screen = 1
             buttonColorFormattor(button: btnInquery)
-            objectsArray.removeAll()
-            storeStockArray.removeAll()
+            removeAllArrayData()
+            isfromBack = false
             fetchProductInfo(barcodeForProduct: barcode)
         }
+    }
+    
+    @IBAction func btnBack_Action(_ sender: Any) {
+        self.removeAllArrayData()
+        isfromBack = true
+        lblSKU.text = "SKU:\(UserDefaults.standard.getOldSKU())"
+        barcode = UserDefaults.standard.getOldSKU()
+         fetchProductInfo(barcodeForProduct: UserDefaults.standard.getOldSKU())
     }
     
     
     
     //MARK:- Private functions
     
+    func removeAllArrayData() {
+        objectsArray.removeAll()
+        storeStockArray.removeAll()
+        storeByMonthArray.removeAll()
+        storeCompanyByMonthArray.removeAll()
+        onderInfoArray.removeAll()
+        storeRelatedProductArray.removeAll()
+    }
     // Open  MTBScanner
     func openMTBScanner() {
         let  ScannerVC:
@@ -545,6 +623,9 @@ class ProductInformationViewController: UIViewController {
         
         btnMore.isHidden = true
         lblMoreUndreLine.isHidden = true
+        
+        btnBack.layer.cornerRadius = btnBack.layer.frame.width * 0.5
+        btnBack.isHidden = true
     }
     
     
@@ -585,6 +666,9 @@ class ProductInformationViewController: UIViewController {
         
         productTableView.register(UINib(nibName: "ReviewTableViewCell", bundle: nil), forCellReuseIdentifier: "ReviewTableViewCell")
         
+        //Realted Items
+         productTableView.register(UINib(nibName: "RelatedTableViewCell", bundle: nil), forCellReuseIdentifier: "RelatedTableViewCell")
+        
         
     }
     
@@ -617,8 +701,9 @@ class ProductInformationViewController: UIViewController {
                 Constant.kAppDelegate.isOldProductData = true
                 
                 lblSKU.text = ("SKU:\(UserDefaults.standard.getOldSKU())")
-                objectsArray.removeAll()
-                storeStockArray.removeAll()
+//                objectsArray.removeAll()
+//                storeStockArray.removeAll()
+                self.removeAllArrayData()
                 fetchProductInfo(barcodeForProduct: UserDefaults.standard.getOldSKU())
             }
             
@@ -651,7 +736,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             return headerView
         } else if screen == 5 {
             let headerView = self.productTableView.dequeueReusableHeaderFooterView(withIdentifier: "SalesHistoryHeader" ) as! SalesHistoryHeader
-            headerView.lblStore.text = "STORE 170"
+            headerView.lblStore.text = "STORE"
             headerView.lblCompany.text = "COMPANY"
             return headerView
         } else {
@@ -669,19 +754,20 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
         } else {
             if screen == 1 {
                 return objectsArray.count
-                //  return productData.count
-                // return inquiryValue.count
-                // return inquiryArray.count
+               
             } else if screen == 2 {
                 return 1
             } else if screen == 3 {
                 //return 7
                 return storeStockArray.count
             } else if screen == 4 {
-                return 6
+                //return 6
+                return onderInfoArray.count
             } else if screen == 5 {
-                return 7
+               // return 7
+                return storeCompanyByMonthArray.count
             } else if screen == 6 {
+//                return storeRelatedProductArray.count
                 return 1
             } else if screen == 7 || screen == 8 {
                 return 1
@@ -718,13 +804,26 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 } else {
                     cell.localInvView.backgroundColor = UIColor.white
                 }
+//                if storeStockArray[indexPath.row].local == 1 {
+//                    if isTopFiveINV {
+//                        isTopFiveINV = false
+//                    cell.addBorder(toEdges: .top, color: UIColor.black, thickness: 3)
+//                    }
+//
+//                }
+                if indexPath.row == 5 {
+                     if isTopFiveINV {
+                        isTopFiveINV = false
+                    cell.addBorder(toEdges: .top, color: UIColor.black, thickness: 3)
+                    }
+                }
+              
+                
                 cell.lblStore.text = storeStockArray[indexPath.row].name
                 cell.lblNum.text = storeStockArray[indexPath.row].store
                 cell.lblQty.text = String(storeStockArray[indexPath.row].qty)
 
-//                cell.lblStore.text = localNVStore[indexPath.row]
-//                cell.lblNum.text = localINVNum[indexPath.row]
-//                cell.lblQty.text = localINVQty[indexPath.row]
+                
                 return cell
             } else if screen == 4 {
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "OrderInfo", for: indexPath) as! OrderInfoTableViewCell
@@ -733,10 +832,10 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 } else {
                     cell.OrderInfoView.backgroundColor = UIColor.white
                 }
-                cell.lblOrderTitle.text = orderInfoList[indexPath.row]
-                cell.lblOrderValue.text = orderInfoValue[indexPath.row]
+                cell.lblOrderTitle.text = onderInfoArray[indexPath.row].orderInfoTitle
+                cell.lblOrderValue.text = onderInfoArray[indexPath.row].orderInfoValues
                 return cell
-            } else if screen == 2  || screen == 6 {
+            } else if screen == 2  {
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "PhotoTableViewCell", for: indexPath) as! PhotoTableViewCell
                 if screen == 2 {
                     cell.imageData = self.image
@@ -754,20 +853,36 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 } else {
                     cell.salesHistoryView.backgroundColor = UIColor.white
                 }
-                cell.lblStoreMonth.text = salesHistoryMonths[indexPath.row]
-                cell.lblStoreValue.text = salesHistoryStoreValue[indexPath.row]
-                cell.lblCompanyMonth.text = salesHistoryMonths[indexPath.row]
-                cell.lblCompanyValue.text = salesHistoryCompanyValue[indexPath.row]
+             //   cell.lblMonth.text = salesHistoryMonths[indexPath.row]
+//                cell.lblMonthView.layer.borderColor = UIColor.black.cgColor
+//                cell.lblMonthView.layer.borderWidth = 1.0
+                
+               // cell.lblStoreMonth.text = salesHistoryMonths[indexPath.row]
+                cell.lblMonth.text = storeByMonthArray[indexPath.row].monStr + " " + String(storeByMonthArray[indexPath.row].yr)
+                
+//                cell.lblStoreValue.text = salesHistoryStoreValue[indexPath.row]
+//                cell.lblCompanyValue.text = salesHistoryCompanyValue[indexPath.row]
+                cell.lblStoreValue.text = String(storeByMonthArray[indexPath.row].qty)
+                cell.lblCompanyValue.text = String(storeCompanyByMonthArray[indexPath.row].qty)
                 return cell
                 
-            } else if screen == 7 || screen == 8 {
+            } else if screen == 6 {
+                let cell = productTableView.dequeueReusableCell(withIdentifier: "RelatedTableViewCell", for: indexPath) as! RelatedTableViewCell
+                
+               cell.productDisplayData = storeRelatedProductArray
+                if Constant.kAppDelegate.isReloadRelatedItem == false {
+                    cell.realodCollectionView(cellHeight: self.tableView.frame.size.height)
+                }
+                return cell
+            }
+            else if screen == 7 || screen == 8 {
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
                 cell.cellHeightConstrain.constant = UIScreen.main.bounds.size.height
-                if screen == 7 {
-                    cell.lblMsg.text = "Review coming soon"
-                } else {
+//                if screen == 7 {
+//                    cell.lblMsg.text = "Review coming soon"
+//                } else {
                     cell.lblMsg.text = "TBD coming soon"
-                }
+              //  }
                 
                 return cell
             }
@@ -788,7 +903,8 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             if screen == 7 && screen == 8 {
                 return 800
             } else {
-                return 70
+//                return 70
+                return 110
             }
         }
     }
@@ -796,7 +912,11 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if screen == 7 && screen == 8 {
             return 800
-        } else {
+        }
+        else if screen == 6 {
+            return self.tableView.frame.height
+        }
+        else {
             return UITableViewAutomaticDimension
         }
     }
@@ -807,13 +927,13 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             menuItemSelected(Row: indexPath.row)
         }
     }
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        if screen == 7 && screen == 8 {
-            return UIScreen.main.bounds.size.height
-        } else {
-            return 70
-        }
-    }
+//    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+//        if screen == 7 && screen == 8 {
+//            return UIScreen.main.bounds.size.height
+//        } else {
+//            return 70
+//        }
+//    }
 }
 extension UIButton {
     internal func buttonFormator(borderwidth:CGFloat! = nil,borderColor:CGColor! = nil,cornerRadious:CGFloat! = nil) {

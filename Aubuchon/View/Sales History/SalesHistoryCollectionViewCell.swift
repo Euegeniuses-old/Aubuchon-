@@ -16,4 +16,10 @@ class SalesHistoryCollectionViewCell: UITableViewCell {
     @IBOutlet weak var lblStoreValue: UILabel!
     @IBOutlet weak var lblCompanyMonth: UILabel!
     @IBOutlet weak var lblCompanyValue: UILabel!
+    @IBOutlet weak var lblMonth: UILabel!
+    
+    @IBOutlet weak var lblMonthView: UIView!
+    override func awakeFromNib() {
+        self.lblMonthView.addBorder(toEdges: [ .right], color: UIColor.black, thickness: 1)
+    }
 }

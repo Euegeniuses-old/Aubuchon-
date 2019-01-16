@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" restorationIdentifier="OrderInfo" id="gCf-fv-uZ1" customClass="OrderInfoTableViewCell" customModule="Aubuchon" customModuleProvider="target">
+        <view contentMode="scaleToFill" restorationIdentifier="OrderInfo" id="gCf-fv-uZ1" customClass="OrderInfoTableViewCell" customModule="WEATCB" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="289" height="37"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -23,8 +23,8 @@
                             <rect key="frame" x="0.0" y="0.0" width="144.5" height="37"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NzA-SC-JRB">
-                                    <rect key="frame" x="10" y="10" width="100" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <rect key="frame" x="10" y="10" width="107" height="21"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -38,8 +38,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pxd-3b-Flt">
                             <rect key="frame" x="144.5" y="0.0" width="144.5" height="37"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129991" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cz-hC-qww">
-                                    <rect key="frame" x="0.0" y="10" width="56.5" height="20.5"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="129991" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cz-hC-qww">
+                                    <rect key="frame" x="0.0" y="10" width="144.5" height="20.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -49,6 +49,7 @@
                             <constraints>
                                 <constraint firstItem="4cz-hC-qww" firstAttribute="top" secondItem="Pxd-3b-Flt" secondAttribute="top" constant="10" id="dZL-QV-VZz"/>
                                 <constraint firstItem="4cz-hC-qww" firstAttribute="leading" secondItem="Pxd-3b-Flt" secondAttribute="leading" id="kj0-A0-er9"/>
+                                <constraint firstAttribute="trailing" secondItem="4cz-hC-qww" secondAttribute="trailing" id="qNf-fn-IvZ"/>
                             </constraints>
                         </view>
                     </subviews>

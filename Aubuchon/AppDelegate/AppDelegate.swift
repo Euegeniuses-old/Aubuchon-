@@ -15,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var barcodeNumber:String = ""
     var isBackFromProduct : Bool = false
     var isOldProductData : Bool = false
-    
+    var isReloadRelatedItem:Bool = false
+    var relatedItemCellSku:String = ""
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         IQKeyboardManager.shared.enable = true

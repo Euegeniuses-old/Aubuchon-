@@ -43,18 +43,73 @@ let kaltUPC = "altUPC"
 let kStore = "store"
 let kName = "name"
 let kQty = "qty"
-
+let kMonStr = "monStr"
+let kMon = "mon"
+let kYr = "yr"
+let kStoreStock = "StoreStock"
+let kProduct = "product"
+let kStoresByMonth = "StoresByMonth"
+let  kCompanyByMonth = "CompanyByMonth"
+let kRelatedProducts = "RelatedProducts"
+let kSku = "sku"
+let kImage = "image"
+let kwebDesc = "webDesc"
+let kPromoPrice = "promoPrice"
+let kRanking = "ranking"
+let kLocal = "local"
 class StoreStock: NSObject {
-    let store, name: String
-    let qty: Int
+    var store, name: String
+    var qty:Int
+    var local: Int
     var storeINVData: [ImageUpload]
      init?(dictionary: [String:Any]) {
-         self.storeINVData = (dictionary["StoreStock"] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
+         self.storeINVData = (dictionary[kStoreStock] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
         self.store = dictionary[kStore] as? String ?? ""
         self.name = dictionary[kName] as? String ?? ""
         self.qty = dictionary[kQty] as? Int ?? 0
+        self.local = dictionary[kLocal] as? Int ?? 0
     }
     
+}
+struct StoresByMonth: Codable {
+    let qty: Int
+    let monStr: String
+    let mon, yr: Int
+    init?(dictionary: [String:Any]) {
+        self.qty = dictionary[kQty] as? Int ?? 0
+        self.monStr = dictionary[kMonStr] as? String ?? ""
+        self.mon = dictionary[kMon] as? Int ?? 0
+        self.yr = dictionary[kYr] as? Int ?? 0
+    }
+}
+struct CompanyByMonth: Codable {
+    let qty: Int
+    let monStr: String
+    let mon, yr: Int
+    init?(dictionary: [String:Any]) {
+        self.qty = dictionary[kQty] as? Int ?? 0
+        self.monStr = dictionary[kMonStr] as? String ?? ""
+        self.mon = dictionary[kMon] as? Int ?? 0
+        self.yr = dictionary[kYr] as? Int ?? 0
+    }
+}
+struct RelatedProduct: Codable {
+    let sku: String
+    let image: String
+    let webDesc: String
+    let retailPrice: Double
+    let promoPrice: String
+    let ranking: Int
+    let local: Int
+     init?(dictionary: [String:Any]) {
+        self.sku = dictionary[kSku] as? String ?? ""
+        self.image = dictionary[kImage] as? String ?? ""
+        self.webDesc = dictionary[kwebDesc] as? String ?? ""
+        self.retailPrice = dictionary[kretailPrice] as? Double ?? 0
+        self.promoPrice = dictionary[kPromoPrice] as? String ?? ""
+        self.ranking = dictionary[kRanking] as? Int ?? 0
+        self.local = dictionary[kLocal] as? Int ?? 0
+    }
 }
 class ImageUpload: NSObject, NSCoding {
     var Planogram:String
@@ -237,7 +292,7 @@ class ImageUpload: NSObject, NSCoding {
     //MARK:- display product information
     class func displayProductInfo(with branchcode: Int,
                                   data:String,
-                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ localINV: [StoreStock])-> (), failure: @escaping FailureBlock) {
+                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool,_ storeByMonth:[StoresByMonth], _ companyByMonth:[CompanyByMonth], _ localINV: [StoreStock],_ relatedProductData:[RelatedProduct])-> (), failure: @escaping FailureBlock) {
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
         let param:[String:Any] = [kbarcode:branchcode,kdata:data]
@@ -252,10 +307,12 @@ class ImageUpload: NSObject, NSCoding {
             let dict = response as? [String:Any] ?? [:]
             //print(dict)
             
-           let responseDic = dict["product"] as? [[String:Any]] ?? [[:]]
-            let arrayStock = dict["StoreStock"] as? [[String:Any]] ?? [[:]]
+           let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
+            let arrayStock = dict[kStoreStock] as? [[String:Any]] ?? [[:]]
+            let responseStoresByMonth = dict[kStoresByMonth] as? [[String:Any]] ?? [[:]]
+            let responseCompanyByMonth = dict[kCompanyByMonth] as? [[String:Any]] ?? [[:]]
+            let responseRelatedItems = dict[kRelatedProducts] as? [[String:Any]] ?? [[:]]
             
-          
             if responseDic.count == 0 {
                
                 failure(Constant.alertTitleMessage.validBarcode,false)
@@ -263,14 +320,35 @@ class ImageUpload: NSObject, NSCoding {
                 
                 let res = responseDic[0]
                 
-
                 var array1 = [StoreStock]()
                 for i in arrayStock {
                     if let obj = StoreStock(dictionary: i){
                         array1.append(obj)
                     }
                 }
-                withResponse(res , true, array1)
+                
+                var arrayStoresByMonth = [StoresByMonth]()
+                for i in responseStoresByMonth {
+                    if let storesByMonthObj = StoresByMonth(dictionary: i) {
+                        arrayStoresByMonth.append(storesByMonthObj)
+                    }
+                }
+                
+                var arrayCompanyByMonth = [CompanyByMonth]()
+                for i in responseCompanyByMonth {
+                    if let companyByMonthObj = CompanyByMonth(dictionary: i) {
+                        arrayCompanyByMonth.append(companyByMonthObj)
+                    }
+                }
+                var arrayRelatedProduct = [RelatedProduct]()
+                for i in responseRelatedItems{
+                    if let relatedProductObj = RelatedProduct(dictionary: i) {
+                        arrayRelatedProduct.append(relatedProductObj)
+                    }
+                }
+                
+               // withResponse(res , true, array1,arrayStoresByMonth,arrayCompanyByMonth)
+                withResponse(res,true,arrayStoresByMonth,arrayCompanyByMonth,array1, arrayRelatedProduct)
             }
 
         }, failure: { (error) in
