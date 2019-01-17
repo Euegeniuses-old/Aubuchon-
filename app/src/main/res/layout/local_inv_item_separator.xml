@@ -7,7 +7,7 @@
     <View
         android:id="@+id/view_separator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dim_2"
+        android:layout_height="@dimen/dim_5"
         android:layout_marginTop="@dimen/dim_2"
         android:layout_marginBottom="@dimen/dim_2"
         android:visibility="gone"

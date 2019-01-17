@@ -42,7 +42,7 @@
     <string name="header_text_store">Store</string>
     <string name="header_text_num">Num</string>
     <string name="header_text_qty">Qty</string>
-    <string name="header_text_store_170">Store</string>
+    <string name="header_text_store_170">170</string>
     <string name="header_text_company">Company</string>
     <string name="header_text_month">Month</string>
     <string name="text_sku">SKU : %1$s</string>

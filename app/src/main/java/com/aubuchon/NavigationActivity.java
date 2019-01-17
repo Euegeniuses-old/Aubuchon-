@@ -72,15 +72,6 @@ public class NavigationActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-           /* List<Fragment> frags = getSupportFragmentManager().getFragments();
-            for (Fragment f : frags) {
-                if (!(f instanceof HomeFragment)) {
-                    toolbar_title.setText(Globals.getToolbarTitle());
-                } else {
-                    toolbar_title.setText("");
-                }
-            }*/
-
             // Handle Navigation Option Click
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,25 +84,12 @@ public class NavigationActivity extends AppCompatActivity {
             iv_home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  /*  List<Fragment> frags = getSupportFragmentManager().getFragments();
-                    for (Fragment f : frags) {
-                        if (!(f instanceof HomeFragment)) {
-                            // onBackPressed();
 
-                            //Old Functionality commented on 04/01/2019
-                            *//*setToolbar();
-                            toolbar_title.setText("");
-                            getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            addFragmentOnTop(HomeFragment.newInstance());*//*
-                        }
-                    }*/
                     PermissionListener permissionlistener = new PermissionListener() {
                         @Override
                         public void onPermissionGranted() {
-                            // EasyImage.openCamera(getActivity(), 0);
                             Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
                             startActivityForResult(intent, SCAN_BARCODE_REQUEST);
-
                         }
 
                         @Override
@@ -127,9 +105,6 @@ public class NavigationActivity extends AppCompatActivity {
                             .setGotoSettingButtonText(getString(R.string.setting))
                             .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             .check();
-
-                    /*Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
-                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);*/
 
                 }
             });
@@ -168,16 +143,6 @@ public class NavigationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               /* List<Fragment> frags = getSupportFragmentManager().getFragments();
-                for (Fragment f : frags) {
-                    if (!(f instanceof HomeFragment)) {
-                        getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        addFragmentOnTop(HomeFragment.newInstance());
-                        toolbar_title.setText("");
-                        ll_desc.setVisibility(View.GONE);
-                    }
-                }*/
-
                 if (!isHomeFragment()) {
                     getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addFragmentOnTop(HomeFragment.newInstance());
@@ -205,14 +170,6 @@ public class NavigationActivity extends AppCompatActivity {
                             addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
                         }
                     }
-
-                   /* if(isHomeFragment()){
-                        globals.isFromMenu = true;
-                        addFragmentOnTop(ItemDetailFragment.newInstance(globals.getCurrentProductCode()));
-                    }else{
-                        globals.isFromMenu = true;
-                        addFragmentOnTop(ItemDetailFragment.newInstance(globals.getPreviousProductCode()));
-                    }*/
 
                 }
 
@@ -248,36 +205,10 @@ public class NavigationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
-
             scannedCode = data.getExtras().getString(Constant.AU_Data);
             toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
-            /*globals.passCode = scannedCode;*/
-            /*globals.barCode = scannedCode;*/
             globals.isFromMenu = false;
             addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
-
-
-           /* List<Fragment> frags = getSupportFragmentManager().getFragments();
-            for (Fragment f : frags) {
-                if (!(f instanceof HomeFragment)) {
-
-                    toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
-                    *//*tv_desc.setText("");
-                    ll_desc.setVisibility(View.VISIBLE);*//*
-             *//* globals.barCode = scannedCode;*//*
-                    addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
-
-                }
-                else {
-                    toolbar_title.setText("");
-                    ll_desc.setVisibility(View.GONE);
-                    *//* scannedCode = data.getExtras().getString(Constant.AU_Data);*//*
-                    toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
-                    ll_desc.setVisibility(View.VISIBLE);
-                    globals.barCode = scannedCode;
-                    addFragmentOnTop(HomeFragment.newInstance());
-                }
-            }*/
 
         }
     }

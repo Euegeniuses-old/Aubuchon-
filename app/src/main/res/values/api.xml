@@ -14,6 +14,9 @@
     <!--New Url-->
     <string name="product_store_url">http://50.206.125.135/WebService/getproductTCB.aspx?</string>
 
+    <!--Check Whitelisted IP-->
+    <string name="url_white_listed_ip">https://api.ipify.org/?format=json</string>
+
     <string name="upload_url">Home/Upload</string>
     <string name="checkPublicIp_url">Home/CheckPublicIp</string>
 

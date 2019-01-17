@@ -19,11 +19,13 @@ import java.util.ArrayList;
 public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapter.ViewHolder> {
 
     private Context context;
+    private int localCount;
     private AdapterView.OnItemClickListener onItemClickListener;
     private ArrayList<ProductDetailsModel.StoreStock> mDataSetFilterData;
 
-    LocalInvListAdapter(Context context) {
+    LocalInvListAdapter(Context context, int localCount) {
         this.context = context;
+        this.localCount = localCount;
     }
 
     void doRefresh(ArrayList<ProductDetailsModel.StoreStock> dataSet) {
@@ -58,7 +60,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             tv_qty.setText(String.valueOf(storeStock.getQty()));
 
             /*Handle visibility of Black Horizontal Separator line*/
-            view_separator.setVisibility((position == 4) ? View.VISIBLE : View.GONE);
+            view_separator.setVisibility((position == (localCount - 1)) ? View.VISIBLE : View.GONE);
 
             /*Handle Background color*/
             if (position % 2 == 0) {

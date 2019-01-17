@@ -101,8 +101,6 @@ public class HomeFragment extends Fragment {
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
 
-            // globals.setCurrentProductCode(et_code.getText().toString().trim());
-
             globals.passCode = et_code.getText().toString().trim();
             et_code.setText("");
             if (getActivity() != null) {
@@ -119,7 +117,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void doRequestForGetPublicIP() {
-        String url = "https://api.ipify.org/?format=json";
+        String url = mContext.getString(R.string.url_white_listed_ip);
         new GetCall(mContext, url, new JSONObject(), new OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
@@ -168,7 +166,6 @@ public class HomeFragment extends Fragment {
                                     // EasyImage.openCamera(getActivity(), 0);
                                     Intent intent = new Intent(getActivity(), ScannerActivity.class);
                                     startActivityForResult(intent, SCAN_BARCODE_REQUEST);
-
                                 }
 
                                 @Override

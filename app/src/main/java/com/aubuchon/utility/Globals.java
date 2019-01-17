@@ -32,6 +32,8 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public String passCode = "";
     public String barCode = "";
 
+    public static String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
     private static final int MINUTES_IN_AN_HOUR = 60;
     private static final int SECONDS_IN_A_MINUTE = 60;
 
@@ -160,6 +162,10 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public static String getMonthForInt(int m) {
+        return months[m - 1];
     }
 
 }

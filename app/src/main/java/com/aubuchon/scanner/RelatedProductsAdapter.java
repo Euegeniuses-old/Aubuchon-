@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.aubuchon.R;
 import com.aubuchon.model.ProductDetailsModel;
 import com.aubuchon.utility.GlideApp;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.StreamBitmapDecoder;
 
 import java.util.ArrayList;
 
@@ -72,7 +75,15 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
 
         void setDataToView(ProductDetailsModel.RelatedProduct relatedProduct, final int position) {
 
-            GlideApp.with(context).load(relatedProduct.getImage()).placeholder(R.drawable.camera).into(iv_product);
+            iv_product.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+            GlideApp.with(context)
+                    .load(relatedProduct.getImage())
+                    .placeholder(R.drawable.camera)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontTransform()
+                    .into(iv_product);
 
             tv_web_desc.setText(relatedProduct.getWebDesc());
             tv_retail_prize.setText(String.valueOf(relatedProduct.getRetailPrice()) + "$");
