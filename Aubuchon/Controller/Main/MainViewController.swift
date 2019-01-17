@@ -111,7 +111,7 @@ class MainViewController: UIViewController {
     }
     
     //MARK:- Private functions
-    
+   
     // UIConfiguration
     func UIConfig() {
         // Do any additional setup after loading the view.
@@ -177,12 +177,17 @@ class MainViewController: UIViewController {
     
     // Open  MTBScanner
     func openMTBScanner() {
-        let  ScannerVC:
-            ScannerViewController = UIStoryboard(
-                name: "Main", bundle: nil
-                ).instantiateViewController(withIdentifier: "ScannerView") as! ScannerViewController
-        ScannerVC.isFromMain = true
-        self.present(ScannerVC, animated: false, completion: nil)
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            let  ScannerVC:
+                ScannerViewController = UIStoryboard(
+                    name: "Main", bundle: nil
+                    ).instantiateViewController(withIdentifier: "ScannerView") as! ScannerViewController
+            ScannerVC.isFromMain = true
+            self.present(ScannerVC, animated: false, completion: nil)
+        } else {
+            self.alertMessage(message: Constant.alertTitleMessage.cameranotfoundAlertMessage, title: Constant.alertTitleMessage.cameranotfoundTitleMessage)
+        }
+      
     }
     
     //show menu

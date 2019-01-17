@@ -58,14 +58,15 @@ extension PhotoTableViewCell: UICollectionViewDataSource,UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : PhotoCollectionViewCell = imageCollectionView.dequeueReusableCell(withReuseIdentifier: "Photo", for: indexPath) as! PhotoCollectionViewCell
-       // cell.imgProduct.image = UIImage(named: imageData)
+       
         if imageData == "" {
-                cell.imgProduct.image = UIImage(named: "related_image")
-        } else if imageData == "related_image" {
-                cell.imgProduct.image = UIImage(named: imageData)
+                cell.imgProduct.image = UIImage(named: "camera")
         }
+//        else if imageData == "related_image" {
+//                cell.imgProduct.image = UIImage(named: imageData)
+//        }
         else {
-            cell.imgProduct.sd_setImage(with: URL(string: imageData), placeholderImage: UIImage(named: "related_image"))
+            cell.imgProduct.sd_setImage(with: URL(string: imageData), placeholderImage: UIImage(named: "camera"))
         }
         
         return cell

@@ -15,4 +15,7 @@ class LocalINVCollectionViewCell: UITableViewCell {
     @IBOutlet weak var lblStore: UILabel!
     @IBOutlet weak var lblNum: UILabel!
     @IBOutlet weak var lblQty: UILabel!
+    
+    @IBOutlet weak var lblWhiteSeparator: UILabel!
+    @IBOutlet weak var lblSeparator: UILabel!
 }

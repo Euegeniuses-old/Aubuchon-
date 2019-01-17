@@ -70,6 +70,26 @@
                                 <constraint firstItem="KPp-rN-FCD" firstAttribute="top" secondItem="C2X-Dt-Ifr" secondAttribute="top" constant="10" id="uT2-Gm-YmJ"/>
                             </constraints>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-1l-NI7">
+                            <rect key="frame" x="0.0" y="55" width="375" height="3"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="3" id="KQQ-A8-jTK"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rr4-Gb-ngA">
+                            <rect key="frame" x="0.0" y="58" width="375" height="5"/>
+                            <color key="backgroundColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="5" id="zd0-wu-frG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
@@ -80,11 +100,17 @@
                         <constraint firstItem="C2X-Dt-Ifr" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="IBc-lC-LcO"/>
                         <constraint firstItem="bt9-bU-3bd" firstAttribute="leading" secondItem="Oqo-W1-Gwa" secondAttribute="leading" id="KK6-va-nYl"/>
                         <constraint firstItem="bt9-bU-3bd" firstAttribute="height" secondItem="Oqo-W1-Gwa" secondAttribute="height" id="L4Q-nm-ht0"/>
+                        <constraint firstAttribute="trailing" secondItem="Rr4-Gb-ngA" secondAttribute="trailing" id="NsT-a0-wEc"/>
+                        <constraint firstItem="Rr4-Gb-ngA" firstAttribute="top" secondItem="EBE-1l-NI7" secondAttribute="bottom" id="cWX-cc-648"/>
                         <constraint firstItem="UuL-Mw-Koz" firstAttribute="leading" secondItem="bt9-bU-3bd" secondAttribute="trailing" id="ccg-KT-DUz"/>
+                        <constraint firstItem="EBE-1l-NI7" firstAttribute="leading" secondItem="Oqo-W1-Gwa" secondAttribute="leading" id="co0-wn-Fxm"/>
+                        <constraint firstAttribute="trailing" secondItem="EBE-1l-NI7" secondAttribute="trailing" id="hae-Ut-5IN"/>
+                        <constraint firstAttribute="bottom" secondItem="Rr4-Gb-ngA" secondAttribute="bottom" id="hvq-G1-QQg"/>
                         <constraint firstItem="UuL-Mw-Koz" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="pOa-Yi-XdE"/>
                         <constraint firstItem="bt9-bU-3bd" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.33" id="ttz-ox-I0J"/>
                         <constraint firstItem="bt9-bU-3bd" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="v78-Pr-6fh"/>
                         <constraint firstItem="C2X-Dt-Ifr" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.33" id="yLt-ja-cOe"/>
+                        <constraint firstItem="Rr4-Gb-ngA" firstAttribute="leading" secondItem="Oqo-W1-Gwa" secondAttribute="leading" id="zri-ka-a1J"/>
                     </constraints>
                 </view>
             </subviews>
@@ -100,7 +126,9 @@
             <connections>
                 <outlet property="lblNum" destination="kuK-bU-cvb" id="jEx-jC-8uD"/>
                 <outlet property="lblQty" destination="KPp-rN-FCD" id="f22-2w-cvz"/>
+                <outlet property="lblSeparator" destination="Rr4-Gb-ngA" id="B2r-BI-CWV"/>
                 <outlet property="lblStore" destination="Ku7-na-qDB" id="BL6-oQ-ngc"/>
+                <outlet property="lblWhiteSeparator" destination="EBE-1l-NI7" id="6a8-BK-I4A"/>
                 <outlet property="localInvView" destination="Oqo-W1-Gwa" id="hfX-hW-LSC"/>
             </connections>
             <point key="canvasLocation" x="-0.80000000000000004" y="-257.72113943028489"/>

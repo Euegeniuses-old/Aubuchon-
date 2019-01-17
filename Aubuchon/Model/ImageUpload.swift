@@ -16,6 +16,7 @@ let kStatusCode = "StatusCode"
 let kpublicIp = "IpAddress"
 let kbarcode = "branchcode"
 let kdata = "data"
+let kLocalData = "local"
 
 let kPlanogram = "Planogram"
 let kPlangramDesc = "PlangramDesc"
@@ -56,18 +57,19 @@ let kImage = "image"
 let kwebDesc = "webDesc"
 let kPromoPrice = "promoPrice"
 let kRanking = "ranking"
-let kLocal = "local"
+//let kLocal = "local"
+
 class StoreStock: NSObject {
     var store, name: String
     var qty:Int
-    var local: Int
-    var storeINVData: [ImageUpload]
+    var localData: Int
+   // var storeINVData: [ImageUpload]
      init?(dictionary: [String:Any]) {
-         self.storeINVData = (dictionary[kStoreStock] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
+    //     self.storeINVData = (dictionary[kStoreStock] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
         self.store = dictionary[kStore] as? String ?? ""
         self.name = dictionary[kName] as? String ?? ""
         self.qty = dictionary[kQty] as? Int ?? 0
-        self.local = dictionary[kLocal] as? Int ?? 0
+        self.localData = dictionary[kLocalData] as? Int ?? 2
     }
     
 }
@@ -100,7 +102,7 @@ struct RelatedProduct: Codable {
     let retailPrice: Double
     let promoPrice: String
     let ranking: Int
-    let local: Int
+  //  let local: Int
      init?(dictionary: [String:Any]) {
         self.sku = dictionary[kSku] as? String ?? ""
         self.image = dictionary[kImage] as? String ?? ""
@@ -108,7 +110,7 @@ struct RelatedProduct: Codable {
         self.retailPrice = dictionary[kretailPrice] as? Double ?? 0
         self.promoPrice = dictionary[kPromoPrice] as? String ?? ""
         self.ranking = dictionary[kRanking] as? Int ?? 0
-        self.local = dictionary[kLocal] as? Int ?? 0
+        //self.local = dictionary[kLocal] as? Int ?? 0
     }
 }
 class ImageUpload: NSObject, NSCoding {
@@ -326,7 +328,6 @@ class ImageUpload: NSObject, NSCoding {
                         array1.append(obj)
                     }
                 }
-                
                 var arrayStoresByMonth = [StoresByMonth]()
                 for i in responseStoresByMonth {
                     if let storesByMonthObj = StoresByMonth(dictionary: i) {

@@ -99,6 +99,7 @@
                 <outlet property="lblMonth" destination="g2R-9C-fFa" id="dBQ-IB-ZJi"/>
                 <outlet property="lblMonthView" destination="1Uk-G4-xQN" id="e6M-r4-jgV"/>
                 <outlet property="lblStoreValue" destination="M3U-vi-ajy" id="cqh-nJ-qxa"/>
+                <outlet property="lblStoreView" destination="Nk3-0b-2bA" id="4ky-2H-xCP"/>
                 <outlet property="salesHistoryView" destination="pWe-cw-5aB" id="S9t-4d-aT8"/>
             </connections>
             <point key="canvasLocation" x="39.200000000000003" y="-231.18440779610197"/>
