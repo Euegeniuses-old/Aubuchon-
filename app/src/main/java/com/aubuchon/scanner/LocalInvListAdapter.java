@@ -12,23 +12,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aubuchon.R;
-import com.aubuchon.model.ProductDetailsModel;
+import com.aubuchon.model.LocalInvModel;
 
 import java.util.ArrayList;
+
 
 public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapter.ViewHolder> {
 
     private Context context;
     private int localCount;
     private AdapterView.OnItemClickListener onItemClickListener;
-    private ArrayList<ProductDetailsModel.StoreStock> mDataSetFilterData;
+    private ArrayList<LocalInvModel.StoreStock> mDataSetFilterData;
 
     LocalInvListAdapter(Context context, int localCount) {
         this.context = context;
         this.localCount = localCount;
     }
 
-    void doRefresh(ArrayList<ProductDetailsModel.StoreStock> dataSet) {
+    void doRefresh(ArrayList<LocalInvModel.StoreStock> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }
@@ -39,7 +40,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         TextView tv_store, tv_num, tv_qty;
         LinearLayout ll_local_inv;
         View view_separator;
-        private ProductDetailsModel.StoreStock storeStock;
+        private LocalInvModel.StoreStock storeStock;
 
         ViewHolder(View itemView, final LocalInvListAdapter mAdapter) {
             super(itemView);
@@ -53,7 +54,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
             itemView.setOnClickListener(this);
         }
 
-        void setDataToView(ProductDetailsModel.StoreStock storeStock, final int position) {
+        void setDataToView(LocalInvModel.StoreStock storeStock, final int position) {
 
             tv_store.setText(storeStock.getName());
             tv_num.setText(storeStock.getStore());
@@ -97,7 +98,7 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductDetailsModel.StoreStock stock = mDataSetFilterData.get(position);
+        LocalInvModel.StoreStock stock = mDataSetFilterData.get(position);
         try {
             holder.setDataToView(stock, position);
 
@@ -110,11 +111,5 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
     public int getItemCount() {
         return mDataSetFilterData.size();
     }
-
-    /*  public ProductDetailModel.Product getDataByPosition(int position) {
-        if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
-            return mDataSetFilterData.get(position);
-        return null;
-    }*/
 
 }

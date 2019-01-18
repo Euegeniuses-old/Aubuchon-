@@ -6,18 +6,24 @@
     <!--Live Server-->
     <string name="server_url">http://aubuchonapp.a.fgqa.net/AubuChonApi/api/</string>
 
+    <!--Check Whitelisted IP-->
+    <string name="url_white_listed_ip">https://api.ipify.org/?format=json</string>
+    <string name="checkPublicIp_url">Home/CheckPublicIp</string>
+
+
     <!--Base Url of ProductStore Used in ItemDetailsFragment.java-->
 
     <!--Old Url-->
     <!--<string name="product_store_url">"http://50.206.125.135/webservice/GetProductStore.aspx?</string>-->
 
     <!--New Url-->
-    <string name="product_store_url">http://50.206.125.135/WebService/getproductTCB.aspx?</string>
+    <!--<string name="product_store_url">http://50.206.125.135/WebService/getproductTCB.aspx?</string>-->
 
-    <!--Check Whitelisted IP-->
-    <string name="url_white_listed_ip">https://api.ipify.org/?format=json</string>
+    <!-- Added on 18-01-2019 -->
+    <string name="product_store_url">http://50.206.125.135/webservice/getTCBproduct.aspx?</string>
+    <string name="inventory_url">http://50.206.125.135/webservice/getTCBinventory.aspx?</string>
+    <string name="sales_url">http://50.206.125.135/webservice/getTCBsales.aspx?</string>
+    <string name="related_url">http://50.206.125.135/webservice/getTCBrelated.aspx?</string>
 
-    <string name="upload_url">Home/Upload</string>
-    <string name="checkPublicIp_url">Home/CheckPublicIp</string>
 
 </resources>

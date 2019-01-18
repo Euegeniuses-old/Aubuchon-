@@ -11,11 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aubuchon.R;
-import com.aubuchon.model.ProductDetailsModel;
+import com.aubuchon.model.RelatedModel;
 import com.aubuchon.utility.GlideApp;
-import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.StreamBitmapDecoder;
 
 import java.util.ArrayList;
 
@@ -23,14 +21,14 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
 
     private Context context;
     private AdapterView.OnItemClickListener onItemClickListener;
-    private ArrayList<ProductDetailsModel.RelatedProduct> mDataSetFilterData;
+    private ArrayList<RelatedModel.RelatedProduct> mDataSetFilterData;
 
     RelatedProductsAdapter(Context context, AdapterView.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.onItemClickListener = onItemClickListener;
     }
 
-    void doRefresh(ArrayList<ProductDetailsModel.RelatedProduct> dataSet) {
+    void doRefresh(ArrayList<RelatedModel.RelatedProduct> dataSet) {
         mDataSetFilterData = dataSet;
         notifyDataSetChanged();
     }
@@ -44,7 +42,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ProductDetailsModel.RelatedProduct relatedProduct = mDataSetFilterData.get(position);
+        RelatedModel.RelatedProduct relatedProduct = mDataSetFilterData.get(position);
         try {
             holder.setDataToView(relatedProduct, position);
         } catch (Exception e) {
@@ -73,7 +71,7 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             itemView.setOnClickListener(this);
         }
 
-        void setDataToView(ProductDetailsModel.RelatedProduct relatedProduct, final int position) {
+        void setDataToView(RelatedModel.RelatedProduct relatedProduct, final int position) {
 
             iv_product.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 

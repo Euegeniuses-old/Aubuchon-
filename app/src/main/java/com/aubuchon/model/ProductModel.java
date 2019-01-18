@@ -1,91 +1,114 @@
-
 package com.aubuchon.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
-public class ProductDetailModel implements Serializable {
+public class ProductModel implements Serializable {
 
-    //  private static final long serialVersionUID = 1L;
-
-    @SerializedName("codes")
-    private List<Codes> codes;
     @SerializedName("product")
-    private List<Product> product;
+    private ArrayList<Product> product = null;
 
-    public List<Codes> getCodes() {
-        return codes;
-    }
-
-    public void setCodes(List<Codes> codes) {
-        this.codes = codes;
-    }
-
-    public List<Product> getProduct() {
+    public ArrayList<Product> getProduct() {
         return product;
     }
 
-    public void setProduct(List<Product> product) {
+    public void setProduct(ArrayList<Product> product) {
         this.product = product;
     }
 
-    public static class Product implements Serializable {
+    public class Product implements Serializable {
+
         @SerializedName("store")
         private String store;
+
         @SerializedName("sku")
         private String sku;
+
         @SerializedName("webDesc")
         private String webDesc;
+
         @SerializedName("posDesc")
         private String posDesc;
+
         @SerializedName("departmentName")
         private String departmentName;
+
         @SerializedName("className")
         private String className;
+
         @SerializedName("subClassName")
         private String subClassName;
+
         @SerializedName("section")
         private String section;
+
         @SerializedName("sectionDesc")
         private String sectionDesc;
+
         @SerializedName("speedNo")
         private String speedNo;
+
         @SerializedName("ordUnit")
         private String ordUnit;
+
         @SerializedName("discDate")
         private String discDate;
+
         @SerializedName("prodStatus")
         private String prodStatus;
 
         @SerializedName("retailPrice")
-        private int retailPrice;
+        private double retailPrice;
+
         @SerializedName("imageURL")
         private String imageURL;
+
         @SerializedName("companyYrSales")
         private int companyYrSales;
+
         @SerializedName("storeYrSales")
         private int storeYrSales;
+
         @SerializedName("supplier")
         private String supplier;
+
         @SerializedName("supplierName")
         private String supplierName;
+
         @SerializedName("promoPrice")
         private String promoPrice;
 
         @SerializedName("lastSoldDate")
         private String lastSoldDate;
+
         @SerializedName("lastDelDate")
         private String lastDelDate;
+
         @SerializedName("onHandAmt")
         private int onHandAmt;
+
         @SerializedName("available")
         private int available;
+
         @SerializedName("onOrderAmt")
         private int onOrderAmt;
+
         @SerializedName("onOrderPO")
         private String onOrderPO;
+
+        @SerializedName("url_key")
+        private String urlKey;
+
+        @SerializedName("minStk")
+        private int minStk;
+
+        @SerializedName("maxStk")
+        private int maxStk;
+
+        @SerializedName("reOrdPoint")
+        private int reOrdPoint;
 
         public String getStore() {
             return store;
@@ -191,11 +214,11 @@ public class ProductDetailModel implements Serializable {
             this.prodStatus = prodStatus;
         }
 
-        public int getRetailPrice() {
+        public double getRetailPrice() {
             return retailPrice;
         }
 
-        public void setRetailPrice(int retailPrice) {
+        public void setRetailPrice(double retailPrice) {
             this.retailPrice = retailPrice;
         }
 
@@ -294,19 +317,41 @@ public class ProductDetailModel implements Serializable {
         public void setOnOrderPO(String onOrderPO) {
             this.onOrderPO = onOrderPO;
         }
-    }
 
-    public static class Codes implements Serializable {
-        @SerializedName("altUPC")
-        private String altUPC;
-
-        public String getAltUPC() {
-            return altUPC;
+        public String getUrlKey() {
+            return urlKey;
         }
 
-        public void setAltUPC(String altUPC) {
-            this.altUPC = altUPC;
+        public void setUrlKey(String urlKey) {
+            this.urlKey = urlKey;
         }
-    }
 
+        public int getMinStk() {
+            return minStk;
+        }
+
+        public void setMinStk(int minStk) {
+            this.minStk = minStk;
+        }
+
+        public int getMaxStk() {
+            return maxStk;
+        }
+
+        public void setMaxStk(int maxStk) {
+            this.maxStk = maxStk;
+        }
+
+        public int getReOrdPoint() {
+            return reOrdPoint;
+        }
+
+        public void setReOrdPoint(int reOrdPoint) {
+            this.reOrdPoint = reOrdPoint;
+        }
+
+    }
 }
+
+
+

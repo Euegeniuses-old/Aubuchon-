@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.aubuchon.R;
 import com.aubuchon.model.KeyValueModel;
-import com.aubuchon.model.ProductDetailModel.Product;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,6 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
     private Context context;
     private AdapterView.OnItemClickListener onItemClickListener;
     private ArrayList<KeyValueModel> mDataSetFilterData;
-    private Product pDetails;
 
 
     InquiryListAdapter(Context context) {
@@ -56,11 +54,11 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
             tv_key.setText(pDetails.getKey());
 
             /*Handle Rating Data*/
-            if(pDetails.getKey().equalsIgnoreCase("Rating")){
+            if (pDetails.getKey().equalsIgnoreCase("Rating")) {
                 rating.setRating(Float.parseFloat(pDetails.getValue()));
                 rating.setVisibility(View.VISIBLE);
                 tv_value.setVisibility(View.GONE);
-            }else{
+            } else {
                 rating.setVisibility(View.GONE);
                 tv_value.setVisibility(View.VISIBLE);
             }
