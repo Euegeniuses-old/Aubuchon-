@@ -10,12 +10,34 @@ public class ProductModel implements Serializable {
     @SerializedName("product")
     private ArrayList<Product> product = null;
 
+    @SerializedName("Table1")
+    private ArrayList<Table1> table1 = null;
+
+    @SerializedName("Table2")
+    private ArrayList<Table2> table2 = null;
+
     public ArrayList<Product> getProduct() {
         return product;
     }
 
     public void setProduct(ArrayList<Product> product) {
         this.product = product;
+    }
+
+    public ArrayList<Table1> getTable1() {
+        return table1;
+    }
+
+    public void setTable1(ArrayList<Table1> table1) {
+        this.table1 = table1;
+    }
+
+    public ArrayList<Table2> getTable2() {
+        return table2;
+    }
+
+    public void setTable2(ArrayList<Table2> table2) {
+        this.table2 = table2;
     }
 
     public class Product implements Serializable {
@@ -60,16 +82,16 @@ public class ProductModel implements Serializable {
         private String prodStatus;
 
         @SerializedName("retailPrice")
-        private double retailPrice;
+        private Double retailPrice;
 
         @SerializedName("imageURL")
         private String imageURL;
 
         @SerializedName("companyYrSales")
-        private int companyYrSales;
+        private Integer companyYrSales;
 
         @SerializedName("storeYrSales")
-        private int storeYrSales;
+        private Integer storeYrSales;
 
         @SerializedName("supplier")
         private String supplier;
@@ -87,28 +109,35 @@ public class ProductModel implements Serializable {
         private String lastDelDate;
 
         @SerializedName("onHandAmt")
-        private int onHandAmt;
+        private Integer onHandAmt;
 
         @SerializedName("available")
-        private int available;
+        private Integer available;
 
         @SerializedName("onOrderAmt")
-        private int onOrderAmt;
+        private Integer onOrderAmt;
 
         @SerializedName("onOrderPO")
         private String onOrderPO;
+
+        @SerializedName("deliveryDate")
+        private String deliveryDate;
 
         @SerializedName("url_key")
         private String urlKey;
 
         @SerializedName("minStk")
-        private int minStk;
+        private Integer minStk;
 
         @SerializedName("maxStk")
-        private int maxStk;
+        private Integer maxStk;
 
         @SerializedName("reOrdPoint")
-        private int reOrdPoint;
+        private Integer reOrdPoint;
+
+        @SerializedName("rating")
+        private Float rating;
+
 
         public String getStore() {
             return store;
@@ -214,11 +243,11 @@ public class ProductModel implements Serializable {
             this.prodStatus = prodStatus;
         }
 
-        public double getRetailPrice() {
+        public Double getRetailPrice() {
             return retailPrice;
         }
 
-        public void setRetailPrice(double retailPrice) {
+        public void setRetailPrice(Double retailPrice) {
             this.retailPrice = retailPrice;
         }
 
@@ -230,19 +259,19 @@ public class ProductModel implements Serializable {
             this.imageURL = imageURL;
         }
 
-        public int getCompanyYrSales() {
+        public Integer getCompanyYrSales() {
             return companyYrSales;
         }
 
-        public void setCompanyYrSales(int companyYrSales) {
+        public void setCompanyYrSales(Integer companyYrSales) {
             this.companyYrSales = companyYrSales;
         }
 
-        public int getStoreYrSales() {
+        public Integer getStoreYrSales() {
             return storeYrSales;
         }
 
-        public void setStoreYrSales(int storeYrSales) {
+        public void setStoreYrSales(Integer storeYrSales) {
             this.storeYrSales = storeYrSales;
         }
 
@@ -286,27 +315,27 @@ public class ProductModel implements Serializable {
             this.lastDelDate = lastDelDate;
         }
 
-        public int getOnHandAmt() {
+        public Integer getOnHandAmt() {
             return onHandAmt;
         }
 
-        public void setOnHandAmt(int onHandAmt) {
+        public void setOnHandAmt(Integer onHandAmt) {
             this.onHandAmt = onHandAmt;
         }
 
-        public int getAvailable() {
+        public Integer getAvailable() {
             return available;
         }
 
-        public void setAvailable(int available) {
+        public void setAvailable(Integer available) {
             this.available = available;
         }
 
-        public int getOnOrderAmt() {
+        public Integer getOnOrderAmt() {
             return onOrderAmt;
         }
 
-        public void setOnOrderAmt(int onOrderAmt) {
+        public void setOnOrderAmt(Integer onOrderAmt) {
             this.onOrderAmt = onOrderAmt;
         }
 
@@ -318,6 +347,14 @@ public class ProductModel implements Serializable {
             this.onOrderPO = onOrderPO;
         }
 
+        public String getDeliveryDate() {
+            return deliveryDate;
+        }
+
+        public void setDeliveryDate(String deliveryDate) {
+            this.deliveryDate = deliveryDate;
+        }
+
         public String getUrlKey() {
             return urlKey;
         }
@@ -326,32 +363,99 @@ public class ProductModel implements Serializable {
             this.urlKey = urlKey;
         }
 
-        public int getMinStk() {
+        public Integer getMinStk() {
             return minStk;
         }
 
-        public void setMinStk(int minStk) {
+        public void setMinStk(Integer minStk) {
             this.minStk = minStk;
         }
 
-        public int getMaxStk() {
+        public Integer getMaxStk() {
             return maxStk;
         }
 
-        public void setMaxStk(int maxStk) {
+        public void setMaxStk(Integer maxStk) {
             this.maxStk = maxStk;
         }
 
-        public int getReOrdPoint() {
+        public Integer getReOrdPoint() {
             return reOrdPoint;
         }
 
-        public void setReOrdPoint(int reOrdPoint) {
+        public void setReOrdPoint(Integer reOrdPoint) {
             this.reOrdPoint = reOrdPoint;
         }
 
+        public Float getRating() {
+            return rating;
+        }
+
+        public void setRating(Float rating) {
+            this.rating = rating;
+        }
     }
+
+    public class Table1 implements Serializable{
+
+        @SerializedName("altUPC")
+        private String altUPC;
+
+        @SerializedName("Primary")
+        private Boolean primary;
+
+        public String getAltUPC() {
+            return altUPC;
+        }
+
+        public void setAltUPC(String altUPC) {
+            this.altUPC = altUPC;
+        }
+
+        public Boolean getPrimary() {
+            return primary;
+        }
+
+        public void setPrimary(Boolean primary) {
+            this.primary = primary;
+        }
+
+    }
+
+    public static class Table2 implements Serializable{
+
+        @SerializedName("poNo")
+        private String poNo;
+
+        @SerializedName("orderQty")
+        private int orderQty;
+
+        @SerializedName("delDate")
+        private String delDate;
+
+        public String getPoNo() {
+            return poNo;
+        }
+
+        public void setPoNo(String poNo) {
+            this.poNo = poNo;
+        }
+
+        public int getOrderQty() {
+            return orderQty;
+        }
+
+        public void setOrderQty(int orderQty) {
+            this.orderQty = orderQty;
+        }
+
+        public String getDelDate() {
+            return delDate;
+        }
+
+        public void setDelDate(String delDate) {
+            this.delDate = delDate;
+        }
+    }
+
 }
-
-
-

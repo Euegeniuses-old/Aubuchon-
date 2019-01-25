@@ -79,6 +79,7 @@ public class HttpRequestHandler {
                 .themeColor(Color.WHITE)
                 .fadeColor(Color.DKGRAY).build();
         dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         return dialog;
     }
 

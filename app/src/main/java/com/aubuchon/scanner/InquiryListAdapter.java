@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aubuchon.R;
 import com.aubuchon.model.KeyValueModel;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 import java.util.ArrayList;
 
@@ -35,13 +37,15 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private InquiryListAdapter mAdapter;
 
+        LinearLayout ll_inquiry_item;
         TextView tv_key, tv_value;
-        AppCompatRatingBar rating;
+        SimpleRatingBar rating;
 
         ViewHolder(View itemView, final InquiryListAdapter mAdapter) {
             super(itemView);
             this.mAdapter = mAdapter;
 
+            ll_inquiry_item = itemView.findViewById(R.id.ll_inquiry_item);
             tv_key = itemView.findViewById(R.id.tv_key);
             tv_value = itemView.findViewById(R.id.tv_value);
             rating = itemView.findViewById(R.id.rating);
@@ -52,17 +56,6 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
         void setDataToView(KeyValueModel pDetails, final int position) {
 
             tv_key.setText(pDetails.getKey());
-
-            /*Handle Rating Data*/
-            if (pDetails.getKey().equalsIgnoreCase("Rating")) {
-                rating.setRating(Float.parseFloat(pDetails.getValue()));
-                rating.setVisibility(View.VISIBLE);
-                tv_value.setVisibility(View.GONE);
-            } else {
-                rating.setVisibility(View.GONE);
-                tv_value.setVisibility(View.VISIBLE);
-            }
-
             /*Handle an Empty Data*/
             if (pDetails.getValue().equalsIgnoreCase("") || pDetails.getValue().equalsIgnoreCase("0.0")) {
                 tv_value.setText(" - ");
@@ -70,13 +63,10 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
                 tv_value.setText(pDetails.getValue());
             }
 
-
             if (position % 2 == 0) {
-                tv_key.setBackgroundColor(Color.GRAY);
-                tv_value.setBackgroundColor(Color.GRAY);
+                ll_inquiry_item.setBackgroundColor(Color.GRAY);
             } else {
-                tv_key.setBackgroundColor(Color.WHITE);
-                tv_value.setBackgroundColor(Color.WHITE);
+                ll_inquiry_item.setBackgroundColor(Color.WHITE);
             }
 
         }

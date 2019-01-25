@@ -19,16 +19,6 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <!--
-            <meta-data
-            android:name="com.aubuchon.utility.UnsafeOkHttpClient"
-            android:value="GlideModule" />
-        -->
-        <!-- <activity
-             android:name=".HomeFragment"
-             android:screenOrientation="sensorPortrait">
-
-         </activity>-->
         <activity
             android:name=".ExitActivity"
             android:autoRemoveFromRecents="true"
@@ -36,26 +26,7 @@
         <activity
             android:name=".scanner.ScannerActivity"
             android:screenOrientation="sensorPortrait" />
-        <!--   <activity
-               android:name=".scanner.ItemDetailActivity"
-               android:screenOrientation="sensorPortrait">
 
-               &lt;!&ndash;
-               <intent-filter>
-                   <action android:name="android.intent.action.VIEW" />
-
-                   <category android:name="android.intent.category.DEFAULT" />
-                   <category android:name="android.intent.category.BROWSABLE" />
-
-                   <data android:scheme="aubuchon" />
-               </intent-filter>
-               <intent-filter>
-                   <action android:name="android.intent.action.MAIN" />
-
-                   <category android:name="android.intent.category.LAUNCHER" />
-               </intent-filter>
-               &ndash;&gt;
-           </activity>-->
         <activity
             android:name=".NavigationActivity"
             android:screenOrientation="sensorPortrait"
@@ -75,30 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-     <!--   <activity
-            android:name=".ExitActivity"
-            android:autoRemoveFromRecents="true"
-            android:theme="@android:style/Theme.NoDisplay" />
-        <activity
-            android:name=".scanner.ScannerActivity"
-            android:screenOrientation="sensorPortrait" />
-        <activity
-            android:name=".scanner.ItemDetailActivity"
-            android:screenOrientation="sensorPortrait">-->
-          <!--  <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="aubuchon" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-       <!-- </activity>-->
     </application>
 
 </manifest>

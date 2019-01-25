@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.ViewFlipper;
@@ -28,7 +29,6 @@ import com.aubuchon.R;
 import com.aubuchon.apis.GetCall;
 import com.aubuchon.model.KeyValueModel;
 import com.aubuchon.model.LocalInvModel;
-import com.aubuchon.model.ProductDetailsModel;
 import com.aubuchon.model.ProductModel;
 import com.aubuchon.model.RelatedModel;
 import com.aubuchon.model.SalesHistoryModel;
@@ -38,6 +38,7 @@ import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
@@ -58,29 +59,45 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     RadioGroup rg2;
     @BindView(R.id.view_flipper)
     ViewFlipper view_flipper;
+    @BindView(R.id.ll_local_inv)
+    LinearLayout ll_local_inv;
     @BindView(R.id.rv_local_inventory)
     RecyclerView rv_local_inventory;
+    @BindView(R.id.tv_local_inv_not_found)
+    AppCompatTextView tv_local_inv_not_found;
+
     @BindView(R.id.rv_inquiry)
     RecyclerView rv_inquiry;
+    @BindView(R.id.ll_inquiry_group_2)
+    LinearLayout ll_inquiry_group_2;
+    @BindView(R.id.rating)
+    SimpleRatingBar rating;
+    @BindView(R.id.tv_rating)
+    AppCompatTextView tv_rating;
+    @BindView(R.id.tv_web_desc)
+    AppCompatTextView tv_web_desc;
+
     @BindView(R.id.rv_sales_history)
     RecyclerView rv_sales_history;
+    @BindView(R.id.ll_sales_history_header)
+    LinearLayout ll_sales_history_header;
+
+
     @BindView(R.id.rv_order_info)
     RecyclerView rv_order_info;
+    @BindView(R.id.tv_order_info_not_found)
+    AppCompatTextView tv_order_info_not_found;
+
     @BindView(R.id.rv_related_products)
     RecyclerView rv_related_products;
     @BindView(R.id.tv_no_data)
-    AppCompatTextView tvNoData;
+    AppCompatTextView tv_no_data;
     @BindView(R.id.iv_photo)
     AppCompatImageView iv_photo;
     @BindView(R.id.fab_prev_item)
     FloatingActionButton fab_prev_item;
 
-    ProductDetailsModel productDetailModel;
-   /* ArrayList<ProductDetailsModel.Product> productArrayList;
-    ArrayList<ProductDetailsModel.StoreStock> stockArrayList;
-    ArrayList<ProductDetailsModel.StoresByMonth> storesByMonthsList;
-    ArrayList<ProductDetailsModel.CompanyByMonth> companyByMonthsList;
-    ArrayList<ProductDetailsModel.RelatedProduct> relatedProducts;*/
+    String branchcode;
 
     /*New Models & ArrayLists*/
     ProductModel productModel;
@@ -90,12 +107,10 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     ArrayList<LocalInvModel.StoreStock> stocksList;
 
     SalesModel salesModel;
-    ArrayList<SalesModel.StoresByMonth> storesByMonthArrayList;
-    ArrayList<SalesModel.CompanyByMonth> companyByMonthArrayList;
+    ArrayList<SalesModel.SalesByMonth> salesByMonths;
 
     RelatedModel relatedModel;
     ArrayList<RelatedModel.RelatedProduct> relatedProductArrayList;
-
 
     String data;
     NavigationActivity mContext;
@@ -137,19 +152,13 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         rg2.setOnCheckedChangeListener(this);
         rg1.check(R.id.btn_inquiry);
 
-       /* productArrayList = new ArrayList<>();
-        stockArrayList = new ArrayList<>();
-        storesByMonthsList = new ArrayList<>();
-        companyByMonthsList = new ArrayList<>();
-        relatedProducts = new ArrayList<>();*/
-
         /*New*/
         productsList = new ArrayList<>();
         stocksList = new ArrayList<>();
-        storesByMonthArrayList = new ArrayList<>();
-        companyByMonthArrayList = new ArrayList<>();
+        salesByMonths = new ArrayList<>();
         relatedProductArrayList = new ArrayList<>();
 
+        branchcode = globals.getBranchCode();
 
         data = getArguments().getString(Constant.AU_data);
 
@@ -255,44 +264,12 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     }
 
     public void doRequestForGetProductDetail() {
-        String url = getString(R.string.product_store_url) + "branchcode=156&data=" + data;
+        String url = getString(R.string.product_store_url) + "branchcode=" + branchcode + "&data=" + data;
         Logger.v("Product Url: " + url);
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @SuppressLint("RestrictedApi")
             @Override
             public void onSucceedToGetCall(JSONObject response) {
-
-               /* productDetailModel = new ProductDetailsModel();
-                productDetailModel = new Gson().fromJson(response.toString(), ProductDetailsModel.class);
-
-                if (productDetailModel.getProduct().size() > 0) {
-
-                    if (!globals.isFromMenu) {
-                        setCurrentPrevious();
-                    }
-
-                    if (isFromRelated) {
-                        fab_prev_item.setVisibility(View.VISIBLE);
-                    } else {
-                        fab_prev_item.setVisibility(View.GONE);
-                    }
-
-                    rg1.check(R.id.btn_inquiry);
-
-                    setInquiryData();
-                    setLocalInvData();
-                    setSalesHistoryData();
-                    setOrderInfoData();
-                    setRelatedData();
-                    setPhoto();
-                } else {
-
-                    Globals.showToast(getActivity(), getString(R.string.msg_enter_valid_barcode));
-                    globals.setPreviousProductCode(globals.getCurrentProductCode());
-                    mContext.toolbar_title.setText("");
-                    mContext.ll_desc.setVisibility(View.GONE);
-                    mContext.addFragmentOnTop(HomeFragment.newInstance());
-                }*/
 
                 productModel = new ProductModel();
                 productModel = new Gson().fromJson(response.toString(), ProductModel.class);
@@ -330,13 +307,17 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             @Override
             public void onFailedToGetCall() {
                 Globals.showToast(getActivity(), getString(R.string.msg_not_found));
+                ll_inquiry_group_2.setVisibility(View.GONE);
+                rv_inquiry.setVisibility(View.GONE);
+                tv_no_data.setVisibility(View.VISIBLE);
+                tv_order_info_not_found.setVisibility(View.VISIBLE);
             }
         }, true).doRequest();
 
     }
 
     private void doRequestForLocalInventoryData() {
-        String url = getString(R.string.inventory_url) + "branchcode=156&data=" + data;
+        String url = getString(R.string.inventory_url) + "branchcode=" + branchcode + "&data=" + data;
         Logger.v("Inventory Url: " + url);
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @Override
@@ -345,38 +326,49 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 localInvModel = new Gson().fromJson(response.toString(), LocalInvModel.class);
                 if (localInvModel.getStoreStock().size() > 0) {
                     setLocalInvData();
+                } else {
+                    ll_local_inv.setVisibility(View.GONE);
+                    tv_local_inv_not_found.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_not_found));
+                Globals.showToast(getActivity(), getString(R.string.msg_local_inv_not_found));
+                ll_local_inv.setVisibility(View.GONE);
+                tv_no_data.setVisibility(View.VISIBLE);
             }
         }, true).doRequest();
     }
 
     private void doRequestForSalesHistoryData() {
-        String url = getString(R.string.sales_url) + "branchcode=156&data=" + data;
-        Logger.v("Sales Url: " + url);
+        String url = getString(R.string.sales_url) + "branchcode=" + branchcode + "&data=" + data;
+        Logger.v("Sales History Url: " + url);
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
                 salesModel = new SalesModel();
                 salesModel = new Gson().fromJson(response.toString(), SalesModel.class);
-                if (salesModel.getStoresByMonth().size() > 0 && salesModel.getCompanyByMonth().size() > 0) {
+                if (salesModel.getSalesByMonth().size() > 0) {
                     setSalesHistoryData();
+                } else {
+                    ll_sales_history_header.setVisibility(View.GONE);
+                    rv_sales_history.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_not_found));
+                Globals.showToast(getActivity(), getString(R.string.msg_sales_history_not_found));
+                ll_sales_history_header.setVisibility(View.GONE);
+                rv_sales_history.setVisibility(View.GONE);
+
             }
         }, true).doRequest();
     }
 
     private void doRequestForRelatedData() {
-        String url = getString(R.string.related_url) + "branchcode=156&data=" + data;
+        String url = getString(R.string.related_url) + "branchcode=" + branchcode + "&data=" + data;
         Logger.v("Related Url: " + url);
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
             @Override
@@ -391,12 +383,14 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_not_found));
+                Globals.showToast(getActivity(), getString(R.string.msg_related_product_not_found));
             }
         }, true).doRequest();
     }
 
-    /*Load Photo from ProductDetails*/
+    /**
+     * Load Photo from ProductDetails
+     */
     private void setPhoto() {
         if (productsList != null && productsList.get(0).getImageURL() != null && !productsList.get(0).getImageURL().isEmpty()) {
             GlideApp.with(mContext)
@@ -417,14 +411,11 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         }
     }
 
-    /*Inquiry Data*/
+    /**
+     * Inquiry Data
+     */
     public void setInquiryData() {
         ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
-        if (rv_inquiry.getAdapter() != null) {
-            rv_inquiry.getAdapter().notifyDataSetChanged();
-        }
-       /* productArrayList = new ArrayList<>();
-        productArrayList = productDetailModel.getProduct();*/
 
         productsList = new ArrayList<>();
         productsList = productModel.getProduct();
@@ -436,17 +427,29 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         }*/
         mContext.navigationActivity.toolbar_title.setText(String.format(getString(R.string.text_sku), data));
 
-        /*Set intent to Open Detail in Browser*/
+        /*Set intent to Open Product Detail in Browser*/
         mContext.navigationActivity.toolbar_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Logger.v("Detail Url: " + Uri.parse(productsList.get(0).getUrlKey()).toString());
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW,Uri.parse(productsList.get(0).getUrlKey()));
-                Intent browserChooserIntent = Intent.createChooser(browserIntent , "Choose browser to open");
-                startActivity(browserChooserIntent);
+                if (productsList.get(0).getUrlKey().length() > 0) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(productsList.get(0).getUrlKey()));
+                    Intent browserChooserIntent = Intent.createChooser(browserIntent, "Choose browser to open");
+                    startActivity(browserChooserIntent);
+                } else {
+                    Globals.showToast(mContext, getString(R.string.msg_link_not_available));
+                }
             }
         });
 
+        /*Display UPC from "Table 1" ArrayList*/
+        if (productModel.getTable1().size() > 0) {
+            for (int i = 0; i < productModel.getTable1().size(); i++) {
+                if (productModel.getTable1().get(i).getPrimary()) {
+                    inquiryData.add(new KeyValueModel("UPC", productModel.getTable1().get(i).getAltUPC()));
+                }
+            }
+        }
 
         if (!productsList.get(0).getWebDesc().isEmpty()) {
             inquiryData.add(new KeyValueModel("Desc", productsList.get(0).getPosDesc()));
@@ -456,46 +459,84 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             mContext.tv_desc.setText("");
             mContext.ll_desc.setVisibility(View.GONE);
         }
+
         inquiryData.add(new KeyValueModel("Price", String.valueOf(productsList.get(0).getRetailPrice())));
         inquiryData.add(new KeyValueModel("Promo", productsList.get(0).getPromoPrice()));
         inquiryData.add(new KeyValueModel("Available", String.valueOf(productsList.get(0).getAvailable())));
         inquiryData.add(new KeyValueModel("On Hand", String.valueOf(productsList.get(0).getOnHandAmt())));
         inquiryData.add(new KeyValueModel("Section", productsList.get(0).getSection()));
         inquiryData.add(new KeyValueModel("Speed #", productsList.get(0).getSpeedNo()));
+        inquiryData.add(new KeyValueModel("Status", productsList.get(0).getProdStatus()));
+
+        /* productsList.get(0).getRating()*/
+        rating.setRating(0);
+        tv_rating.setText("");
+        tv_web_desc.setText("");
+        if (productsList.get(0).getRating() != 0 || productsList.get(0).getRating() != null) {
+            rating.setRating(productsList.get(0).getRating());
+            tv_rating.setText(String.format("(%s)", productsList.get(0).getRating()));
+        } else {
+            rating.setRating(0);
+            tv_rating.setText(String.format("(%s)", 0));
+        }
+        tv_web_desc.setText(productsList.get(0).getWebDesc());
 
         InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(mContext);
         inquiryListAdapter.doRefresh(inquiryData);
-        if (rv_inquiry.getAdapter() == null) {
-            rv_inquiry.setHasFixedSize(false);
-            rv_inquiry.setLayoutManager(new LinearLayoutManager(mContext));
-        }
+
+        rv_inquiry.setHasFixedSize(false);
+        rv_inquiry.setLayoutManager(new LinearLayoutManager(mContext));
+
         rv_inquiry.setAdapter(inquiryListAdapter);
+        ll_inquiry_group_2.setVisibility(View.VISIBLE);
     }
 
-    /*Order Info Data*/
+    /**
+     * Order Info Data
+     */
     public void setOrderInfoData() {
         ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
         inquiryData.clear();
         inquiryData.add(new KeyValueModel("Last Sold", productsList.get(0).getLastSoldDate()));
         inquiryData.add(new KeyValueModel("QTY on Order", String.valueOf(productsList.get(0).getOnOrderAmt())));
         inquiryData.add(new KeyValueModel("PO Number", productsList.get(0).getOnOrderPO()));
+        inquiryData.add(new KeyValueModel("Earliest Delivery Date", productsList.get(0).getDeliveryDate()));
         inquiryData.add(new KeyValueModel("Primary Vendor", productsList.get(0).getSupplierName()));
         inquiryData.add(new KeyValueModel("Vendor#", productsList.get(0).getSupplier()));
-        inquiryData.add(new KeyValueModel("Delivery Date", productsList.get(0).getLastDelDate()));
         inquiryData.add(new KeyValueModel("Min", String.valueOf(productsList.get(0).getMinStk())));
         inquiryData.add(new KeyValueModel("Max", String.valueOf(productsList.get(0).getMaxStk())));
         inquiryData.add(new KeyValueModel("Reorder", String.valueOf(productsList.get(0).getReOrdPoint())));
 
+
+        if (productModel.getTable2().size() > 0) {
+
+            /* Date wise Ascending Order*/
+            Collections.sort(productModel.getTable2(), new Comparator<ProductModel.Table2>() {
+                @Override
+                public int compare(ProductModel.Table2 table2, ProductModel.Table2 t1) {
+                    return table2.getDelDate().compareTo(t1.getDelDate());
+                }
+            });
+
+            /* Allow to add (PO & QTY) if (Delivery data) not match with above (Delivery Date & PO number)*/
+            for (int i = 0; i < productModel.getTable2().size(); i++) {
+                if (!productsList.get(0).getOnOrderPO().equalsIgnoreCase(productModel.getTable2().get(i).getPoNo()) &&
+                        !productsList.get(0).getDeliveryDate().equalsIgnoreCase(productModel.getTable2().get(i).getDelDate())) {
+                    inquiryData.add(new KeyValueModel("PO \nQTY on Order", productModel.getTable2().get(i).getPoNo() + "\n" + productModel.getTable2().get(i).getOrderQty()));
+                }
+            }
+        }
+
         InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(getActivity());
         inquiryListAdapter.doRefresh(inquiryData);
-        if (rv_order_info.getAdapter() == null) {
-            rv_order_info.setHasFixedSize(false);
-            rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+        rv_order_info.setHasFixedSize(false);
+        rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_order_info.setAdapter(inquiryListAdapter);
     }
 
-    /*Local Inv Data*/
+    /**
+     * Local Inv Data
+     */
     public void setLocalInvData() {
         int localCount = 0;
         stocksList = new ArrayList<>();
@@ -532,71 +573,63 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
         LocalInvListAdapter localInvListAdapter = new LocalInvListAdapter(getActivity(), localCount);
         localInvListAdapter.doRefresh(storeStockArrayList);
-        if (rv_local_inventory.getAdapter() == null) {
-            rv_local_inventory.setHasFixedSize(false);
-            rv_local_inventory.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+        rv_local_inventory.setHasFixedSize(false);
+        rv_local_inventory.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_local_inventory.setAdapter(localInvListAdapter);
+
+        if (storeStockArrayList.size() > 0) {
+            ll_local_inv.setVisibility(View.VISIBLE);
+            tv_local_inv_not_found.setVisibility(View.GONE);
+        } else {
+            ll_local_inv.setVisibility(View.GONE);
+            tv_local_inv_not_found.setVisibility(View.VISIBLE);
+        }
+
     }
 
-    /*Sales History Data*/
+    /**
+     * Sales History Data
+     */
     public void setSalesHistoryData() {
-        storesByMonthArrayList = new ArrayList<>();
-        companyByMonthArrayList = new ArrayList<>();
-        storesByMonthArrayList = salesModel.getStoresByMonth();
-        companyByMonthArrayList = salesModel.getCompanyByMonth();
+        salesByMonths = new ArrayList<>();
         ArrayList<SalesHistoryModel> salesHistoryModel = new ArrayList<>();
-
-        if (storesByMonthArrayList.size() == companyByMonthArrayList.size()) {
-            for (int i = 0; i < storesByMonthArrayList.size(); i++) {
-                salesHistoryModel.add(new SalesHistoryModel(Globals.getMonthForInt(storesByMonthArrayList.get(i).getMon()) + " " + storesByMonthArrayList.get(i).getYr(),
-                        storesByMonthArrayList.get(i).getQty(),
-                        companyByMonthArrayList.get(i).getQty(), storesByMonthArrayList.get(i).getYr()));
-            }
+        salesByMonths = salesModel.getSalesByMonth();
+        for (int i = 0; i < salesByMonths.size(); i++) {
+            salesHistoryModel.add(new SalesHistoryModel(Globals.getMonthForInt(salesByMonths.get(i).getMon()) + " " +
+                    salesByMonths.get(i).getYr(),
+                    salesByMonths.get(i).getStoreQty(),
+                    salesByMonths.get(i).getCompQty(), salesByMonths.get(i).getYr()));
         }
-
-        /*Collections.sort(salesHistoryModel, new Comparator<SalesHistoryModel>() {
-            @Override
-            public int compare(SalesHistoryModel o1, SalesHistoryModel o2) {
-                return o1.getMonth().toLowerCase().compareTo(o2.getMonth().toLowerCase());
-            }
-        });*/
-
-        Collections.sort(salesHistoryModel, new Comparator<SalesHistoryModel>() {
-            @Override
-            public int compare(SalesHistoryModel o1, SalesHistoryModel o2) {
-                /*Working*/
-                return o2.getYear() - o1.getYear();
-            }
-        });
-
 
         SalesHistoryListAdapter storeListAdapter = new SalesHistoryListAdapter(getActivity());
         storeListAdapter.doRefresh(salesHistoryModel);
-        if (rv_sales_history.getAdapter() == null) {
-            rv_sales_history.setHasFixedSize(false);
-            rv_sales_history.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
+        rv_sales_history.setHasFixedSize(false);
+        rv_sales_history.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_sales_history.setAdapter(storeListAdapter);
+
+        ll_sales_history_header.setVisibility(View.VISIBLE);
+        rv_sales_history.setVisibility(View.VISIBLE);
+
     }
 
-    /*Related Data*/
+    /**
+     * Related Data
+     */
     public void setRelatedData() {
         relatedProductArrayList = new ArrayList<>();
         relatedProductArrayList = relatedModel.getRelatedProducts();
 
         RelatedProductsAdapter relatedProductsAdapter = new RelatedProductsAdapter(getActivity(), this);
         relatedProductsAdapter.doRefresh(relatedProductArrayList);
-        if (rv_related_products.getAdapter() == null) {
-            rv_related_products.setHasFixedSize(false);
-            rv_related_products.setLayoutManager(new LinearLayoutManager(getActivity()));
-        }
-        rv_related_products.setAdapter(relatedProductsAdapter);
 
+        rv_related_products.setHasFixedSize(false);
+        rv_related_products.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_related_products.setAdapter(relatedProductsAdapter);
     }
 
-
-    /*Handle Click of Floating Back Button*/
+    /**
+     * Handle Click of Floating Back Button
+     */
     @SuppressLint("RestrictedApi")
     @OnClick(R.id.fab_prev_item)
     public void fabClick() {
@@ -606,7 +639,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         doRequestForGetProductDetail();
     }
 
-    /*Handle Click event of Related Items*/
+    /**
+     * Handle Click event of Related Items
+     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         data = relatedProductArrayList.get(i).getSku();

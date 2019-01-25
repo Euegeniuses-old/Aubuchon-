@@ -4,12 +4,13 @@
     <!--UAT Server-->
     <!--<string name="server_url">http://differenzuat.com/AubuChon/aubuchonapi/api/</string>-->
     <!--Live Server-->
-    <string name="server_url">http://aubuchonapp.a.fgqa.net/AubuChonApi/api/</string>
+   <!-- <string name="server_url">http://aubuchonapp.a.fgqa.net/AubuChonApi/api/</string>-->
 
     <!--Check Whitelisted IP-->
     <string name="url_white_listed_ip">https://api.ipify.org/?format=json</string>
-    <string name="checkPublicIp_url">Home/CheckPublicIp</string>
+  <!--  <string name="checkPublicIp_url">Home/CheckPublicIp</string>-->
 
+    <string name="url_ip_white_list">http://www.aubuchon.com/proxy/dyndns-json.pl</string>
 
     <!--Base Url of ProductStore Used in ItemDetailsFragment.java-->
 
@@ -22,7 +23,8 @@
     <!-- Added on 18-01-2019 -->
     <string name="product_store_url">http://50.206.125.135/webservice/getTCBproduct.aspx?</string>
     <string name="inventory_url">http://50.206.125.135/webservice/getTCBinventory.aspx?</string>
-    <string name="sales_url">http://50.206.125.135/webservice/getTCBsales.aspx?</string>
+    <!--Old: http://50.206.125.135/webservice/getTCBsales.aspx?-->
+    <string name="sales_url">http://50.206.125.135/webservice/getTCBsalesCombined.aspx?</string>
     <string name="related_url">http://50.206.125.135/webservice/getTCBrelated.aspx?</string>
 
 

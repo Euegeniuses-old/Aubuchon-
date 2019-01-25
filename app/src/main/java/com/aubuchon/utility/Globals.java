@@ -28,24 +28,25 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public static String TAG = "Globals";
     static Context context;
 
+    private String branchCode = "";
+
     public boolean isFromMenu = false;
     public String passCode = "";
     public String barCode = "";
 
-    public static String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-    private static final int MINUTES_IN_AN_HOUR = 60;
-    private static final int SECONDS_IN_A_MINUTE = 60;
+    public static String months[];
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
 
+        months = context.getResources().getStringArray(R.array.arr_month);
+
         Logger.addLogAdapter(new AndroidLogAdapter() {
             @Override
             public boolean isLoggable(int priority, String tag) {
-                return true/*BuildConstants.isDebuggable*/;
+                return false;
             }
         });
     }
@@ -167,5 +168,36 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public static String getMonthForInt(int m) {
         return months[m - 1];
     }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
+    }
+
+    /**
+     * Get text between two strings. Passed limiting strings are not
+     * included into result.
+     *
+     * @param text     Text to search in.
+     * @param textFrom Text to start cutting from (exclusive).
+     * @param textTo   Text to stop cutting at (exclusive).
+     */
+    public static String getBetweenStrings(String text,String textFrom,String textTo) {
+
+        String result = "";
+
+        // Cut the beginning of the text to not occasionally meet a
+        // 'textTo' value in it:
+        result =text.substring(text.indexOf(textFrom) + textFrom.length(),text.length());
+
+        // Cut the excessive ending of the text:
+        result =result.substring(0,result.indexOf(textTo));
+
+        return result;
+    }
+
 
 }

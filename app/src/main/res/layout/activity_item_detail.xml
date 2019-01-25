@@ -201,34 +201,113 @@
         android:layout_marginTop="@dimen/dim_2"
         android:layout_marginEnd="@dimen/dim_5"
         android:layout_marginBottom="@dimen/dim_5"
-        android:layout_weight="1"
         android:background="@drawable/gray_rounded_border_white_bg"
         android:gravity="center"
         android:padding="@dimen/dim_1">
 
         <!--1st View--> <!--Inquiry Screen-->
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_inquiry"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_2"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_inquiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_inquiry_group_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rv_inquiry"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:id="@+id/view_separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_10"
+                        android:layout_marginTop="@dimen/dim_2"
+                        android:layout_marginBottom="@dimen/dim_2"
+                        android:background="@android:color/black" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_18"
+                        android:text="@string/str_product_rating" />
+
+                    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+                        android:id="@+id/rating"
+                        style="?android:attr/ratingBarStyleIndicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dim_10"
+                        app:srb_borderColor="@android:color/black"
+                        app:srb_drawBorderEnabled="true"
+                        app:srb_fillColor="@color/color_dark_gray"
+                        app:srb_gravity="left"
+                        app:srb_isIndicator="true"
+                        app:srb_maxStarSize="@dimen/dim_28"
+                        app:srb_numberOfStars="5"
+                        app:srb_starBackgroundColor="@color/color_gray"
+                        app:srb_starBorderWidth="2"
+                        app:srb_starSize="@dimen/dim_28"
+                        app:srb_stepSize="0.1" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:gravity="center_horizontal"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tv_web_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_5"
+                        android:layout_marginBottom="@dimen/dim_10"
+                        android:gravity="center_horizontal"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_14" />
+
+                </LinearLayout>
+
+                <include
+                    layout="@layout/layout_no_data_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </ScrollView>
 
 
-        <!--2nd View--><!---->
+        <!--2nd View--><!--Photo Screen-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/dim_2"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/dim_5">
+            android:padding="@dimen/dim_5"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_photo"
@@ -239,49 +318,73 @@
 
 
         <!--3rd View--><!--Local Inv Screen-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/local_inv_item_header_layout" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_1"
-                android:background="@android:color/black" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_local_inventory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dim_2" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tv_no_data"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/no_data_available"
-                android:textSize="@dimen/text_size_12"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-
-        <!--4th View--><!--Order Info Screen-->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/ll_local_inv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/local_inv_item_header_layout" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dim_1"
+                    android:background="@android:color/black" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_local_inventory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dim_2" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_local_inv_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/msg_details_not_found"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+        <!--4th View--><!--Order Info Screen-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dim_2"
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_order_info"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="visible"/>
 
-        </LinearLayout>
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_order_info_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/msg_details_not_found"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
 
         <!--5th View--><!--Sales History Screen-->
@@ -289,88 +392,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <include layout="@layout/sales_history_item_header_layout" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_1"
-                android:background="@android:color/black" />
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dim_2">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_sales_history"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="visible"/>
 
-            </LinearLayout>
-
-
-            <!-- <LinearLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:orientation="vertical">
-
-                 <android.support.v7.widget.AppCompatTextView
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:gravity="center"
-                     android:text="@string/header_text_store_170"
-                     android:textAllCaps="true"
-                     android:textColor="@android:color/black"
-                     android:textSize="@dimen/text_size_14"
-                     android:textStyle="bold" />
-
-                 <View
-                     android:layout_width="match_parent"
-                     android:layout_height="@dimen/dim_1"
-                     android:background="@android:color/black" />
-
-                 <android.support.v7.widget.RecyclerView
-                     android:id="@+id/rv_sales_history_store"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_marginTop="@dimen/dim_5" />
-             </LinearLayout>
-
-             <LinearLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="center"
-                 android:layout_weight="1"
-                 android:gravity="center"
-                 android:orientation="vertical">
-
-                 <android.support.v7.widget.AppCompatTextView
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:gravity="center"
-                     android:text="@string/header_text_company"
-                     android:textAllCaps="true"
-                     android:textColor="@android:color/black"
-                     android:textSize="@dimen/text_size_14"
-                     android:textStyle="bold" />
-
-                 <View
-                     android:layout_width="match_parent"
-                     android:layout_height="@dimen/dim_1"
-                     android:background="@android:color/black" />
-
-                 <android.support.v7.widget.RecyclerView
-                     android:id="@+id/rv_sales_history_company"
-                     android:layout_width="match_parent"
-                     android:layout_height="match_parent"
-                     android:layout_marginTop="@dimen/dim_5" />
-
-             </LinearLayout>-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tv_sales_history_not_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/msg_details_not_found"
+                    android:textSize="@dimen/text_size_18"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
 
 
@@ -379,18 +427,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_related_products"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible"/>
 
-            <!-- <android.support.v7.widget.AppCompatImageView
-                 android:id="@+id/iv_related_image"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:src="@drawable/related_image" />-->
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_related_not_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/msg_details_not_found"
+                android:textSize="@dimen/text_size_18"
+                android:visibility="gone" />
+
         </LinearLayout>
 
 
@@ -400,8 +455,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_review_text"
@@ -420,8 +475,8 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/dim_2"
             android:gravity="center"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:background="@android:color/white">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_tbd_dummy_text"

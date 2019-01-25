@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/dim_5"
+            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_14" />
 
@@ -34,10 +35,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/dim_5"
+            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_size_14" />
     </LinearLayout>
 
-    <include layout="@layout/local_inv_item_separator"/>
+    <include layout="@layout/local_inv_item_separator" />
 
 </LinearLayout>

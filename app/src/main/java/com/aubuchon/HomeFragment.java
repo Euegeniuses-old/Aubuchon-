@@ -20,13 +20,12 @@ import android.widget.Toast;
 
 import com.aubuchon.apis.GetCall;
 import com.aubuchon.apis.GetCall.OnGetServiceCallListener;
-import com.aubuchon.apis.HttpRequestHandler;
-import com.aubuchon.apis.PostRequest;
-import com.aubuchon.apis.PostRequest.OnPostServiceCallListener;
 import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.scanner.ScannerActivity;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -34,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -127,6 +127,7 @@ public class HomeFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                 }
             }
 
@@ -137,7 +138,7 @@ public class HomeFragment extends Fragment {
         }, true).doRequest();
     }
 
-    public void doRequestForCheckPublicIP(String publicIP) {
+  /*  public void doRequestForCheckPublicIP(String publicIP) {
         String url = mContext.getString(R.string.server_url) + mContext.getString(R.string.checkPublicIp_url);
         JSONObject param = HttpRequestHandler.getInstance().getCheckPublicIpParams(publicIP);
 
@@ -193,7 +194,85 @@ public class HomeFragment extends Fragment {
                 Globals.showToast(mContext, msg);
             }
         }).execute();
+    }*/
+
+
+    private void doRequestForCheckPublicIP(final String publicIp) {
+
+        String url = mContext.getString(R.string.url_ip_white_list);
+
+        new GetCall(mContext, url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
+            @Override
+            public void onSucceedToGetCall(JSONObject response) {
+
+                HashMap<String, String> ipAddressMaps;
+                ipAddressMaps = new Gson().fromJson(response.toString(), new TypeToken<HashMap<String, String>>() {
+                }.getType());
+
+                if (!ipAddressMaps.containsKey(publicIp)) {
+                    AlertDialog.Builder builder = new Builder(mContext)
+                            .setMessage("Public ip is not white listed")
+                            .setCancelable(false)
+                            .setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ExitActivity.exitApplication(mContext);
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                } else {
+
+                    String ipData = ipAddressMaps.get(publicIp);
+                    if (ipData != null) {
+                        if (ipData.contains("aub-") && ipData.contains(".")) {
+
+                            String branchCode = Globals.getBetweenStrings(ipData, "aub-", ".");
+                            globals.setBranchCode(branchCode);
+                        } else {
+                            globals.setBranchCode("049");
+                        }
+                    } else {
+                        globals.setBranchCode("049");
+                    }
+
+
+                    if (isFromCameraClick) {
+                        PermissionListener permissionlistener = new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted() {
+                                // EasyImage.openCamera(getActivity(), 0);
+                                Intent intent = new Intent(getActivity(), ScannerActivity.class);
+                                startActivityForResult(intent, SCAN_BARCODE_REQUEST);
+                            }
+
+                            @Override
+                            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                                Toast.makeText(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        };
+
+                        TedPermission.with(mContext)
+                                .setPermissionListener(permissionlistener)
+                                //.setRationaleMessage(getString(R.string.request_camera_permission))
+                                .setDeniedMessage(getString(R.string.on_denied_permission))
+                                .setGotoSettingButtonText(getString(R.string.setting))
+                                .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .check();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailedToGetCall() {
+                Globals.showToast(getActivity(), "IP is not whitelisted");
+            }
+        }, true).doRequest();
+
     }
+
 
     // Handle Result come from Scanning(Camera Image)
     @Override
@@ -209,4 +288,5 @@ public class HomeFragment extends Fragment {
 
         }
     }
+
 }

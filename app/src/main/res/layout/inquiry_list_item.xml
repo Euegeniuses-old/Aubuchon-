@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_inquiry_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -10,10 +12,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="@dimen/dim_5"
-        android:text="Section"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_14"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="Section" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/tv_value"
@@ -21,20 +23,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="@dimen/dim_5"
-        android:text="F030-002F"
         android:textColor="@android:color/black"
         android:textSize="@dimen/text_size_14"
-        android:visibility="visible" />
-
-    <android.support.v7.widget.AppCompatRatingBar
-        android:id="@+id/rating"
-        style="?android:attr/ratingBarStyleIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:numStars="5"
-        android:theme="@style/RatingBar"
-        android:visibility="gone" />
+        android:visibility="visible"
+        tools:text="F030-002F" />
 
 </LinearLayout>
