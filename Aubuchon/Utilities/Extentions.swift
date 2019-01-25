@@ -65,4 +65,28 @@ extension UIView {
         }
     }
 }
+extension String {
+    func subStr(s: Int, l: Int) -> String { //s=start, l=lenth
+        let r = Range(NSRange(location: s, length: l))!
+        let fromIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
+        let toIndex = self.index(self.startIndex, offsetBy: r.upperBound)
+        let indexRange = Range<String.Index>(uncheckedBounds: (lower: fromIndex, upper: toIndex))
+        
+        return String(self[indexRange])
+    }
+    func isValidNumericString() -> Bool {
+        let set = CharacterSet(charactersIn: "0123456789 ")
+        return self.rangeOfCharacter(from: set.inverted) == nil
+    }
+    
+    func slice(from: String, to: String) -> String? {
+        
+        return (range(of: from)?.upperBound).flatMap { substringFrom in
+            (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
+                String(self[substringFrom..<substringTo])
+            }
+        }
+    }
+    
+}
 

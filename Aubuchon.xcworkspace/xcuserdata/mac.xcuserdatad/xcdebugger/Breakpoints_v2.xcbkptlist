@@ -26,13 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.09464"
+            timestampString = "570107921.3735009"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
             endingLineNumber = "69"
-            landmarkName = "MainViewController"
-            landmarkType = "3">
+            landmarkName = "publicAPICall()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.09473"
+            timestampString = "570107921.374078"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "251"
             endingLineNumber = "251"
-            landmarkName = "MainViewController"
-            landmarkType = "3">
+            landmarkName = "menuItemSelected(Row:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -330,7 +330,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/View/Photo/PhotoCell/PhotoTableViewCell.swift"
-            timestampString = "567069488.650552"
+            timestampString = "570108494.030935"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "37"
@@ -346,7 +346,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/View/Photo/PhotoCell/PhotoTableViewCell.swift"
-            timestampString = "567069488.650769"
+            timestampString = "570108494.030982"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -362,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/View/Photo/PhotoCell/PhotoTableViewCell.swift"
-            timestampString = "567069488.650805"
+            timestampString = "570108494.031015"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -378,7 +378,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/View/Photo/PhotoCell/PhotoTableViewCell.swift"
-            timestampString = "567069488.6508369"
+            timestampString = "570108494.031046"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "61"
@@ -394,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.096156"
+            timestampString = "570107921.375028"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "296"
@@ -426,7 +426,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.096691"
+            timestampString = "570107921.3756419"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "99"
@@ -442,12 +442,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.096742"
+            timestampString = "570107921.376217"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "256"
             endingLineNumber = "256"
-            landmarkName = "btnCaptureImage_Action(_:)"
+            landmarkName = "menuItemSelected(Row:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -554,13 +554,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.098073"
+            timestampString = "570107921.376901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "223"
             endingLineNumber = "223"
-            landmarkName = "menuItemSelected(Row:)"
-            landmarkType = "7">
+            landmarkName = "MainViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -602,7 +602,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.098631"
+            timestampString = "570107921.377526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "46"
@@ -778,7 +778,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.099944"
+            timestampString = "570107921.3778991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"

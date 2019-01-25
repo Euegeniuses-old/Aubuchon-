@@ -22,8 +22,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D96-wY-OUA">
                             <rect key="frame" x="0.0" y="0.0" width="144.5" height="50"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NzA-SC-JRB">
-                                    <rect key="frame" x="10" y="10" width="107" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item Number" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NzA-SC-JRB">
+                                    <rect key="frame" x="10" y="10" width="134.5" height="20.5"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -33,6 +33,7 @@
                             <constraints>
                                 <constraint firstItem="NzA-SC-JRB" firstAttribute="leading" secondItem="D96-wY-OUA" secondAttribute="leading" constant="10" id="lsm-Yf-XAD"/>
                                 <constraint firstItem="NzA-SC-JRB" firstAttribute="top" secondItem="D96-wY-OUA" secondAttribute="top" constant="10" id="qr0-hZ-wi9"/>
+                                <constraint firstAttribute="trailing" secondItem="NzA-SC-JRB" secondAttribute="trailing" id="yet-Kp-nAn"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pxd-3b-Flt">

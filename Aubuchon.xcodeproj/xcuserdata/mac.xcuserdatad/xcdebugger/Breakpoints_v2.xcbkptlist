@@ -10,13 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.100006"
+            timestampString = "570107921.378135"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "348"
             endingLineNumber = "348"
-            landmarkName = "MainViewController"
-            landmarkType = "21">
+            landmarkName = "tableView(_:estimatedHeightForRowAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Aubuchon/Controller/Main/MainViewController.swift"
-            timestampString = "567151230.100053"
+            timestampString = "570107921.378333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "254"
             endingLineNumber = "254"
-            landmarkName = "btnCaptureImage_Action(_:)"
+            landmarkName = "menuItemSelected(Row:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

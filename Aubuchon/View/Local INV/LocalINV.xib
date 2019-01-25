@@ -20,10 +20,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bt9-bU-3bd">
-                            <rect key="frame" x="0.0" y="0.0" width="124" height="63"/>
+                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="63"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ku7-na-qDB">
-                                    <rect key="frame" x="10" y="10" width="114" height="21"/>
+                                    <rect key="frame" x="10" y="10" width="177.5" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -37,10 +37,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UuL-Mw-Koz">
-                            <rect key="frame" x="124" y="0.0" width="123.5" height="63"/>
+                            <rect key="frame" x="187.5" y="0.0" width="94" height="63"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kuK-bU-cvb">
-                                    <rect key="frame" x="10" y="10" width="113.5" height="21"/>
+                                    <rect key="frame" x="10" y="10" width="84" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -54,10 +54,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2X-Dt-Ifr">
-                            <rect key="frame" x="247.5" y="0.0" width="124" height="63"/>
+                            <rect key="frame" x="281.5" y="0.0" width="93.5" height="63"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPp-rN-FCD">
-                                    <rect key="frame" x="10" y="10" width="114" height="21"/>
+                                    <rect key="frame" x="10" y="10" width="83.5" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -94,7 +94,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="C2X-Dt-Ifr" firstAttribute="height" secondItem="Oqo-W1-Gwa" secondAttribute="height" id="7B3-3u-Vm9"/>
-                        <constraint firstItem="UuL-Mw-Koz" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.33" id="8IH-gN-jI8"/>
+                        <constraint firstItem="UuL-Mw-Koz" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.25" id="8IH-gN-jI8"/>
                         <constraint firstItem="C2X-Dt-Ifr" firstAttribute="leading" secondItem="UuL-Mw-Koz" secondAttribute="trailing" id="AZF-PB-Nuf"/>
                         <constraint firstItem="UuL-Mw-Koz" firstAttribute="height" secondItem="Oqo-W1-Gwa" secondAttribute="height" id="CYP-Sa-x4y"/>
                         <constraint firstItem="C2X-Dt-Ifr" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="IBc-lC-LcO"/>
@@ -107,9 +107,9 @@
                         <constraint firstAttribute="trailing" secondItem="EBE-1l-NI7" secondAttribute="trailing" id="hae-Ut-5IN"/>
                         <constraint firstAttribute="bottom" secondItem="Rr4-Gb-ngA" secondAttribute="bottom" id="hvq-G1-QQg"/>
                         <constraint firstItem="UuL-Mw-Koz" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="pOa-Yi-XdE"/>
-                        <constraint firstItem="bt9-bU-3bd" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.33" id="ttz-ox-I0J"/>
+                        <constraint firstItem="bt9-bU-3bd" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.5" id="ttz-ox-I0J"/>
                         <constraint firstItem="bt9-bU-3bd" firstAttribute="top" secondItem="Oqo-W1-Gwa" secondAttribute="top" id="v78-Pr-6fh"/>
-                        <constraint firstItem="C2X-Dt-Ifr" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.33" id="yLt-ja-cOe"/>
+                        <constraint firstItem="C2X-Dt-Ifr" firstAttribute="width" secondItem="Oqo-W1-Gwa" secondAttribute="width" multiplier="0.25" id="yLt-ja-cOe"/>
                         <constraint firstItem="Rr4-Gb-ngA" firstAttribute="leading" secondItem="Oqo-W1-Gwa" secondAttribute="leading" id="zri-ka-a1J"/>
                     </constraints>
                 </view>

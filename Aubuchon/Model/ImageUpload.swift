@@ -58,14 +58,23 @@ let kwebDesc = "webDesc"
 let kPromoPrice = "promoPrice"
 let kRanking = "ranking"
 //let kLocal = "local"
-
+let kTable1 = "Table1"
+let kTable2 = "Table2"
+let kSalesByMonth = "SalesByMonth"
+let kCompanyQty = "CompQty"
+let kStoreQty = "storeQty"
+let kSort = "Sort"
+let kPoNo = "poNo"
+let kOrderQty = "orderQty"
+let kDelDate = "delDate"
+//Local INV
 class StoreStock: NSObject {
     var store, name: String
     var qty:Int
     var localData: Int
-   // var storeINVData: [ImageUpload]
-     init?(dictionary: [String:Any]) {
-    //     self.storeINVData = (dictionary[kStoreStock] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
+    // var storeINVData: [ImageUpload]
+    init?(dictionary: [String:Any]) {
+        //     self.storeINVData = (dictionary[kStoreStock] as? [[String:Any]] ?? [[:]]).compactMap(ImageUpload.init)
         self.store = dictionary[kStore] as? String ?? ""
         self.name = dictionary[kName] as? String ?? ""
         self.qty = dictionary[kQty] as? Int ?? 0
@@ -73,28 +82,57 @@ class StoreStock: NSObject {
     }
     
 }
-struct StoresByMonth: Codable {
-    let qty: Int
+
+//Sales history
+struct SalesByMonth: Codable {
+    
+//    let qty: Int
+//    let monStr: String
+//    let mon, yr: Int
+//    init?(dictionary: [String:Any]) {
+//        self.qty = dictionary[kQty] as? Int ?? 0
+//        self.monStr = dictionary[kMonStr] as? String ?? ""
+//        self.mon = dictionary[kMon] as? Int ?? 0
+//        self.yr = dictionary[kYr] as? Int ?? 0
+//    }
+
+    //EDITED:- 22-01-2019 Parth
     let monStr: String
-    let mon, yr: Int
+    let storeQty, companyQty: Int
+    let mon, yr, sort: Int
+    
     init?(dictionary: [String:Any]) {
-        self.qty = dictionary[kQty] as? Int ?? 0
+        self.companyQty = dictionary[kCompanyQty] as? Int ?? 0
+        self.storeQty = dictionary[kStoreQty] as? Int ?? 0
         self.monStr = dictionary[kMonStr] as? String ?? ""
         self.mon = dictionary[kMon] as? Int ?? 0
         self.yr = dictionary[kYr] as? Int ?? 0
+        self.sort = dictionary[kSort] as? Int ?? 0
     }
 }
-struct CompanyByMonth: Codable {
-    let qty: Int
-    let monStr: String
-    let mon, yr: Int
-    init?(dictionary: [String:Any]) {
-        self.qty = dictionary[kQty] as? Int ?? 0
-        self.monStr = dictionary[kMonStr] as? String ?? ""
-        self.mon = dictionary[kMon] as? Int ?? 0
-        self.yr = dictionary[kYr] as? Int ?? 0
+struct TableData: Codable {
+    let poNo: String
+    let orderQty: Int
+    let delDate: String
+     init?(dictionary: [String:Any]) {
+        self.poNo = dictionary[kPoNo] as? String ?? ""
+        self.orderQty = dictionary[kOrderQty] as? Int ?? 0
+        self.delDate = dictionary[kDelDate] as? String ?? ""
     }
 }
+//struct CompanyByMonth: Codable {
+//    let qty: Int
+//    let monStr: String
+//    let mon, yr: Int
+//    init?(dictionary: [String:Any]) {
+//        self.qty = dictionary[kQty] as? Int ?? 0
+//        self.monStr = dictionary[kMonStr] as? String ?? ""
+//        self.mon = dictionary[kMon] as? Int ?? 0
+//        self.yr = dictionary[kYr] as? Int ?? 0
+//    }
+//}
+
+//Releted Product
 struct RelatedProduct: Codable {
     let sku: String
     let image: String
@@ -102,8 +140,8 @@ struct RelatedProduct: Codable {
     let retailPrice: Double
     let promoPrice: String
     let ranking: Int
-  //  let local: Int
-     init?(dictionary: [String:Any]) {
+    //  let local: Int
+    init?(dictionary: [String:Any]) {
         self.sku = dictionary[kSku] as? String ?? ""
         self.image = dictionary[kImage] as? String ?? ""
         self.webDesc = dictionary[kwebDesc] as? String ?? ""
@@ -113,6 +151,7 @@ struct RelatedProduct: Codable {
         //self.local = dictionary[kLocal] as? Int ?? 0
     }
 }
+
 class ImageUpload: NSObject, NSCoding {
     var Planogram:String
     var PlangramDesc:String
@@ -140,7 +179,7 @@ class ImageUpload: NSObject, NSCoding {
     var store:String
     var storeName:String
     var qty:Int
-   // var storeINVData:[ImageUpload]
+    // var storeINVData:[ImageUpload]
     
     init?(dictionary: [String:Any]) {
         self.Planogram = dictionary[kPlanogram] as? String ?? ""
@@ -169,9 +208,6 @@ class ImageUpload: NSObject, NSCoding {
         self.store = dictionary[kStore] as? String ?? ""
         self.storeName = dictionary[kName] as? String ?? ""
         self.qty = dictionary[kQty] as? Int ?? 0
-       
-        
-        
     }
     
     // MARK: - NSCoding
@@ -203,8 +239,6 @@ class ImageUpload: NSObject, NSCoding {
         store = aDecoder.decodeObject(forKey:kStore) as? String ?? ""
         storeName = aDecoder.decodeObject(forKey:kName) as? String ?? ""
         qty = aDecoder.decodeObject(forKey:kQty) as? Int ?? 0
-       
-        
     }
     
     func encode(with aCoder: NSCoder) {
@@ -234,6 +268,25 @@ class ImageUpload: NSObject, NSCoding {
         aCoder.encode(store, forKey: kStore)
         aCoder.encode(storeName, forKey: kName)
         aCoder.encode(qty, forKey: kQty)
+    }
+    
+    
+    //MARK:- call API For brachcode
+    class func callBrachcodeAPI(success withResponse: @escaping (_ response : [String:Any])-> (), failure: @escaping FailureBlock) {
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.show()
+        APIManager.makeRequestWithQueruyString(with: Constant.APIURLANDKEY.fetchBranchCode , method: .post, parameter: nil, success: { (response) in
+            SVProgressHUD.dismiss()
+            let dict = response as? [String:Any] ?? [:]
+            withResponse(dict)
+        }, failure: { (error) in
+            SVProgressHUD.dismiss()
+            failure(error,false)
+        }) { (StringconnectionError) in
+            SVProgressHUD.dismiss()
+            failure(Constant.alertTitleMessage.internetNotAvailable,false)
+        }
+        
     }
     
     // MARK:- Image upload  function
@@ -290,57 +343,177 @@ class ImageUpload: NSObject, NSCoding {
             failure(Constant.alertTitleMessage.internetNotAvailable,false)
         }
     }
+}
+
+class Product {
+    
+    //MARK:- Display product information by form data
+    class func displayProductInfoWIthFormData(with branchcode: Int, data:Int, success withResponse: @escaping (_ response : String,_ isSuccess: Bool)-> (), failure: @escaping FailureBlock) {
+        SVProgressHUD.show()
+    }
     
     //MARK:- display product information
-    class func displayProductInfo(with branchcode: Int,
+    class func displayProductInfo(with branchcode: String,
                                   data:String,
-                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool,_ storeByMonth:[StoresByMonth], _ companyByMonth:[CompanyByMonth], _ localINV: [StoreStock],_ relatedProductData:[RelatedProduct])-> (), failure: @escaping FailureBlock) {
+                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ arrUPC:[[String:Any]], _ arrtableTwo:[TableData])-> (), failure: @escaping FailureBlock) {
+        
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
         let param:[String:Any] = [kbarcode:branchcode,kdata:data]
-      
+        
         let barcodedata:String =  String(branchcode)
         let dataQuery:String = String(data)
         let queryString = Constant.APIURLANDKEY.productInfo + "?branchcode=\(barcodedata)" + "&data=\(dataQuery)"
+        
         APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
             SVProgressHUD.dismiss()
-            //print(response)
-           // withResponse(response as! String, true)
-            let dict = response as? [String:Any] ?? [:]
-            //print(dict)
             
-           let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
-            let arrayStock = dict[kStoreStock] as? [[String:Any]] ?? [[:]]
-            let responseStoresByMonth = dict[kStoresByMonth] as? [[String:Any]] ?? [[:]]
-            let responseCompanyByMonth = dict[kCompanyByMonth] as? [[String:Any]] ?? [[:]]
-            let responseRelatedItems = dict[kRelatedProducts] as? [[String:Any]] ?? [[:]]
+            let dict = response as? [String:Any] ?? [:]
+            
+            let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
+            let arrUPC = dict[kTable1] as? [[String:Any]] ?? [[:]] //Table1
+            let table2Array = dict[kTable2] as? [[String:Any]] ?? [[:]] //Table2
             
             if responseDic.count == 0 {
-               
+                
+                failure(Constant.alertTitleMessage.validBarcode,false)
+            } else {
+                
+                let res = responseDic[0]
+                var arraytable2 = [TableData]()
+                for i in table2Array {
+                    if let table2ArrayObj = TableData(dictionary: i) {
+                        arraytable2.append(table2ArrayObj)
+                    }
+                }
+                withResponse(res,true,arrUPC,arraytable2)
+            }
+        }, failure: { (error) in
+            SVProgressHUD.dismiss()
+            failure(error,false)
+        }) { (StringconnectionError) in
+            SVProgressHUD.dismiss()
+            failure(Constant.alertTitleMessage.internetNotAvailable,false)
+        }
+    }
+    
+    //MARK:- call APIFor Sales-History
+    class func callAPIForSalesHistory(with branchcode: String, strBarcode:String, success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool,_ storeByMonth:[SalesByMonth])-> (), failure: @escaping FailureBlock) {
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.show()
+        let param:[String:Any] = [kbarcode:branchcode,kdata:strBarcode]
+        
+        let barcodedata:String =  String(branchcode)
+        
+        let queryString = Constant.APIURLANDKEY.kGetSalesHistory + "?branchcode=\(barcodedata)" + "&data=\(strBarcode)"
+        
+        APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
+            SVProgressHUD.dismiss()
+            
+            let dict = response as? [String:Any] ?? [:]
+            
+            let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
+            let responseStoresByMonth = dict[kSalesByMonth] as? [[String:Any]] ?? [[:]]
+            
+            if responseDic.count == 0 {
+                
                 failure(Constant.alertTitleMessage.validBarcode,false)
             } else {
                 
                 let res = responseDic[0]
                 
+                //Sales history
+                var arrayStoresByMonth = [SalesByMonth]()
+                for i in responseStoresByMonth {
+                    if let storesByMonthObj = SalesByMonth(dictionary: i) {
+                        arrayStoresByMonth.append(storesByMonthObj)
+                    }
+                }
+                withResponse(res,true,arrayStoresByMonth)
+            }
+            
+        }, failure: { (error) in
+            SVProgressHUD.dismiss()
+            failure(error,false)
+        }) { (StringconnectionError) in
+            SVProgressHUD.dismiss()
+            failure(Constant.alertTitleMessage.internetNotAvailable,false)
+        }
+    }
+    
+    //MARK:- call API For LocalINV
+    class func callAPIForLocalINV(with branchcode: String,
+                                  data:String,
+                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ localINV: [StoreStock])-> (), failure: @escaping FailureBlock) {
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.show()
+        let param:[String:Any] = [kbarcode:branchcode,kdata:data]
+        
+        let queryString = Constant.APIURLANDKEY.kGetLocalINV + "?branchcode=\(branchcode)" + "&data=\(data)"
+        
+        APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
+            SVProgressHUD.dismiss()
+            
+            let dict = response as? [String:Any] ?? [:]
+            
+            let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
+            let arrayStock = dict[kStoreStock] as? [[String:Any]] ?? [[:]]
+            
+            if responseDic.count == 0 {
+                
+                failure(Constant.alertTitleMessage.validBarcode,false)
+            } else {
+                
+                let res = responseDic[0]
+                
+                //Local INV
                 var array1 = [StoreStock]()
                 for i in arrayStock {
                     if let obj = StoreStock(dictionary: i){
                         array1.append(obj)
                     }
                 }
-                var arrayStoresByMonth = [StoresByMonth]()
-                for i in responseStoresByMonth {
-                    if let storesByMonthObj = StoresByMonth(dictionary: i) {
-                        arrayStoresByMonth.append(storesByMonthObj)
-                    }
-                }
+                withResponse(res,true,array1)
+            }
+            
+        }, failure: { (error) in
+            SVProgressHUD.dismiss()
+            failure(error,false)
+        }) { (StringconnectionError) in
+            SVProgressHUD.dismiss()
+            failure(Constant.alertTitleMessage.internetNotAvailable,false)
+        }
+    }
+    
+    //MARK:- call API For Releted Product
+    class func callAPIForReletedProduct(with branchcode: String,
+                                        data:String,
+                                        success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ arrReletedProduct: [RelatedProduct])-> (), failure: @escaping FailureBlock) {
+        
+        SVProgressHUD.setDefaultMaskType(.black)
+        SVProgressHUD.show()
+        
+        let param:[String:Any] = [kbarcode:branchcode,kdata:data]
+        let queryString = Constant.APIURLANDKEY.kGetReletedProduct + "?branchcode=\(branchcode)" + "&data=\(data)"
+        
+        APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
+            SVProgressHUD.dismiss()
+            
+            let dict = response as? [String:Any] ?? [:]
+            
+            let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
+            let responseRelatedItems = dict[kRelatedProducts] as? [[String:Any]] ?? [[:]]
+            
+            if responseDic.count == 0 {
                 
-                var arrayCompanyByMonth = [CompanyByMonth]()
-                for i in responseCompanyByMonth {
-                    if let companyByMonthObj = CompanyByMonth(dictionary: i) {
-                        arrayCompanyByMonth.append(companyByMonthObj)
-                    }
-                }
+                failure(Constant.alertTitleMessage.validBarcode,false)
+            } else {
+                
+                let res = responseDic[0]
+                
+                //Releted Product
                 var arrayRelatedProduct = [RelatedProduct]()
                 for i in responseRelatedItems{
                     if let relatedProductObj = RelatedProduct(dictionary: i) {
@@ -348,21 +521,18 @@ class ImageUpload: NSObject, NSCoding {
                     }
                 }
                 
-               // withResponse(res , true, array1,arrayStoresByMonth,arrayCompanyByMonth)
-                withResponse(res,true,arrayStoresByMonth,arrayCompanyByMonth,array1, arrayRelatedProduct)
+                withResponse(res,true,arrayRelatedProduct)
             }
-
+            
         }, failure: { (error) in
             SVProgressHUD.dismiss()
-              failure(error,false)
+            failure(error,false)
         }) { (StringconnectionError) in
             SVProgressHUD.dismiss()
-             failure(Constant.alertTitleMessage.internetNotAvailable,false)
+            failure(Constant.alertTitleMessage.internetNotAvailable,false)
         }
+        
     }
     
-    //MARK:- Display product information by form data
-    class func displayProductInfoWIthFormData(with branchcode: Int, data:Int, success withResponse: @escaping (_ response : String,_ isSuccess: Bool)-> (), failure: @escaping FailureBlock) {
-         SVProgressHUD.show()
-    }
+    
 }

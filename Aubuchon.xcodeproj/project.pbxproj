@@ -45,6 +45,11 @@
 		04E6940A21EF683000340DA2 /* RelatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E6940821EF683000340DA2 /* RelatedTableViewCell.swift */; };
 		04E6940B21EF683000340DA2 /* RelatedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E6940921EF683000340DA2 /* RelatedTableViewCell.xib */; };
 		04FBA37121B6AD0C007669D8 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */; };
+		04FCBE4C21FB27A800F6A21C /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FCBE4A21FB27A800F6A21C /* RatingCell.swift */; };
+		04FCBE4D21FB27A800F6A21C /* RatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FCBE4B21FB27A800F6A21C /* RatingCell.xib */; };
+		04FCBE5021FB27BB00F6A21C /* Table2ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FCBE4E21FB27BB00F6A21C /* Table2ViewCell.swift */; };
+		04FCBE5121FB27BB00F6A21C /* Table2ViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04FCBE4F21FB27BB00F6A21C /* Table2ViewCell.xib */; };
+		04FCBE5321FB27E900F6A21C /* singaltan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FCBE5221FB27E900F6A21C /* singaltan.swift */; };
 		31A2A0F56234F66C5E5EC7DB /* Pods_AubuchonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFE424A55356D0587F3EDFB0 /* Pods_AubuchonTests.framework */; };
 		EA74665ECA6AF2EB6058B315 /* Pods_AubuchonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B4C75070567AD553A5ACDB /* Pods_AubuchonUITests.framework */; };
 		FA585E72C1E0DF3BEE709CEC /* Pods_Aubuchon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D4D02286C4DCC125927E73 /* Pods_Aubuchon.framework */; };
@@ -113,6 +118,11 @@
 		04E6940821EF683000340DA2 /* RelatedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedTableViewCell.swift; sourceTree = "<group>"; };
 		04E6940921EF683000340DA2 /* RelatedTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedTableViewCell.xib; sourceTree = "<group>"; };
 		04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		04FCBE4A21FB27A800F6A21C /* RatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
+		04FCBE4B21FB27A800F6A21C /* RatingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatingCell.xib; sourceTree = "<group>"; };
+		04FCBE4E21FB27BB00F6A21C /* Table2ViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table2ViewCell.swift; sourceTree = "<group>"; };
+		04FCBE4F21FB27BB00F6A21C /* Table2ViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Table2ViewCell.xib; sourceTree = "<group>"; };
+		04FCBE5221FB27E900F6A21C /* singaltan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = singaltan.swift; sourceTree = "<group>"; };
 		1B749CBF98BCC46C119CDAFC /* Pods-AubuchonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonUITests/Pods-AubuchonUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5423DD00FFA7FDC194494B70 /* Pods-AubuchonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonTests/Pods-AubuchonTests.release.xcconfig"; sourceTree = "<group>"; };
 		542BF1C2B5EB82E74833DD03 /* Pods-AubuchonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AubuchonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AubuchonTests/Pods-AubuchonTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -196,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				041BD80C219FCD8B00E4A37C /* Aubuchon.entitlements */,
+				044BCD5E21F9F45B00D48BF0 /* Singltan */,
 				043A44EE219AA85400D6DA2E /* AppDelegate */,
 				0405D9CF219AE13400200F55 /* Utilities */,
 				043A44EF219AA86600D6DA2E /* Constant */,
@@ -255,6 +266,7 @@
 		043A44F1219AA87A00D6DA2E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04FCBE4921FB26CE00F6A21C /* RatingCell */,
 				040287BB21E77EFB0083929C /* Review */,
 				0484BF0221C909C80093A891 /* Menu */,
 				0465303221C7BF190040EE64 /* OrderInfo */,
@@ -300,6 +312,23 @@
 				043A4500219AAAB800D6DA2E /* UploadImageViewController.swift */,
 			);
 			path = UploadImage;
+			sourceTree = "<group>";
+		};
+		044BCD5E21F9F45B00D48BF0 /* Singltan */ = {
+			isa = PBXGroup;
+			children = (
+				04FCBE5221FB27E900F6A21C /* singaltan.swift */,
+			);
+			path = Singltan;
+			sourceTree = "<group>";
+		};
+		044BCD5F21F9F47200D48BF0 /* Table2Data */ = {
+			isa = PBXGroup;
+			children = (
+				04FCBE4E21FB27BB00F6A21C /* Table2ViewCell.swift */,
+				04FCBE4F21FB27BB00F6A21C /* Table2ViewCell.xib */,
+			);
+			path = Table2Data;
 			sourceTree = "<group>";
 		};
 		0452B37421BFA47300062945 /* Inquiry */ = {
@@ -389,6 +418,7 @@
 		0465303221C7BF190040EE64 /* OrderInfo */ = {
 			isa = PBXGroup;
 			children = (
+				044BCD5F21F9F47200D48BF0 /* Table2Data */,
 				0465303321C7BF3F0040EE64 /* OrderInfo.xib */,
 				0465303521C7BF780040EE64 /* OrderInfoTableViewCell.swift */,
 			);
@@ -419,6 +449,15 @@
 				04FBA37021B6AD0C007669D8 /* ScannerViewController.swift */,
 			);
 			path = Scanner;
+			sourceTree = "<group>";
+		};
+		04FCBE4921FB26CE00F6A21C /* RatingCell */ = {
+			isa = PBXGroup;
+			children = (
+				04FCBE4A21FB27A800F6A21C /* RatingCell.swift */,
+				04FCBE4B21FB27A800F6A21C /* RatingCell.xib */,
+			);
+			path = RatingCell;
 			sourceTree = "<group>";
 		};
 		DE3F4E7B9AED701DEF657832 /* Frameworks */ = {
@@ -561,6 +600,7 @@
 				0452B38021BFCB4B00062945 /* LocalINV.xib in Resources */,
 				0465303421C7BF3F0040EE64 /* OrderInfo.xib in Resources */,
 				040287BF21E77EFB0083929C /* ReviewTableViewCell.xib in Resources */,
+				04FCBE4D21FB27A800F6A21C /* RatingCell.xib in Resources */,
 				0452B38521BFCD0100062945 /* RelatedItems.xib in Resources */,
 				0452B38D21BFE33F00062945 /* SalesHistory.xib in Resources */,
 				0452B39921BFEE0100062945 /* SalesHistoryHeader.xib in Resources */,
@@ -569,6 +609,7 @@
 				0452B39221BFEA2600062945 /* LocalINVHeader.xib in Resources */,
 				0484BF0621C909E20093A891 /* MenuTableViewCell.xib in Resources */,
 				0452B37621BFA4EF00062945 /* Inquiry.xib in Resources */,
+				04FCBE5121FB27BB00F6A21C /* Table2ViewCell.xib in Resources */,
 				043A44C8219AA84C00D6DA2E /* Assets.xcassets in Resources */,
 				0465303121C7A1D10040EE64 /* PhotoTableViewCell.xib in Resources */,
 				043A44C6219AA84B00D6DA2E /* Main.storyboard in Resources */,
@@ -600,6 +641,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Aubuchon/Pods-Aubuchon-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MTBBarcodeScanner/MTBBarcodeScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -608,6 +650,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MTBBarcodeScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -681,13 +724,16 @@
 			files = (
 				0410CE99219D9738009EC83C /* Constant.swift in Sources */,
 				0452B37D21BFC88300062945 /* PhotoCollectionViewCell.swift in Sources */,
+				04FCBE4C21FB27A800F6A21C /* RatingCell.swift in Sources */,
 				0410CE93219D9075009EC83C /* APIManager.swift in Sources */,
 				043A44C1219AA84B00D6DA2E /* AppDelegate.swift in Sources */,
 				0405D9D1219AE15000200F55 /* Extentions.swift in Sources */,
 				0452B39421BFEC6F00062945 /* LocalINVHeader.swift in Sources */,
 				0452B39721BFEDED00062945 /* SalesHistoryHeader.swift in Sources */,
+				04FCBE5021FB27BB00F6A21C /* Table2ViewCell.swift in Sources */,
 				0452B38221BFCC5900062945 /* LocalINVCollectionViewCell.swift in Sources */,
 				043A4501219AAAB800D6DA2E /* UploadImageViewController.swift in Sources */,
+				04FCBE5321FB27E900F6A21C /* singaltan.swift in Sources */,
 				04E6940A21EF683000340DA2 /* RelatedTableViewCell.swift in Sources */,
 				0452B38A21BFCEF200062945 /* ProductInformationViewController.swift in Sources */,
 				0465303021C7A1D10040EE64 /* PhotoTableViewCell.swift in Sources */,

@@ -6,7 +6,8 @@ target 'Aubuchon' do
   use_frameworks!
 
   # Pods for Aubuchon
-	pod 'Alamofire', '~> 4.7'
+    pod 'Cosmos'
+    pod 'Alamofire', '~> 4.7'
     pod 'SVProgressHUD'
     pod 'IQKeyboardManagerSwift'
     pod 'MTBBarcodeScanner'

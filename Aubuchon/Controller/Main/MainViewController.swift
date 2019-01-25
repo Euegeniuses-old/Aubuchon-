@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
     //@IBOutlet weak var imageTake: UIImageView!
     
     //variables
+    var ipAddress: String? = nil
     var imagePicker : UIImagePickerController!
     var isOnLoad : Bool = true
     var barCodeNumber : String = ""
@@ -36,6 +37,7 @@ class MainViewController: UIViewController {
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         UIConfig()
         publicAPICall()
         hideMenuView()
@@ -63,14 +65,11 @@ class MainViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
-    
-    //MARK:- button action
-    
     //MARK:- publicAPI call
     func publicAPICall() {
-        
+       
         let url = URL(string: "https://api.ipify.org/")
-        var ipAddress: String? = nil
+        
         if let anUrl = url {
             ipAddress = try? String(contentsOf: anUrl, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
         }
@@ -86,11 +85,9 @@ class MainViewController: UIViewController {
                 
                 self.present(alert, animated: true, completion: nil)
             } else {
+                self.getBranchCode()
                 if !self.isOnLoad {
                     self.openMTBScanner()
-                    //Swift sacn library used
-                    //self.showScannerNewUI()
-                    //                    self.openCamera()
                 }
             }
             
@@ -110,28 +107,46 @@ class MainViewController: UIViewController {
         }
     }
     
+    //MARK:- get branchcode api call
+    func getBranchCode() {
+        ImageUpload.callBrachcodeAPI(success: { (branchCodeResponse) in
+
+            branchCodeResponse.contains(where: { (ipAddressData) -> Bool in
+                if ipAddressData.key == self.ipAddress {
+                    
+                    let ipValue:String = ipAddressData.value as! String
+                    //                    let fetchedBrachCode = ipValue.subStr(s: 4, l: 3)
+                    //                    let branchCodeData = fetchedBrachCode.subStr(s: 0, l: 1)
+                    //                    singaltan.aubuchon.branchCode = branchCodeData.isValidNumericString() ? fetchedBrachCode : "049"
+                    
+                    if ipValue.contains("aub-") && ipValue.contains(".") {
+                        
+                        let fetchedBrachCode =  ipValue.slice(from: "aub-", to: ".")
+                        singaltan.aubuchon.branchCode = (fetchedBrachCode?.isValidNumericString())! ? fetchedBrachCode ?? "049" : "049"
+                        
+                    } else {
+                        singaltan.aubuchon.branchCode = "049"
+                    }
+                    return true
+                } else {
+                    
+                    return false
+                }
+                
+            })
+        }, failure: { (error, isSuccess) in
+            self.alertMessage(message: error, title: "")
+        })
+    }
+    
     //MARK:- Private functions
-   
+    
     // UIConfiguration
     func UIConfig() {
         // Do any additional setup after loading the view.
         lblCaptureImage.textColor = UIColor.black
-        //        lblCaptureImage.textColor = Constant.Colors.textColor
-        //  lblOR.textColor = Constant.Colors.textColor
-        //        txtCode.textColor = Constant.Colors.textColor
+      
         txtCode.textColor = UIColor.black
-        
-        //        let border = CALayer()
-        //        let width = CGFloat(2.0)
-        //        border.borderColor = UIColor.darkGray.cgColor
-        //        border.frame = CGRect(x: 0, y: txtCode.frame.size.height - width, width: txtCode.frame.size.width, height: txtCode.frame.size.height)
-        //
-        //        border.borderWidth = width
-        //        txtCode.layer.addSublayer(border)
-        //        txtCode.layer.masksToBounds = true
-        //        txtCode.layer.borderWidth = 1
-        //        txtCode.layer.cornerRadius = 5
-        //        txtCode.layer.borderColor = UIColor.lightGray.cgColor
         
         // btnOk.setTitleColor(Constant.Colors.textColor, for: UIControlState.normal)
         menuView.layer.borderColor = UIColor.black.cgColor
@@ -187,7 +202,7 @@ class MainViewController: UIViewController {
         } else {
             self.alertMessage(message: Constant.alertTitleMessage.cameranotfoundAlertMessage, title: Constant.alertTitleMessage.cameranotfoundTitleMessage)
         }
-      
+        
     }
     
     //show menu
@@ -276,34 +291,6 @@ class MainViewController: UIViewController {
                     ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
             secondViewController.barcode = txtCode.text ?? "1"
             
-//            var currentSKU:String = UserDefaults.standard.getCurrentSKU()
-//            var oldSKU:String = UserDefaults.standard.getOldSKU()
-//
-//            Constant.kAppDelegate.barcodeNumber = txtCode.text?.trim() ?? ""
-//            if currentSKU == "" && oldSKU == "" {
-//                UserDefaults.standard.setOldSKU(value: "")
-//                UserDefaults.standard.setCurrentSKU(value: txtCode.text ?? "1")
-//            } else if UserDefaults.standard.getCurrentSKU() != txtCode.text?.trim() {
-//                if currentSKU == txtCode.text {
-//                    UserDefaults.standard.setOldSKU(value: "")
-//                    UserDefaults.standard.setCurrentSKU(value: txtCode.text ?? "1")
-//                } else {
-//                    UserDefaults.standard.setOldSKU(value: currentSKU)
-//                    UserDefaults.standard.setCurrentSKU(value: txtCode.text?.trim() ?? "1")
-//                }
-//
-//            } else if UserDefaults.standard.getCurrentSKU() != "" && UserDefaults.standard.getOldSKU() != "" {
-//                if currentSKU == txtCode.text {
-//                    UserDefaults.standard.setOldSKU(value: "")
-//                    UserDefaults.standard.setCurrentSKU(value: txtCode.text ?? "1")
-//                } else {
-//                    UserDefaults.standard.setOldSKU(value: currentSKU)
-//                    UserDefaults.standard.setCurrentSKU(value: txtCode.text?.trim() ?? "1")
-//                }
-//            } else {
-//                UserDefaults.standard.setOldSKU(value: currentSKU)
-//                UserDefaults.standard.setCurrentSKU(value: txtCode.text?.trim() ?? "1")
-//            }
             self.present(secondViewController, animated: false, completion: nil)
         } else {
             self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")

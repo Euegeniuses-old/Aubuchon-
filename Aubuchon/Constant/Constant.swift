@@ -34,12 +34,23 @@ class Constant: NSObject {
         static let baseUrl = "http://aubuchonapp.a.fgqa.net/AubuChonApi"
         static let uploadImageApi = baseUrl + "/api/Home/Upload"
         static let publicIp = baseUrl + "/api/Home/CheckPublicIp"
+        static let fetchBranchCode = "http://www.aubuchon.com/proxy/dyndns-json.pl"
         
         //Temporary
         //static let productInfo = "http://50.206.125.135/webservice/GetProductStore.aspx"
         //11_1_19 12:49 pm
-        static let productInfo = "http://50.206.125.135/WebService/getproductTCB.aspx"
+        
+        //Old
+        //static let productInfo = "http://50.206.125.135/WebService/getproductTCB.aspx"
+        
+        //New
+        //EDITED:- 22-jan-2019 (changes in product info base URL) parth
+        static let productInfo = "http://50.206.125.135/webservice/getTCBproduct.aspx"
+        static let kGetSalesHistory = "http://50.206.125.135/webservice/getTCBsalesCombined.aspx"
+        static let kGetLocalINV = "http://50.206.125.135/webservice/getTCBinventory.aspx"
+        static let kGetReletedProduct = "http://50.206.125.135/webservice/getTCBrelated.aspx"
     }
+    
     // Colors type
     struct Colors {
         //static let textColor =   UIColor(red: 15/255, green: 109/255, blue: 166/255, alpha: 1.0)
