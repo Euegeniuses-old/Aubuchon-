@@ -160,9 +160,11 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
         branchcode = globals.getBranchCode();
 
-        data = getArguments().getString(Constant.AU_data);
+        if (getArguments() != null) {
+            data = getArguments().getString(Constant.AU_data);
+        }
 
-        mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), data));
+        /*  mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), data));*/
         mContext.ll_desc.setVisibility(View.GONE);
 
         /*Handle click of "More" TextView of Toolbar*/
@@ -306,7 +308,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_not_found));
+                Globals.showToast(getActivity(), getString(R.string.error_msg_connection_timeout));
                 ll_inquiry_group_2.setVisibility(View.GONE);
                 rv_inquiry.setVisibility(View.GONE);
                 tv_no_data.setVisibility(View.VISIBLE);
@@ -419,13 +421,10 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
         productsList = new ArrayList<>();
         productsList = productModel.getProduct();
+        ll_inquiry_group_2.setVisibility(View.GONE);
 
         inquiryData.add(new KeyValueModel("Item Number", productsList.get(0).getSku()));
-
-        /*if (isFromRelated) {
-            mContext.navigationActivity.toolbar_title.setText(String.format(getString(R.string.text_sku), productArrayList.get(0).getSku()));
-        }*/
-        mContext.navigationActivity.toolbar_title.setText(String.format(getString(R.string.text_sku), data));
+        mContext.navigationActivity.toolbar_title.setText(String.format(getString(R.string.text_sku), productsList.get(0).getSku()));
 
         /*Set intent to Open Product Detail in Browser*/
         mContext.navigationActivity.toolbar_title.setOnClickListener(new View.OnClickListener() {
@@ -479,6 +478,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             rating.setRating(0);
             tv_rating.setText(String.format("(%s)", 0));
         }
+
+        ll_inquiry_group_2.setVisibility(View.VISIBLE);
+
         tv_web_desc.setText(productsList.get(0).getWebDesc());
 
         InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(mContext);
@@ -495,17 +497,29 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
      * Order Info Data
      */
     public void setOrderInfoData() {
-        ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
-        inquiryData.clear();
-        inquiryData.add(new KeyValueModel("Last Sold", productsList.get(0).getLastSoldDate()));
-        inquiryData.add(new KeyValueModel("QTY on Order", String.valueOf(productsList.get(0).getOnOrderAmt())));
-        inquiryData.add(new KeyValueModel("PO Number", productsList.get(0).getOnOrderPO()));
-        inquiryData.add(new KeyValueModel("Earliest Delivery Date", productsList.get(0).getDeliveryDate()));
-        inquiryData.add(new KeyValueModel("Primary Vendor", productsList.get(0).getSupplierName()));
-        inquiryData.add(new KeyValueModel("Vendor#", productsList.get(0).getSupplier()));
-        inquiryData.add(new KeyValueModel("Min", String.valueOf(productsList.get(0).getMinStk())));
-        inquiryData.add(new KeyValueModel("Max", String.valueOf(productsList.get(0).getMaxStk())));
-        inquiryData.add(new KeyValueModel("Reorder", String.valueOf(productsList.get(0).getReOrdPoint())));
+        ArrayList<KeyValueModel> orderInfoData = new ArrayList<>();
+        orderInfoData.clear();
+
+        if (!productsList.get(0).getLastSoldDate().equals("")) {
+            orderInfoData.add(new KeyValueModel("Last Sold", Globals.convertDateFormat(productsList.get(0).getLastSoldDate())));
+        } else {
+            orderInfoData.add(new KeyValueModel("Last Sold", ""));
+        }
+
+        orderInfoData.add(new KeyValueModel("QTY on Order", String.valueOf(Math.round(productsList.get(0).getOnOrderAmt()))));
+        orderInfoData.add(new KeyValueModel("PO Number", productsList.get(0).getOnOrderPO()));
+
+        if (!productsList.get(0).getDeliveryDate().equals("")) {
+            orderInfoData.add(new KeyValueModel("Earliest Delivery Date", Globals.convertDateFormat(productsList.get(0).getDeliveryDate())));
+        } else {
+            orderInfoData.add(new KeyValueModel("Earliest Delivery Date", ""));
+        }
+
+        orderInfoData.add(new KeyValueModel("Primary Vendor", productsList.get(0).getSupplierName()));
+        orderInfoData.add(new KeyValueModel("Vendor#", productsList.get(0).getSupplier()));
+        orderInfoData.add(new KeyValueModel("Min", String.valueOf(productsList.get(0).getMinStk())));
+        orderInfoData.add(new KeyValueModel("Max", String.valueOf(productsList.get(0).getMaxStk())));
+        orderInfoData.add(new KeyValueModel("Reorder", String.valueOf(productsList.get(0).getReOrdPoint())));
 
 
         if (productModel.getTable2().size() > 0) {
@@ -522,13 +536,13 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             for (int i = 0; i < productModel.getTable2().size(); i++) {
                 if (!productsList.get(0).getOnOrderPO().equalsIgnoreCase(productModel.getTable2().get(i).getPoNo()) &&
                         !productsList.get(0).getDeliveryDate().equalsIgnoreCase(productModel.getTable2().get(i).getDelDate())) {
-                    inquiryData.add(new KeyValueModel("PO \nQTY on Order", productModel.getTable2().get(i).getPoNo() + "\n" + productModel.getTable2().get(i).getOrderQty()));
+                    orderInfoData.add(new KeyValueModel("PO \nQTY on Order", productModel.getTable2().get(i).getPoNo() + "\n" + productModel.getTable2().get(i).getOrderQty()));
                 }
             }
         }
 
         InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(getActivity());
-        inquiryListAdapter.doRefresh(inquiryData);
+        inquiryListAdapter.doRefresh(orderInfoData);
         rv_order_info.setHasFixedSize(false);
         rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_order_info.setAdapter(inquiryListAdapter);

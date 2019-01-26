@@ -17,6 +17,11 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 
@@ -185,18 +190,33 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
      * @param textFrom Text to start cutting from (exclusive).
      * @param textTo   Text to stop cutting at (exclusive).
      */
-    public static String getBetweenStrings(String text,String textFrom,String textTo) {
+    public static String getBetweenStrings(String text, String textFrom, String textTo) {
 
         String result = "";
 
         // Cut the beginning of the text to not occasionally meet a
         // 'textTo' value in it:
-        result =text.substring(text.indexOf(textFrom) + textFrom.length(),text.length());
+        result = text.substring(text.indexOf(textFrom) + textFrom.length(), text.length());
 
         // Cut the excessive ending of the text:
-        result =result.substring(0,result.indexOf(textTo));
+        result = result.substring(0, result.indexOf(textTo));
 
         return result;
+    }
+
+    public static String convertDateFormat(String dateTobeConvert) {
+        String formattedDate = null;
+        try {
+            Date date;
+            DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            DateFormat targetFormat = new SimpleDateFormat("MM/dd/yy", Locale.ENGLISH);
+            date = originalFormat.parse(dateTobeConvert);
+            formattedDate = targetFormat.format(date);
+            Logger.v("Converted Date: "+formattedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 
 

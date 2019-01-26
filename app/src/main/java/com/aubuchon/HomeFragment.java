@@ -138,65 +138,6 @@ public class HomeFragment extends Fragment {
         }, true).doRequest();
     }
 
-  /*  public void doRequestForCheckPublicIP(String publicIP) {
-        String url = mContext.getString(R.string.server_url) + mContext.getString(R.string.checkPublicIp_url);
-        JSONObject param = HttpRequestHandler.getInstance().getCheckPublicIpParams(publicIP);
-
-        new PostRequest(mContext, url, param, true, new OnPostServiceCallListener() {
-            @Override
-            public void onSucceedToPostCall(JSONObject response) {
-                try {
-
-                    if (!response.getBoolean(Constant.AU_IsSuccess)) {
-                        AlertDialog.Builder builder = new Builder(mContext)
-                                .setMessage(response.getString(Constant.AU_Message))
-                                .setCancelable(false)
-                                .setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        ExitActivity.exitApplication(mContext);
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    } else {
-                        if (isFromCameraClick) {
-                            PermissionListener permissionlistener = new PermissionListener() {
-                                @Override
-                                public void onPermissionGranted() {
-                                    // EasyImage.openCamera(getActivity(), 0);
-                                    Intent intent = new Intent(getActivity(), ScannerActivity.class);
-                                    startActivityForResult(intent, SCAN_BARCODE_REQUEST);
-                                }
-
-                                @Override
-                                public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                                    Toast.makeText(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            };
-
-                            TedPermission.with(mContext)
-                                    .setPermissionListener(permissionlistener)
-                                    //.setRationaleMessage(getString(R.string.request_camera_permission))
-                                    .setDeniedMessage(getString(R.string.on_denied_permission))
-                                    .setGotoSettingButtonText(getString(R.string.setting))
-                                    .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                    .check();
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailedToPostCall(int statusCode, String msg) {
-                Globals.showToast(mContext, msg);
-            }
-        }).execute();
-    }*/
-
-
     private void doRequestForCheckPublicIP(final String publicIp) {
 
         String url = mContext.getString(R.string.url_ip_white_list);
@@ -280,12 +221,11 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-            mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
-            mContext.ll_desc.setVisibility(View.VISIBLE);
+            /*mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
+            mContext.ll_desc.setVisibility(View.VISIBLE);*/
             et_code.setText(scannedCode);
             /*Handle a flow to redirect on detail screen After done scan from Camera Image */
             doRequestForGetProductDetail();
-
         }
     }
 

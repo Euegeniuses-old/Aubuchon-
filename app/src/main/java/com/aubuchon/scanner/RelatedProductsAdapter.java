@@ -84,17 +84,9 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
                     .into(iv_product);
 
             tv_web_desc.setText(relatedProduct.getWebDesc());
-            tv_retail_prize.setText(String.valueOf(relatedProduct.getRetailPrice()) + "$");
+            tv_retail_prize.setText("$" + String.valueOf(relatedProduct.getRetailPrice()));
 
-           /* if (position % 2 == 0) {
-                tv_store.setBackgroundColor(Color.GRAY);
-                tv_num.setBackgroundColor(Color.GRAY);
-                tv_qty.setBackgroundColor(Color.GRAY);
-            } else {
-                tv_store.setBackgroundColor(Color.WHITE);
-                tv_num.setBackgroundColor(Color.WHITE);
-                tv_qty.setBackgroundColor(Color.WHITE);
-            }*/
+
         }
 
         @Override

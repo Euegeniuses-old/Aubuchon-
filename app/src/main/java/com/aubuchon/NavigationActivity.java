@@ -206,7 +206,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-            toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
+            /*toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));*/
             globals.isFromMenu = false;
             addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
 

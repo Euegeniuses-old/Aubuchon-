@@ -57,7 +57,12 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
 
             tv_key.setText(pDetails.getKey());
             /*Handle an Empty Data*/
-            if (pDetails.getValue().equalsIgnoreCase("") || pDetails.getValue().equalsIgnoreCase("0.0")) {
+            if (pDetails.getValue().isEmpty() || pDetails.getValue().equals("")) {
+                /*if( pDetails.getValue().contains("0.0")){
+                    tv_value.setText(" - ");
+                }else{
+                    tv_value.setText(" - ");
+                }*/
                 tv_value.setText(" - ");
             } else {
                 tv_value.setText(pDetails.getValue());
