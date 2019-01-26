@@ -91,6 +91,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     var tableTwoDatecheck :[String] = []
     var poNo:String = ""
     var delDate:String = ""
+    
     //MARK:- life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,7 +135,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         NotificationCenter.default.removeObserver("relatedItemsCelldata")
     }
     
-    @objc func relatedItemsCelldataNotification(notification: NSNotification){
+    @objc func relatedItemsCelldataNotification(notification: NSNotification) {
         screen = 1
         buttonColorFormattor(button: btnInquery)
         isfromBack = false
@@ -142,9 +143,10 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         self.removeAllArrayData()
         barcode = Constant.kAppDelegate.relatedItemCellSku
         GetProductDetails(barcodeForProduct: Constant.kAppDelegate.relatedItemCellSku)
+        
     }
     
-    @objc func lblSKUTapped(){
+    @objc func lblSKUTapped() {
         
         if let url = URL(string: self.strProductUrl) {
             if #available(iOS 10.0, *) {
@@ -159,6 +161,9 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     }
     
     func onSetupProductData(key:String, value: Any) {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "YYYY-MM-DD"
+       
         if key == "imageURL"{
             self.image = (value as? String)!
         }
@@ -213,9 +218,17 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         }
             //On set Order Info arr
         else if key == "lastSoldDate" {
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:value as? String ?? "-",id:1))
+            if value as? String == "" {
+                 self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:"-",id:1))
+            } else {
+
+               let resultString = convertDateFormater(value as! String)
+          
+                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:resultString,id:1))
+            }
         } else if key == "onOrderAmt" {
             if let onOrderAmtdata = value as? Int {
+                
                 self.dataforInquery = String(onOrderAmtdata)
             } else {
                 self.dataforInquery = "-"
@@ -224,7 +237,12 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "QTY on Order" , orderInfoValues: self.dataforInquery,id:2))
         } else if key == "onOrderPO" {
             if let onOrderAmtdata = value as? String{
-                self.dataforInquery = String(onOrderAmtdata)
+                if onOrderAmtdata == "" {
+                    self.dataforInquery = "-"
+                } else {
+                    self.dataforInquery = String(onOrderAmtdata)
+                }
+                
             }else{
                 self.dataforInquery = "-"
             }
@@ -232,7 +250,13 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "PO Number", orderInfoValues: self.dataforInquery,id:3))
         } else if key ==  "deliveryDate" {
             self.delDate = value as? String ?? "-"
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:value as? String ?? "-",id:4))
+            if value as? String == "" {
+                 self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:"-",id:4))
+            } else {
+
+                let resultString = convertDateFormater(value as! String)
+                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:resultString,id:4))
+            }
         } else if key ==  "supplierName" {
             self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Primary Vendor" , orderInfoValues:value as? String ?? "-",id:5))
             
@@ -259,6 +283,15 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         }
         
     }
+    func convertDateFormater(_ date: String) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        let date = dateFormatter.date(from: date)
+        dateFormatter.dateFormat = "MM-dd-YY"
+        return  dateFormatter.string(from: date!)
+        
+    }
     
     //MARK:- CALL API's
     func GetProductDetails(barcodeForProduct:String) {
@@ -280,6 +313,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             if response.count != 0 {
                 if Constant.kAppDelegate.isOldProductData != true {
                     self.storeDataInUserDefault()
+                    Constant.kAppDelegate.isOldProductData = true
                 }
                 
                 //On set product detail
@@ -373,13 +407,13 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         }
     }
     
-    func GetLocalNV(branchCode:String, strBarcode:String){
+    func GetLocalNV(branchCode:String, strBarcode:String) {
         
         Product.callAPIForLocalINV(with: branchCode, data: strBarcode, success: { (dictProduct, isSuccess, arrStock) in
             
             self.storeStockArray = arrStock
             self.storeStockArray.sort(by: { ($0.localData > $1.localData)})
-            
+            if self.storeStockArray.count > 0 {
             for index in 0...self.storeStockArray.count - 1 {
                 if self.storeStockArray[index].localData == 1 {
                     self.sortedNearestStock.append(self.storeStockArray[index])
@@ -387,6 +421,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
                 } else {
                     self.sortedStoreStock.append(self.storeStockArray[index])
                     
+                }
                 }
             }
             self.sortedNearestStock.sort(by:{$0.name.lowercased() < $1.name.lowercased()})
@@ -398,7 +433,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         }
     }
     
-    func GetRelatedProducts(branchCode:String, strBarcode:String){
+    func GetRelatedProducts(branchCode:String, strBarcode:String) {
         
         Product.callAPIForReletedProduct(with: branchCode, data: strBarcode, success: { (dictProduct, isSuccess, arrReletedProduct) in
             
