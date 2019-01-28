@@ -94,7 +94,9 @@ class Constant: NSObject {
         static let IS_IPAD              = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1024.0
         static let IS_IPAD_PRO          = UIDevice.current.userInterfaceIdiom == .pad && ScreenSize.SCREEN_MAX_LENGTH == 1366.0
     }
-    
+    struct UserDefaultsKey {
+        static let kProductInfo                    = "isProductInfo"
+    }
     // MARK: - Appdelegate variable initilize key
    static let kAppDelegate = UIApplication.shared.delegate as! AppDelegate
 }
@@ -144,5 +146,18 @@ extension UserDefaults {
     
     func getOldSKU() -> String {
         return string(forKey: UserDefaultsKeys.kskuOld.rawValue) ?? "012345"
+    }
+    
+    
+    func contains(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
+    class var productData: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Constant.UserDefaultsKey.kProductInfo)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constant.UserDefaultsKey.kProductInfo)
+        }
     }
 }

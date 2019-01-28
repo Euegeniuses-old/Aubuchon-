@@ -24,8 +24,8 @@ let kOneYrSales = "OneYrSales"
 let kbuyer = "buyer"
 let kcreateasigndesc = "create_a_sign_desc"
 let kpurchunits = "purchunits"
-let kSupplier = "Supplier"
-let kSupplierName = "SupplierName"
+let kSupplier = "supplier"
+let kSupplierName = "supplierName"
 let kDcStock = "DcStock"
 let kprodcode = "prodcode"
 let kOneYearSales = "OneYearSales"
@@ -34,6 +34,7 @@ let kimageURL = "imageURL"
 let kClassName = "ClassName"
 let kDepartmentName = "DepartmentName"
 let kprodstatus = "prodstatus"
+let kProductStatusForProduct = "prodStatus"
 let kretailPrice = "retailPrice"
 let kSubClassName = "SubClassName"
 let kbranchcode = "branchcode"
@@ -53,6 +54,25 @@ let kStoresByMonth = "StoresByMonth"
 let  kCompanyByMonth = "CompanyByMonth"
 let kRelatedProducts = "RelatedProducts"
 let kSku = "sku"
+let kPosDesc = "posDesc"
+let kSection = "section"
+let kSectionDesc = "sectionDesc"
+let kSpeedNo = "speedNo"
+let kOrdUnit = "ordUnit"
+let kCompanyYrSales = "companyYrSales"
+let kStoreYrSales = "storeYrSales"
+let kLastSoldDate = "lastSoldDate"
+let kLastDelDate = "lastDelDate"
+let kOnHandAmt = "onHandAmt"
+let kAvailable = "available"
+let kOnOrderAmt = "onOrderAmt"
+let kOnOrderPO = "onOrderPO"
+let kDeliveryDate = "deliveryDate"
+let kUrlKey = "url_key"
+let kMinStk = "minStk"
+let kMaxStk = "maxStk"
+let kReOrdPoint = "reOrdPoint"
+let kRating = "rating"
 let kImage = "image"
 let kwebDesc = "webDesc"
 let kPromoPrice = "promoPrice"
@@ -67,6 +87,7 @@ let kSort = "Sort"
 let kPoNo = "poNo"
 let kOrderQty = "orderQty"
 let kDelDate = "delDate"
+
 //Local INV
 class StoreStock: NSObject {
     var store, name: String
@@ -86,15 +107,6 @@ class StoreStock: NSObject {
 //Sales history
 struct SalesByMonth: Codable {
     
-//    let qty: Int
-//    let monStr: String
-//    let mon, yr: Int
-//    init?(dictionary: [String:Any]) {
-//        self.qty = dictionary[kQty] as? Int ?? 0
-//        self.monStr = dictionary[kMonStr] as? String ?? ""
-//        self.mon = dictionary[kMon] as? Int ?? 0
-//        self.yr = dictionary[kYr] as? Int ?? 0
-//    }
 
     //EDITED:- 22-01-2019 Parth
     let monStr: String
@@ -120,17 +132,7 @@ struct TableData: Codable {
         self.delDate = dictionary[kDelDate] as? String ?? ""
     }
 }
-//struct CompanyByMonth: Codable {
-//    let qty: Int
-//    let monStr: String
-//    let mon, yr: Int
-//    init?(dictionary: [String:Any]) {
-//        self.qty = dictionary[kQty] as? Int ?? 0
-//        self.monStr = dictionary[kMonStr] as? String ?? ""
-//        self.mon = dictionary[kMon] as? Int ?? 0
-//        self.yr = dictionary[kYr] as? Int ?? 0
-//    }
-//}
+
 
 //Releted Product
 struct RelatedProduct: Codable {
@@ -150,6 +152,148 @@ struct RelatedProduct: Codable {
         self.ranking = dictionary[kRanking] as? Int ?? 0
         //self.local = dictionary[kLocal] as? Int ?? 0
     }
+}
+class ProductOrderData: NSObject, NSCoding {
+    let store, sku, webDesc, posDesc: String
+    let departmentName, className, subClassName, section: String
+    let sectionDesc, speedNo, ordUnit, discDate: String
+    let prodStatus: String
+    let retailPrice: Double
+    let imageURL: String
+    let companyYrSales, storeYrSales: Int
+    let supplier, supplierName, promoPrice, lastSoldDate: String
+    let lastDelDate: String
+    let onHandAmt, available, onOrderAmt: Int
+    let onOrderPO, deliveryDate: String
+    let urlKey: String
+    let minStk, maxStk, reOrdPoint: Int
+    let rating: Double
+    
+     init?(dictionary: [String:Any]) {
+        self.sku = dictionary[kSku] as? String ?? ""
+        self.store = dictionary[kStore] as? String ?? ""
+        self.webDesc = dictionary[kwebDesc] as? String ?? ""
+        self.posDesc = dictionary[kPosDesc] as? String ?? ""
+        self.departmentName = dictionary[kDepartmentName] as? String ?? ""
+        self.className = dictionary[kClassName] as? String ?? ""
+        self.subClassName = dictionary[kSubClassName] as? String ?? ""
+        self.section = dictionary[kSection] as? String ?? ""
+        self.sectionDesc = dictionary[kSectionDesc] as? String ?? ""
+        self.speedNo = dictionary[kSpeedNo] as? String ?? ""
+        self.ordUnit = dictionary[kOrdUnit] as? String ?? ""
+        self.discDate = dictionary[kDiscDate] as? String ?? ""
+        self.prodStatus = dictionary[kProductStatusForProduct] as? String ?? ""
+        self.retailPrice = dictionary[kretailPrice] as? Double ?? 0
+        self.imageURL = dictionary[kimageURL] as? String ?? ""
+        self.companyYrSales = dictionary[kCompanyYrSales] as? Int ?? 0
+        self.storeYrSales = dictionary[kStoreYrSales] as? Int ?? 0
+        self.supplier = dictionary[kSupplier] as? String ?? ""
+        self.supplierName = dictionary[kSupplierName] as? String ?? ""
+        self.promoPrice = dictionary[kPromoPrice] as? String ?? ""
+        self.lastSoldDate = dictionary[kLastSoldDate] as? String ?? ""
+        self.lastDelDate = dictionary[kLastDelDate] as? String ?? ""
+        self.onHandAmt = dictionary[kOnHandAmt] as? Int ?? 0
+        self.available = dictionary[kAvailable] as? Int ?? 0
+        self.onOrderAmt = dictionary[kOnOrderAmt] as? Int ?? 0
+        self.onOrderPO = dictionary[kOnOrderPO] as? String ?? ""
+        self.deliveryDate = dictionary[kDeliveryDate] as? String ?? ""
+        self.urlKey = dictionary[kUrlKey] as? String ?? ""
+        self.minStk = dictionary[kMinStk] as? Int ?? 0
+        self.maxStk = dictionary[kMaxStk] as? Int ?? 0
+        self.reOrdPoint = dictionary[kReOrdPoint] as? Int ?? 0
+        self.rating = dictionary[kRating] as? Double ?? 0
+        
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        sku = aDecoder.decodeObject(forKey: kSku) as? String ?? ""
+        store = aDecoder.decodeObject(forKey: kStore) as? String ?? ""
+        webDesc = aDecoder.decodeObject(forKey: kwebDesc) as? String ?? ""
+        posDesc = aDecoder.decodeObject(forKey: kPosDesc) as? String ?? ""
+        departmentName = aDecoder.decodeObject(forKey:kDepartmentName) as? String ?? ""
+        className = aDecoder.decodeObject(forKey:kClassName) as? String ?? ""
+        subClassName = aDecoder.decodeObject(forKey:kSubClassName) as? String ?? ""
+        section = aDecoder.decodeObject(forKey:kSection) as? String ?? ""
+        sectionDesc = aDecoder.decodeObject(forKey:kSectionDesc) as? String ?? ""
+        speedNo = aDecoder.decodeObject(forKey:kSpeedNo) as? String ?? ""
+        ordUnit = aDecoder.decodeObject(forKey:kOrdUnit) as? String ?? ""
+        discDate = aDecoder.decodeObject(forKey:kDiscDate) as? String ?? ""
+        prodStatus = aDecoder.decodeObject(forKey:kProductStatusForProduct) as? String ?? ""
+        retailPrice = aDecoder.decodeObject(forKey:kretailPrice) as? Double ?? 0
+        imageURL = aDecoder.decodeObject(forKey:kimageURL) as? String ?? ""
+        companyYrSales = aDecoder.decodeObject(forKey:kCompanyYrSales) as? Int ?? 0
+        storeYrSales = aDecoder.decodeObject(forKey:kStoreYrSales) as? Int ?? 0
+        supplier = aDecoder.decodeObject(forKey:kSupplier) as? String ?? ""
+        supplierName = aDecoder.decodeObject(forKey:kSupplierName) as? String ?? ""
+        promoPrice = aDecoder.decodeObject(forKey:kPromoPrice) as? String ?? ""
+        lastSoldDate = aDecoder.decodeObject(forKey:kLastSoldDate) as? String ?? ""
+        lastDelDate = aDecoder.decodeObject(forKey:kLastDelDate) as? String ?? ""
+        onHandAmt = aDecoder.decodeObject(forKey:kOnHandAmt) as? Int ?? 0
+        available = aDecoder.decodeObject(forKey:kAvailable) as? Int ?? 0
+        onOrderAmt = aDecoder.decodeObject(forKey:kOnOrderAmt) as? Int ?? 0
+        onOrderPO = aDecoder.decodeObject(forKey:kOnOrderPO) as? String ?? ""
+        deliveryDate = aDecoder.decodeObject(forKey:kDeliveryDate) as? String ?? ""
+        urlKey = aDecoder.decodeObject(forKey:kUrlKey) as? String ?? ""
+        minStk = aDecoder.decodeObject(forKey:kMinStk) as? Int ?? 0
+        maxStk = aDecoder.decodeObject(forKey:kMaxStk) as? Int ?? 0
+        reOrdPoint = aDecoder.decodeObject(forKey:kReOrdPoint) as? Int ?? 0
+        rating = aDecoder.decodeObject(forKey:kRating) as? Double ?? 0
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(sku, forKey: kSku)
+        aCoder.encode(store, forKey: kStore)
+        aCoder.encode(webDesc, forKey: kwebDesc)
+        aCoder.encode(posDesc, forKey: kPosDesc)
+        aCoder.encode(departmentName, forKey: kDepartmentName)
+        aCoder.encode(className, forKey: kClassName)
+        aCoder.encode(subClassName, forKey: kSubClassName)
+        aCoder.encode(section, forKey: kSection)
+        aCoder.encode(sectionDesc, forKey: kSectionDesc)
+        aCoder.encode(speedNo, forKey: kSpeedNo)
+        aCoder.encode(ordUnit, forKey: kOrdUnit)
+        aCoder.encode(discDate, forKey: kDiscDate)
+        aCoder.encode(prodStatus, forKey: kProductStatusForProduct)
+        aCoder.encode(retailPrice, forKey: kretailPrice)
+        aCoder.encode(imageURL, forKey: kimageURL)
+        aCoder.encode(companyYrSales, forKey: kCompanyYrSales)
+        aCoder.encode(storeYrSales, forKey: kStoreYrSales)
+        aCoder.encode(supplier, forKey: kSupplier)
+        aCoder.encode(supplierName, forKey: kSupplierName)
+        aCoder.encode(promoPrice, forKey: kPromoPrice)
+        aCoder.encode(lastSoldDate, forKey: kLastSoldDate)
+        aCoder.encode(lastDelDate, forKey: kLastDelDate)
+        aCoder.encode(onHandAmt, forKey: kOnHandAmt)
+        aCoder.encode(available, forKey: kAvailable)
+        aCoder.encode(onOrderAmt, forKey: kOnOrderAmt)
+        aCoder.encode(onOrderPO, forKey: kOnOrderPO)
+        aCoder.encode(deliveryDate, forKey: kDeliveryDate)
+        aCoder.encode(urlKey, forKey: kUrlKey)
+        aCoder.encode(minStk, forKey: kMinStk)
+        aCoder.encode(maxStk, forKey: kMaxStk)
+        aCoder.encode(reOrdPoint, forKey: kReOrdPoint)
+        aCoder.encode(rating, forKey: kRating)
+    }
+    
+    //Save project object in UserDefault
+    func saveProductDataInDefault() {
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: self)
+        UserDefaults.standard.set(encodedData, forKey: Constant.UserDefaultsKey.kProductInfo)
+    }
+    
+    //Get project object from UserDefault
+    class func getProductDataFromDefault() -> ProductOrderData? {
+        if let decoded  = UserDefaults.standard.data(forKey: Constant.UserDefaultsKey.kProductInfo), let productDataInfo = NSKeyedUnarchiver.unarchiveObject(with: decoded) as? ProductOrderData {
+            return productDataInfo
+        }
+        return nil
+    }
+    
+    //Remove project object from UserDefault
+    class func removeProductDataFromDefault() {
+        UserDefaults.standard.set(nil, forKey: Constant.UserDefaultsKey.kProductInfo)
+    }
+  
 }
 
 class ImageUpload: NSObject, NSCoding {
@@ -270,6 +414,7 @@ class ImageUpload: NSObject, NSCoding {
         aCoder.encode(qty, forKey: kQty)
     }
     
+   
     
     //MARK:- call API For brachcode
     class func callBrachcodeAPI(success withResponse: @escaping (_ response : [String:Any])-> (), failure: @escaping FailureBlock) {
@@ -355,7 +500,7 @@ class Product {
     //MARK:- display product information
     class func displayProductInfo(with branchcode: String,
                                   data:String,
-                                  success withResponse: @escaping (_ response : [String:Any], _ isSuccess: Bool, _ arrUPC:[[String:Any]], _ arrtableTwo:[TableData])-> (), failure: @escaping FailureBlock) {
+                                  success withResponse: @escaping (_ response : ProductOrderData, _ isSuccess: Bool, _ arrUPC:[[String:Any]], _ arrtableTwo:[TableData])-> (), failure: @escaping FailureBlock) {
         
         SVProgressHUD.setDefaultMaskType(.black)
         SVProgressHUD.show()
@@ -374,19 +519,24 @@ class Product {
             let arrUPC = dict[kTable1] as? [[String:Any]] ?? [[:]] //Table1
             let table2Array = dict[kTable2] as? [[String:Any]] ?? [[:]] //Table2
             
+            
             if responseDic.count == 0 {
                 
                 failure(Constant.alertTitleMessage.validBarcode,false)
             } else {
                 
                 let res = responseDic[0]
+                let product = ProductOrderData.init(dictionary: res)
+                UserDefaults.productData = true
+               // product?.saveProductDataInDefault()
+               // singaltan.aubuchon.productData = product
                 var arraytable2 = [TableData]()
                 for i in table2Array {
                     if let table2ArrayObj = TableData(dictionary: i) {
                         arraytable2.append(table2ArrayObj)
                     }
                 }
-                withResponse(res,true,arrUPC,arraytable2)
+                withResponse(product!,true,arrUPC,arraytable2)
             }
         }, failure: { (error) in
             SVProgressHUD.dismiss()
@@ -533,6 +683,4 @@ class Product {
         }
         
     }
-    
-    
 }

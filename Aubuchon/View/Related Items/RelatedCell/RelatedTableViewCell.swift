@@ -68,7 +68,7 @@ extension RelatedTableViewCell: UICollectionViewDataSource,UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : RelatedItemsCollectionViewCell = relatedCollectionView.dequeueReusableCell(withReuseIdentifier: "RelatedItems", for: indexPath) as! RelatedItemsCollectionViewCell
        cell.productName.text = productDisplayData[indexPath.row].webDesc
-        cell.productPrice.text = String(productDisplayData[indexPath.row].retailPrice)  + "$"
+        cell.productPrice.text =  "$" + String(productDisplayData[indexPath.row].retailPrice)  
         if productDisplayData[indexPath.row].image == "" {
              cell.productImage.image = UIImage(named: "camera")
             

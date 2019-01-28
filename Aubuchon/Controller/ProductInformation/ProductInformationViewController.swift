@@ -70,6 +70,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     var inquiryArray : [String] = ["Item Number","UPC","Desc","Price","Promo","OH","Available","Section","Speed#", "Status"]
     var inquiryValue:[String] = []
     var inqueryData : [String:Any] = [:]
+    var objProductOrderInfo: ProductOrderData?
     var objectsArray = [Objects]()
     var onderInfoArray = [orderInfoObjects]()
     var tableTwoArrayForOrderInfo = [TableData]()
@@ -78,6 +79,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     var menu : [String] = ["Home","Product Info"]
     var isMenuVisible : Bool = false
     var dataforInquery:String = ""
+    var dataforOrderInfo:String = ""
     var isfromBack:Bool = false
     
     var storeStockArray = [StoreStock]()
@@ -159,130 +161,142 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.alertMessage(message: "Product detail page not found", title: "")
         }
     }
-    
-    func onSetupProductData(key:String, value: Any) {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "YYYY-MM-DD"
-       
-        if key == "imageURL"{
-            self.image = (value as? String)!
+    func setUpProductData()  {
+        //Set inquiry tab data
+        self.image = self.objProductOrderInfo?.imageURL ?? ""
+        var sku:String = self.objProductOrderInfo?.sku ?? ""
+        self.lblSKU.text = ("SKU:\(sku)")
+        self.objectsArray.append(Objects(inqueryTitle: "Item Number" , inqueryValues: self.objProductOrderInfo?.sku ?? "-",id:1))
+        
+        if let urlIs = self.objProductOrderInfo?.urlKey {
+            self.strProductUrl = urlIs
         }
-        else if key == "sku" {
-            let SKU:String = value as? String ?? ""
-            self.lblSKU.text = ("SKU:\(SKU)")
-            self.objectsArray.append(Objects(inqueryTitle: "Item Number" , inqueryValues: value as? String ?? "-",id:1))
-        } else if key == "url_key" {
-            if let urlIs = value as? String{
-                self.strProductUrl = urlIs
-            }
-        } else if key == "retailPrice" {
-            if let Price = value as? Double {
-                self.dataforInquery = String(Price)
-            } else {
-                self.dataforInquery = "-"
-            }
-            self.objectsArray.append(Objects(inqueryTitle: "Price" , inqueryValues: self.dataforInquery ,id:4))
-        } else if key == "promoPrice" {
-            if value as? String == "" {
-                self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: "-",id:5))
-            } else {
-                self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: value as? String ?? "-",id:5))
-            }
-        } else if key == "onHandAmt" {
-            if let onHandAmtdata = value as? Int {
-                self.dataforInquery = String(onHandAmtdata)
-            } else {
-                self.dataforInquery = "-"
-            }
-            self.objectsArray.append(Objects(inqueryTitle: "On Hand" , inqueryValues: self.dataforInquery ,id:7))
-        } else if key == "available" {
-            if let availableData =  value as? Int {
-                self.dataforInquery = String(availableData)
-            } else {
-                self.dataforInquery = "-"
-            }
-            self.objectsArray.append(Objects(inqueryTitle: "Available" , inqueryValues:self.dataforInquery ,id:6))
-            
-        } else if key == "section" {
-            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues: value as? String ?? "-",id:8))
-            
-        } else if key == "speedNo" {
-            self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: value as? String ?? "-",id:9))
-            
-        } else if key == "posDesc" {
-            self.lblMoreUndreLine.isHidden = false
-            self.btnMore.isHidden = false
-            let desc = value as? String
-            self.lblDesc.text =  desc ?? ""
-            self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: value as? String ?? "-",id:3))
+        
+        if let Price = self.objProductOrderInfo?.retailPrice {
+            self.dataforInquery = String(Price)
+        } else {
+            self.dataforInquery = "-"
         }
-            //On set Order Info arr
-        else if key == "lastSoldDate" {
-            if value as? String == "" {
-                 self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:"-",id:1))
-            } else {
-
-               let resultString = convertDateFormater(value as! String)
-          
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:resultString,id:1))
-            }
-        } else if key == "onOrderAmt" {
-            if let onOrderAmtdata = value as? Int {
-                
-                self.dataforInquery = String(onOrderAmtdata)
-            } else {
-                self.dataforInquery = "-"
-            }
-           
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "QTY on Order" , orderInfoValues: self.dataforInquery,id:2))
-        } else if key == "onOrderPO" {
-            if let onOrderAmtdata = value as? String{
-                if onOrderAmtdata == "" {
-                    self.dataforInquery = "-"
-                } else {
-                    self.dataforInquery = String(onOrderAmtdata)
-                }
-                
-            }else{
-                self.dataforInquery = "-"
-            }
-            self.poNo =  self.dataforInquery
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "PO Number", orderInfoValues: self.dataforInquery,id:3))
-        } else if key ==  "deliveryDate" {
-            self.delDate = value as? String ?? "-"
-            if value as? String == "" {
-                 self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:"-",id:4))
-            } else {
-
-                let resultString = convertDateFormater(value as! String)
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:resultString,id:4))
-            }
-        } else if key ==  "supplierName" {
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Primary Vendor" , orderInfoValues:value as? String ?? "-",id:5))
+        self.objectsArray.append(Objects(inqueryTitle: "Price" , inqueryValues: self.dataforInquery ,id:4))
+        
+        if self.objProductOrderInfo?.promoPrice == "" {
+            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: "-",id:5))
+        } else {
+            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: self.objProductOrderInfo?.promoPrice ?? "-",id:5))
+        }
+        
+        if let onHandAmtdata = self.objProductOrderInfo?.onHandAmt {
+            self.dataforInquery = String(onHandAmtdata)
+        } else {
+            self.dataforInquery = "-"
+        }
+         self.objectsArray.append(Objects(inqueryTitle: "On Hand" , inqueryValues: self.dataforInquery ,id:7))
+        
+        if let availableData =  self.objProductOrderInfo?.available {
+            self.dataforInquery = String(availableData)
+        } else {
+            self.dataforInquery = "-"
+        }
+        
+        self.objectsArray.append(Objects(inqueryTitle: "Available" , inqueryValues:self.dataforInquery ,id:6))
+        
+        if self.objProductOrderInfo?.section == "" {
+            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues:  "-",id:8))
+        } else {
+            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues: self.objProductOrderInfo?.section ?? "-",id:8))
+        }
+        
+        if singaltan.aubuchon.productData?.speedNo == "" {
+             self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: "-",id:9))
+        } else {
+            self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: self.objProductOrderInfo?.speedNo ?? "-",id:9))
+        }
+        
+        if self.objProductOrderInfo?.prodStatus == "" {
+             self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: "-",id:10))
+        } else {
+            self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: self.objProductOrderInfo?.prodStatus,id:10))
+        }
+        
+        self.lblMoreUndreLine.isHidden = false
+        self.btnMore.isHidden = false
+        let desc = self.objProductOrderInfo?.posDesc
+        self.lblDesc.text =  desc ?? ""
+        
+        if desc == "" {
+             self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: "-",id:3))
+        } else {
+            self.objectsArray.append(Objects(inqueryTitle: "Desc" , inqueryValues: self.objProductOrderInfo?.posDesc ?? "-",id:3))
+        }
+        //On set Order Info arr
+        if self.objProductOrderInfo?.lastSoldDate == "" {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:"-",id:1))
+        } else {
+            let resultString = convertDateFormater(self.objProductOrderInfo?.lastSoldDate ?? "")
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Sold" , orderInfoValues:resultString,id:1))
+        }
+        
+        if let onOrderAmtdata = self.objProductOrderInfo?.onOrderAmt {
             
-        }  else if key == "supplier" {
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Vendor#" , orderInfoValues:value as? String ?? "-",id:6))
-        } else if key ==  "minStk" {
-            if let minValue = value as? Int{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Min" , orderInfoValues: "\(minValue)",id:7))
-            }else{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Min" , orderInfoValues: "-",id:7))
+            self.dataforOrderInfo = String(onOrderAmtdata)
+        } else {
+            self.dataforOrderInfo = "-"
+        }
+        self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "QTY on Order" , orderInfoValues: self.dataforOrderInfo,id:2))
+        
+        if let onOrderAmtdata = self.objProductOrderInfo?.onOrderPO {
+            if onOrderAmtdata == "" {
+                self.dataforOrderInfo = "-"
+            } else {
+                self.dataforOrderInfo = String(onOrderAmtdata)
             }
-        } else if key ==  "maxStk" {
-            if let maxValue = value as? Int{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Max" , orderInfoValues: "\(maxValue)",id:8))
-            }else{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Max" , orderInfoValues: "-",id:8))
-            }
-        } else if key ==  "reOrdPoint" {
-            if let reOrderValue = value as? Int{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Reorder" , orderInfoValues: "\(reOrderValue)",id:9))
-            }else{
-                self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Reorder" , orderInfoValues: "-",id:9))
-            }
+            
+        }else{
+            self.dataforOrderInfo = "-"
+        }
+        
+        self.poNo =  self.dataforOrderInfo
+        self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "PO Number", orderInfoValues: self.dataforOrderInfo,id:3))
+        
+        self.delDate = self.objProductOrderInfo?.deliveryDate ?? ""
+        if self.objProductOrderInfo?.deliveryDate == "" {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:"-",id:4))
+        } else {
+            let resultString = convertDateFormater(self.objProductOrderInfo?.deliveryDate ?? "")
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:resultString,id:4))
+        }
+        
+        if self.objProductOrderInfo?.supplierName == "" {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Primary Vendor" , orderInfoValues: "-",id:5))
+        } else {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Primary Vendor" , orderInfoValues:self.objProductOrderInfo?.supplierName ?? "-",id:5))
+        }
+        if self.objProductOrderInfo?.supplier == "" {
+             self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Vendor#" , orderInfoValues: "-",id:6))
+        } else {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Vendor#" , orderInfoValues:self.objProductOrderInfo?.supplier ?? "-",id:6))
+        }
+        
+        if let minValue = self.objProductOrderInfo?.minStk {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Min" , orderInfoValues: "\(minValue)",id:7))
+        } else {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Min" , orderInfoValues: "-",id:7))
+        }
+        
+        if let maxValue = self.objProductOrderInfo?.maxStk{
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Max" , orderInfoValues: "\(maxValue)",id:8))
+        }else{
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Max" , orderInfoValues: "-",id:8))
+        }
+        
+        if let reOrderValue = self.objProductOrderInfo?.reOrdPoint{
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Reorder" , orderInfoValues: "\(reOrderValue)",id:9))
+        }else{
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Reorder" , orderInfoValues: "-",id:9))
         }
         
     }
+    
     func convertDateFormater(_ date: String) -> String
     {
         let dateFormatter = DateFormatter()
@@ -298,29 +312,33 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         
         Product.displayProductInfo(with: singaltan.aubuchon.branchCode, data: barcodeForProduct, success: { (response, isSuccess, arrUPCData,table2Array)  in
             
-            self.inqueryData = response
+            //self.inqueryData = response
+            response.saveProductDataInDefault()
+            singaltan.aubuchon.productData = response
+            self.objProductOrderInfo = response
             self.tableTwoArrayForOrderInfo = table2Array
             
-            if let statusIs = response["prodStatus"] as? String{
-                self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: statusIs,id:10))
-            }else{
-                self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: "-",id:10))
-            }
+          //  if let statusIs = response["prodStatus"] as? String{
+            
+           // }else{
+           //     self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: "-",id:10))
+           // }
             
             if self.isfromBack == true {
                 self.btnBack.isHidden = true
             }
-            if response.count != 0 {
+            
+          //  if response.count != 0 {
                 if Constant.kAppDelegate.isOldProductData != true {
                     self.storeDataInUserDefault()
                     Constant.kAppDelegate.isOldProductData = true
                 }
                 
                 //On set product detail
-                for (nameIs, valueIs) in response   {
-                    self.onSetupProductData(key: nameIs, value: valueIs)
-                }
-                
+//                for (nameIs, valueIs) in response   {
+//                    self.onSetupProductData(key: nameIs, value: valueIs)
+//                }
+                    self.setUpProductData()
                 for (_ ,dict) in arrUPCData.enumerated(){
                     if let isPrimary = dict["Primary"] as? Bool, isPrimary{
                         if let UPCIs = dict["altUPC"] as? String{
@@ -336,10 +354,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
                     }
                 }
                 
-//                for i in 0...self.dateCheckArray.count - 1{
-//                    self.tableTwoUniqueDataForOrderInfo.append(self.dateCheckArray[i])
-//                }
-//               self.tableTwoUniqueDataForOrderInfo.sort(by:{$0.compare($1) == .orderedAscending})
+
                 self.tableTwoUniqueDataForOrderInfo.sort(by:{$0.delDate.compare($1.delDate) == .orderedAscending})
                 self.objectsArray.sort(by: { $0.id < $1.id })
                 self.onderInfoArray.sort(by:{$0.id < $1.id})
@@ -359,21 +374,21 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
                     self.productTableView.reloadData()
                 }
                 
-            } else {
-                // UserDefaults.standard.setCurrentSKU(value: "")
-                DispatchQueue.main.async {
-                    UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
-                    let alert = UIAlertController(title: "", message: Constant.alertTitleMessage.validBarcode, preferredStyle: UIAlertController.Style.alert)
-                    
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-                        Constant.kAppDelegate.isBackFromProduct = true
-                        //self.dismiss(animated: false, completion: nil)
-                        self.moveOnMainScreen()
-                        
-                    }))
-                    self.present(alert, animated: true, completion: nil)
-                }
-            }
+//            } else {
+//                // UserDefaults.standard.setCurrentSKU(value: "")
+//                DispatchQueue.main.async {
+//                    UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
+//                    let alert = UIAlertController(title: "", message: Constant.alertTitleMessage.validBarcode, preferredStyle: UIAlertController.Style.alert)
+//
+//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
+//                        Constant.kAppDelegate.isBackFromProduct = true
+//                        //self.dismiss(animated: false, completion: nil)
+//                        self.moveOnMainScreen()
+//
+//                    }))
+//                    self.present(alert, animated: true, completion: nil)
+//                }
+//            }
         }) { (response, issuccess) in
             
             if response == Constant.alertTitleMessage.validBarcode {
@@ -981,15 +996,11 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                     let cell = productTableView.dequeueReusableCell(withIdentifier: "RatingCell", for: indexPath) as! RatingCell
                     cell.selectionStyle = .none
                     
-                    if let webDescIs = inqueryData["webDesc"] as? String, let ratingIs = inqueryData["rating"] as? Double {
-                        cell.lblDesc.text = webDescIs
-                        cell.lblRate.text = "(\(ratingIs))"
-                        cell.vwRating.rating = ratingIs
-                    }else{
-                        cell.lblDesc.text = ""
-                        cell.lblRate.text = "\((0.0))"
-                        cell.vwRating.rating = 0.0
-                    }
+
+                    cell.lblDesc.text = self.objProductOrderInfo?.webDesc
+                  
+                    cell.lblRate.text = "(\(self.objProductOrderInfo?.rating ?? 0.0))"
+                    cell.vwRating.rating = self.objProductOrderInfo?.rating ?? 0.0
                     
                     return cell
                 }

@@ -9,5 +9,6 @@
 import Foundation
 class singaltan {
     static let aubuchon = singaltan()
+    var productData : ProductOrderData?
     var branchCode:String = "049"
 }
