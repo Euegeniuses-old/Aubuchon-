@@ -34,9 +34,10 @@ import com.aubuchon.model.RelatedModel;
 import com.aubuchon.model.SalesHistoryModel;
 import com.aubuchon.model.SalesModel;
 import com.aubuchon.utility.Constant;
-import com.aubuchon.utility.GlideApp;
 import com.aubuchon.utility.Globals;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.orhanobut.logger.Logger;
@@ -81,7 +82,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     RecyclerView rv_sales_history;
     @BindView(R.id.ll_sales_history_header)
     LinearLayout ll_sales_history_header;
-
+    @BindView(R.id.tv_sales_history_not_found)
+    AppCompatTextView tv_sales_history_not_found;
 
     @BindView(R.id.rv_order_info)
     RecyclerView rv_order_info;
@@ -90,6 +92,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
     @BindView(R.id.rv_related_products)
     RecyclerView rv_related_products;
+    @BindView(R.id.tv_related_not_found)
+    AppCompatTextView tv_related_not_found;
+
     @BindView(R.id.tv_no_data)
     AppCompatTextView tv_no_data;
     @BindView(R.id.iv_photo)
@@ -265,7 +270,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         }
     }
 
-    public void doRequestForGetProductDetail() {
+    private void doRequestForGetProductDetail() {
         String url = getString(R.string.product_store_url) + "branchcode=" + branchcode + "&data=" + data;
         Logger.v("Product Url: " + url);
         new GetCall(getActivity(), url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
@@ -278,6 +283,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
                 if (productModel.getProduct().size() > 0) {
 
+                    tv_no_data.setVisibility(View.GONE);
+
                     if (!globals.isFromMenu) {
                         setCurrentPrevious();
                     }
@@ -289,6 +296,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     }
 
                     rg1.check(R.id.btn_inquiry);
+                    rv_inquiry.setVisibility(View.VISIBLE);
+                    ll_inquiry_group_2.setVisibility(View.GONE);
                     setInquiryData();
                     setOrderInfoData();
                     setPhoto();
@@ -308,11 +317,19 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
             @Override
             public void onFailedToGetCall() {
+
+                if (isFromRelated) {
+                    doRequestForGetProductDetail();
+                }
+
                 Globals.showToast(getActivity(), getString(R.string.error_msg_connection_timeout));
+                productsList = new ArrayList<>();
                 ll_inquiry_group_2.setVisibility(View.GONE);
                 rv_inquiry.setVisibility(View.GONE);
+                rv_order_info.setVisibility(View.GONE);
                 tv_no_data.setVisibility(View.VISIBLE);
                 tv_order_info_not_found.setVisibility(View.VISIBLE);
+
             }
         }, true).doRequest();
 
@@ -336,7 +353,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_local_inv_not_found));
                 ll_local_inv.setVisibility(View.GONE);
                 tv_no_data.setVisibility(View.VISIBLE);
             }
@@ -356,14 +372,15 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 } else {
                     ll_sales_history_header.setVisibility(View.GONE);
                     rv_sales_history.setVisibility(View.GONE);
+                    tv_sales_history_not_found.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_sales_history_not_found));
                 ll_sales_history_header.setVisibility(View.GONE);
                 rv_sales_history.setVisibility(View.GONE);
+                tv_sales_history_not_found.setVisibility(View.VISIBLE);
 
             }
         }, true).doRequest();
@@ -380,12 +397,16 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 relatedModel = new Gson().fromJson(response.toString(), RelatedModel.class);
                 if (relatedModel.getRelatedProducts().size() > 0) {
                     setRelatedData();
+                } else {
+                    tv_related_not_found.setVisibility(View.VISIBLE);
+                    rv_related_products.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_related_product_not_found));
+                tv_related_not_found.setVisibility(View.VISIBLE);
+                rv_related_products.setVisibility(View.GONE);
             }
         }, true).doRequest();
     }
@@ -394,8 +415,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
      * Load Photo from ProductDetails
      */
     private void setPhoto() {
-        if (productsList != null && productsList.get(0).getImageURL() != null && !productsList.get(0).getImageURL().isEmpty()) {
-            GlideApp.with(mContext)
+       /* if (productsList != null && productsList.get(0).getImageURL() != null && !productsList.get(0).getImageURL().isEmpty()) {
+            GlideApp.with(this)
                     .load(productsList.get(0).getImageURL())
                     .placeholder(R.drawable.camera)
                     .dontAnimate()
@@ -403,14 +424,46 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     .dontTransform()
                     .into(iv_photo);
         } else {
-            GlideApp.with(mContext)
+            GlideApp.with(this)
                     .load(R.drawable.camera)
                     .placeholder(R.drawable.camera)
                     .dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .dontTransform()
                     .into(iv_photo);
+        }*/
+
+        if (productsList != null && productsList.get(0).getImageURL() != null && !productsList.get(0).getImageURL().isEmpty()) {
+          /*  GlideApp.with(this)
+                    .load(productsList.get(0).getImageURL())
+                    .placeholder(R.drawable.camera)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontTransform()
+                    .into(iv_photo);*/
+
+            Glide.with(Globals.getContext()) //Use your current view instead of contex
+                    .load(productsList.get(0).getImageURL())
+                    .apply(new RequestOptions().placeholder(R.drawable.camera).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .into(iv_photo);
+
+
+        } else {
+           /* GlideApp.with(this)
+                    .load(R.drawable.camera)
+                    .placeholder(R.drawable.camera)
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .dontTransform()
+                    .into(iv_photo);*/
+
+            Glide.with(Globals.getContext()) //Use your current view instead of contex
+                    .load(R.drawable.camera)
+                    .apply(new RequestOptions().placeholder(R.drawable.camera).diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .into(iv_photo);
+
         }
+
     }
 
     /**
@@ -418,7 +471,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
      */
     public void setInquiryData() {
         ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
-
         productsList = new ArrayList<>();
         productsList = productModel.getProduct();
         ll_inquiry_group_2.setVisibility(View.GONE);
@@ -546,6 +598,10 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         rv_order_info.setHasFixedSize(false);
         rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_order_info.setAdapter(inquiryListAdapter);
+
+        rv_order_info.setVisibility(View.VISIBLE);
+        tv_order_info_not_found.setVisibility(View.GONE);
+
     }
 
     /**
@@ -623,7 +679,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
         ll_sales_history_header.setVisibility(View.VISIBLE);
         rv_sales_history.setVisibility(View.VISIBLE);
-
+        tv_sales_history_not_found.setVisibility(View.GONE);
     }
 
     /**
@@ -639,6 +695,10 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         rv_related_products.setHasFixedSize(false);
         rv_related_products.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv_related_products.setAdapter(relatedProductsAdapter);
+
+        rv_related_products.setVisibility(View.VISIBLE);
+        tv_related_not_found.setVisibility(View.GONE);
+
     }
 
     /**
@@ -650,6 +710,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         data = globals.getPreviousProductCode();
         isFromRelated = false;
         globals.isFromMenu = false;
+        ll_inquiry_group_2.setVisibility(View.GONE);
         doRequestForGetProductDetail();
     }
 
@@ -660,7 +721,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         data = relatedProductArrayList.get(i).getSku();
         isFromRelated = true;
+        ll_inquiry_group_2.setVisibility(View.GONE);
         doRequestForGetProductDetail();
     }
+
 
 }

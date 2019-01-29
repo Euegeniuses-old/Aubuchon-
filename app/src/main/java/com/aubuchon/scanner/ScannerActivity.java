@@ -81,21 +81,29 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         resultString = rawResult.getText();
         Logger.json(new Gson().toJson(rawResult));
 
+        /*Result New Flow*/
+        if (resultString != null && !resultString.isEmpty()) {
+            Intent result = new Intent();
+            result.putExtra(Constant.AU_Data, resultString);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+
     }
 
-    @OnClick(R.id.btn_rescan)
+   /* @OnClick(R.id.btn_rescan)
     public void rescanBarCode(View v) {
         // Note:
         // * Wait 2 seconds to resume the preview.
         // * On older devices continuously stopping and resuming camera preview can result in freezing the app.
         // * I don't know why this is the case but I don't have the time to figure out.
-      /*  Handler handler = new Handler();
+      *//*  Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mScannerView.resumeCameraPreview(ScannerActivity.this);
             }
-        }, 2000);*/
+        }, 2000);*//*
         resultString = "";
         mScannerView.resumeCameraPreview(ScannerActivity.this);
     }
@@ -108,6 +116,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
             setResult(RESULT_OK, result);
             finish();
         }
-    }
+    }*/
 
 }

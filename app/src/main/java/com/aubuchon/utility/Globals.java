@@ -51,7 +51,7 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
         Logger.addLogAdapter(new AndroidLogAdapter() {
             @Override
             public boolean isLoggable(int priority, String tag) {
-                return false;
+                return BuildConstants.isDebuggable;
             }
         });
     }
@@ -212,7 +212,7 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
             DateFormat targetFormat = new SimpleDateFormat("MM/dd/yy", Locale.ENGLISH);
             date = originalFormat.parse(dateTobeConvert);
             formattedDate = targetFormat.format(date);
-            Logger.v("Converted Date: "+formattedDate);
+            Logger.v("Converted Date: " + formattedDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }

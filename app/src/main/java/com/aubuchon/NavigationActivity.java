@@ -1,11 +1,13 @@
 package com.aubuchon;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
@@ -17,18 +19,29 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aubuchon.apis.GetCall;
+import com.aubuchon.apis.HttpRequestHandler;
 import com.aubuchon.scanner.ItemDetailFragment;
 import com.aubuchon.scanner.ScannerActivity;
+import com.aubuchon.utility.BuildConstants;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
+import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.fabric.sdk.android.Fabric;
 
 
 public class NavigationActivity extends AppCompatActivity {
@@ -55,7 +68,6 @@ public class NavigationActivity extends AppCompatActivity {
 
     public NavigationActivity navigationActivity;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +75,9 @@ public class NavigationActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         navigationActivity = NavigationActivity.this;
         globals = (Globals) getApplicationContext();
+        if (BuildConstants.isEnableFabric) {
+            Fabric.with(this, new Crashlytics());
+        }
         addFragmentOnTop(HomeFragment.newInstance());
     }
 
@@ -84,10 +99,77 @@ public class NavigationActivity extends AppCompatActivity {
             iv_home.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    doRequestForGetPublicIP();
+                }
+            });
+        }
+    }
+
+    public void doRequestForGetPublicIP() {
+        String url = NavigationActivity.this.getString(R.string.url_white_listed_ip);
+        new GetCall(NavigationActivity.this, url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
+            @Override
+            public void onSucceedToGetCall(JSONObject response) {
+                if (response.has(Constant.AU_ip)) {
+                    try {
+                        doRequestForCheckPublicIP(response.getString(Constant.AU_ip));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailedToGetCall() {
+                Globals.showToast(NavigationActivity.this, getString(R.string.msg_server_error));
+            }
+        }, true).doRequest();
+    }
+
+    private void doRequestForCheckPublicIP(final String publicIp) {
+
+        String url = NavigationActivity.this.getString(R.string.url_ip_white_list);
+
+        new GetCall(NavigationActivity.this, url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
+            @Override
+            public void onSucceedToGetCall(JSONObject response) {
+
+                HashMap<String, String> ipAddressMaps;
+                ipAddressMaps = new Gson().fromJson(response.toString(), new TypeToken<HashMap<String, String>>() {
+                }.getType());
+
+                if (!ipAddressMaps.containsKey(publicIp)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NavigationActivity.this)
+                            .setMessage("Public ip is not white listed")
+                            .setCancelable(false)
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ExitActivity.exitApplication(NavigationActivity.this);
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                } else {
+
+                    String ipData = ipAddressMaps.get(publicIp);
+                    if (ipData != null) {
+                        if (ipData.contains("aub-") && ipData.contains(".")) {
+                            String branchCode = Globals.getBetweenStrings(ipData, "aub-", ".");
+                            globals.setBranchCode(branchCode);
+                        } else {
+                            globals.setBranchCode("049");
+                        }
+                    } else {
+                        globals.setBranchCode("049");
+                    }
 
                     PermissionListener permissionlistener = new PermissionListener() {
                         @Override
                         public void onPermissionGranted() {
+                            // EasyImage.openCamera(getActivity(), 0);
                             Intent intent = new Intent(NavigationActivity.this, ScannerActivity.class);
                             startActivityForResult(intent, SCAN_BARCODE_REQUEST);
                         }
@@ -107,9 +189,16 @@ public class NavigationActivity extends AppCompatActivity {
                             .check();
 
                 }
-            });
-        }
+            }
+
+            @Override
+            public void onFailedToGetCall() {
+                Globals.showToast(NavigationActivity.this, "IP is not whitelisted");
+            }
+        }, true).doRequest();
+
     }
+
 
     private boolean isHomeFragment() {
         List<Fragment> frags = getSupportFragmentManager().getFragments();
@@ -146,7 +235,6 @@ public class NavigationActivity extends AppCompatActivity {
                 if (!isHomeFragment()) {
                     getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addFragmentOnTop(HomeFragment.newInstance());
-
                     toolbar_title.setText("");
                     ll_desc.setVisibility(View.GONE);
                 }
@@ -185,19 +273,34 @@ public class NavigationActivity extends AppCompatActivity {
 
         List<Fragment> frags = getSupportFragmentManager().getFragments();
         for (Fragment f : frags) {
-            if (f instanceof HomeFragment) {
+            /*if (f instanceof HomeFragment) {
                 toolbar_title.setText("");
                 ll_desc.setVisibility(View.GONE);
+                HttpRequestHandler.getInstance().cancelRequest(this);
                 //finish();
                 super.onBackPressed();
             } else {
+                getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 addFragmentOnTop(HomeFragment.newInstance());
                 toolbar_title.setText("");
                 ll_desc.setVisibility(View.GONE);
+            }*/
+
+            if (!(f instanceof HomeFragment)) {
+                /*getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);*/
+                addFragmentOnTop(HomeFragment.newInstance());
+                toolbar_title.setText("");
+                ll_desc.setVisibility(View.GONE);
+            } else {
+                toolbar_title.setText("");
+                ll_desc.setVisibility(View.GONE);
+                HttpRequestHandler.getInstance().cancelRequest(this);
+                //finish();
+                super.onBackPressed();
             }
+
         }
     }
-
 
     // Handle Result come from Bar-code Image at Top-Right Corner
     @Override
@@ -209,8 +312,19 @@ public class NavigationActivity extends AppCompatActivity {
             /*toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));*/
             globals.isFromMenu = false;
             addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
-
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HttpRequestHandler.getInstance().cancelRequest(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        HttpRequestHandler.getInstance().cancelRequest(this);
     }
 
 }

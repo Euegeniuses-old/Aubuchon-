@@ -24,7 +24,6 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
     private AdapterView.OnItemClickListener onItemClickListener;
     private ArrayList<KeyValueModel> mDataSetFilterData;
 
-
     InquiryListAdapter(Context context) {
         this.context = context;
     }

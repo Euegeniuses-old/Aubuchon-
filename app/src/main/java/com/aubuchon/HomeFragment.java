@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     NavigationActivity mContext;
     public String scannedCode = "";
     boolean isFromCameraClick = false;
+    boolean isFromButtonClick = false;
     Globals globals;
 
     public static HomeFragment newInstance() {
@@ -81,6 +82,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         isFromCameraClick = false;
+        isFromButtonClick = false;
 
         if (!globals.barCode.isEmpty()) {
             et_code.setText(globals.barCode);
@@ -97,7 +99,13 @@ public class HomeFragment extends Fragment {
         doRequestForGetPublicIP();
     }
 
+
     @OnClick(R.id.btn_ok)
+    public void btnOkClick() {
+        isFromButtonClick = true;
+        doRequestForGetPublicIP();
+    }
+
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
 
@@ -108,7 +116,6 @@ public class HomeFragment extends Fragment {
                 ((NavigationActivity) getActivity()).setToolbar();
                 ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
                 globals.passCode = "";
-
                 globals.barCode = "";
             }
         } else {
@@ -203,6 +210,10 @@ public class HomeFragment extends Fragment {
                                 .check();
                     }
 
+                    if(isFromButtonClick){
+                        doRequestForGetProductDetail();
+                    }
+
                 }
             }
 
@@ -213,7 +224,6 @@ public class HomeFragment extends Fragment {
         }, true).doRequest();
 
     }
-
 
     // Handle Result come from Scanning(Camera Image)
     @Override

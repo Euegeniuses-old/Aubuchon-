@@ -22,12 +22,12 @@ public class GetCall {
     private Activity context;
     private String url;
     private boolean isLoaderRequired;
-    ACProgressFlower dialog;
+    private ACProgressFlower dialog;
 
     public interface OnGetServiceCallListener {
-        public void onSucceedToGetCall(JSONObject response);
+        void onSucceedToGetCall(JSONObject response);
 
-        public void onFailedToGetCall();
+        void onFailedToGetCall();
     }
 
     public GetCall(Activity context, String url, JSONObject postData, OnGetServiceCallListener listener, boolean isLoaderRequired) {
@@ -60,32 +60,50 @@ public class GetCall {
             @Override
             public void onFinish() {
                 super.onFinish();
-                if (dialog != null && dialog.isShowing())
+                if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
+                    dialog = null;
+                }
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Logger.json(response.toString());
                 listener.onSucceedToGetCall(response);
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    dialog = null;
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 listener.onFailedToGetCall();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    dialog = null;
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
                 listener.onFailedToGetCall();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                    dialog = null;
+                }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 listener.onFailedToGetCall();
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+
+                }
             }
         });
     }

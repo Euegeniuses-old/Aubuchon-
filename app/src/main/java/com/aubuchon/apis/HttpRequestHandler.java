@@ -2,7 +2,6 @@ package com.aubuchon.apis;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
@@ -63,7 +62,7 @@ public class HttpRequestHandler {
     }
 
     public void postWithReqestParam(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        Logger.e("Server Url:=> "+ url);
+        Logger.e("Server Url:=> " + url);
         Logger.d(params.toString());
         client.post(url, params, responseHandler);
     }
@@ -72,10 +71,11 @@ public class HttpRequestHandler {
         client.cancelRequests(context, true);
     }
 
-    public ACProgressFlower getProgressBar(Context context) {
+    ACProgressFlower getProgressBar(Context context) {
         final ACProgressFlower dialog = new ACProgressFlower.Builder(context)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .petalThickness(5)
+                .speed(15f)
                 .themeColor(Color.WHITE)
                 .fadeColor(Color.DKGRAY).build();
         dialog.setCancelable(false);
@@ -93,7 +93,6 @@ public class HttpRequestHandler {
         dialog.setCancelable(false);
         return dialog;
     }
-
 
     public RequestParams getUploadImageParams(File selectedImage) {
         RequestParams params = new RequestParams();
