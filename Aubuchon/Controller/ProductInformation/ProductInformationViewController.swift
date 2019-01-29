@@ -144,6 +144,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         self.btnBack.isHidden = false
         self.removeAllArrayData()
         barcode = Constant.kAppDelegate.relatedItemCellSku
+         self.productTableView.reloadData()
         GetProductDetails(barcodeForProduct: Constant.kAppDelegate.relatedItemCellSku)
         
     }
@@ -390,7 +391,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
 //                }
 //            }
         }) { (response, issuccess) in
-            
+            //self.productTableView.reloadData()
             if response == Constant.alertTitleMessage.validBarcode {
                 DispatchQueue.main.async {
                     UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
@@ -418,7 +419,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.salesByMonthArray.sort(by: { $0.yr > $1.yr})
             
         }) { (errorIs, failure) in
-            self.alertMessage(message: "Sales History detail Not Found", title: "")
+             //self.productTableView.reloadData()
+          //  self.alertMessage(message: "Sales History detail Not Found", title: "")
         }
     }
     
@@ -444,7 +446,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.storeFinalStockArray =  self.sortedNearestStock + self.sortedStoreStock
             
         }) { (errorIs, failure) in
-            self.alertMessage(message: "LocalINV detail Not Found", title: "")
+//             self.productTableView.reloadData()
+          //  self.alertMessage(message: "LocalINV detail Not Found", title: "")
         }
     }
     
@@ -455,7 +458,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.storeRelatedProductArray = arrReletedProduct
             
         }) { (errorIs, failure) in
-            self.alertMessage(message: "Related Product detail Not Found", title: "")
+            // self.productTableView.reloadData()
+           // self.alertMessage(message: "Related Product detail Not Found", title: "")
         }
     }
     
@@ -961,7 +965,8 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 return salesByMonthArray.count
             } else if screen == 6 {
                 // return storeRelatedProductArray.count
-                isDataFound = true
+                //isDataFound = true
+                isDataFound = storeRelatedProductArray.count > 0
                 return 1
             } else if screen == 7 || screen == 8 {
                 isDataFound = true

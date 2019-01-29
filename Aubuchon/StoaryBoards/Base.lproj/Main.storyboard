@@ -583,13 +583,13 @@
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M0E-ly-sP4">
-                                <rect key="frame" x="0.0" y="528" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="568" width="320" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8zx-DJ-FcF">
-                                        <rect key="frame" x="0.0" y="0.0" width="160" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="0.0"/>
                                         <color key="backgroundColor" red="0.73333333329999995" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="P2e-MU-hk0"/>
+                                            <constraint firstAttribute="height" id="P2e-MU-hk0"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="RESCAN">
@@ -600,7 +600,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKO-Hf-2vN">
-                                        <rect key="frame" x="160" y="0.0" width="160" height="40"/>
+                                        <rect key="frame" x="160" y="0.0" width="160" height="0.0"/>
                                         <color key="backgroundColor" red="0.73333333329999995" green="0.73333333329999995" blue="0.73333333329999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <state key="normal" title="OK">
@@ -620,7 +620,7 @@
                                     <constraint firstItem="8zx-DJ-FcF" firstAttribute="top" secondItem="M0E-ly-sP4" secondAttribute="top" id="LTJ-HQ-N1c"/>
                                     <constraint firstItem="rKO-Hf-2vN" firstAttribute="top" secondItem="8zx-DJ-FcF" secondAttribute="top" id="Vr9-9s-VJb"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rKO-Hf-2vN" secondAttribute="trailing" id="iIM-Oz-krs"/>
-                                    <constraint firstAttribute="height" constant="40" id="mYK-WY-9BM"/>
+                                    <constraint firstAttribute="height" id="mYK-WY-9BM"/>
                                     <constraint firstItem="rKO-Hf-2vN" firstAttribute="leading" secondItem="8zx-DJ-FcF" secondAttribute="trailing" id="yQS-Bj-ygi"/>
                                 </constraints>
                             </view>

@@ -52,9 +52,10 @@ class ScannerViewController: UIViewController {
     //MARK:- Private functions
     
     func capturedProcess() {
-        showMsg(title: nil, message: tempCaptureString)
+       // showMsg(title: nil, message: tempCaptureString)
         
         self.isCaptureIsFrozen = !self.isCaptureIsFrozen
+        showBarcodeResult()
     }
     
     // stop scanning
@@ -128,20 +129,25 @@ class ScannerViewController: UIViewController {
 //                let NavigationController = UINavigationController(rootViewController: viewController)
 //                UIApplication.shared.keyWindow?.rootViewController? = NavigationController
 //            } else {
-            Constant.kAppDelegate.isOldProductData = false
-                let viewController:
-                    ProductInformationViewController = UIStoryboard(
-                        name: "Main", bundle: nil
-                        ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
-                viewController.barcode = tempCaptureString
-                Constant.kAppDelegate.barcodeNumber = tempCaptureString
-                let NavigationController = UINavigationController(rootViewController: viewController)
-                UIApplication.shared.keyWindow?.rootViewController? = NavigationController
+           showBarcodeResult()
           //  }
         }
     }
     
     @IBAction func btnBack_Action(_ sender: Any) {
         self.dismiss(animated: false, completion: nil)
+    }
+    
+    //MARK:- Private function
+    func showBarcodeResult() {
+        Constant.kAppDelegate.isOldProductData = false
+        let viewController:
+            ProductInformationViewController = UIStoryboard(
+                name: "Main", bundle: nil
+                ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
+        viewController.barcode = tempCaptureString
+        Constant.kAppDelegate.barcodeNumber = tempCaptureString
+        let NavigationController = UINavigationController(rootViewController: viewController)
+        UIApplication.shared.keyWindow?.rootViewController? = NavigationController
     }
 }

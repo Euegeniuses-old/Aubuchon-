@@ -8,6 +8,9 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Fabric
+import Crashlytics
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         UserDefaults.standard.setCurrentSKU(value: "")
         UserDefaults.standard.setOldSKU(value: "")
+        Fabric.with([Crashlytics.self])
         return true
     }
 
@@ -47,6 +51,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.kskuCurrent.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.kskuOld.rawValue)
+        
+       // Pathlink.sharedInstance.currentUser = nil
+        singaltan.aubuchon.productData = nil
+        UserDefaults.productData = false
+        ProductOrderData.removeProductDataFromDefault()
     }
 }
 

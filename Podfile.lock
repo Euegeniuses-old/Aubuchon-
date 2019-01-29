@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (4.7.3)
   - Cosmos (18.0.1)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
+  - Fabric (1.9.0)
   - IQKeyboardManagerSwift (6.2.0)
   - MTBBarcodeScanner (5.0.7)
   - SDWebImage (4.4.2):
@@ -11,6 +14,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - Cosmos
+  - Crashlytics
+  - Fabric
   - IQKeyboardManagerSwift
   - MTBBarcodeScanner
   - SDWebImage (~> 4.0)
@@ -20,6 +25,8 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Cosmos
+    - Crashlytics
+    - Fabric
     - IQKeyboardManagerSwift
     - MTBBarcodeScanner
     - SDWebImage
@@ -28,11 +35,13 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Cosmos: 7dfaa3f52584ca5f94ab74b5c2e264019cc9f7f5
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   MTBBarcodeScanner: 003bb85d24e25818852fb8a10b5dbfe039d0385b
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 9f5e731cc6ba68ae1d73a04695fe5051abbe6c54
+PODFILE CHECKSUM: 7eda25a65cef608236bec62a0800cfda88104d91
 
 COCOAPODS: 1.5.3

@@ -365,6 +365,7 @@
 			children = (
 				04E6940721EF67FF00340DA2 /* RelatedCell */,
 				0452B38421BFCD0100062945 /* RelatedItems.xib */,
+				04E6940821EF683000340DA2 /* RelatedTableViewCell.swift */,
 				0452B38621BFCD0F00062945 /* RelatedItemsCollectionViewCell.swift */,
 			);
 			path = "Related Items";
@@ -437,7 +438,6 @@
 		04E6940721EF67FF00340DA2 /* RelatedCell */ = {
 			isa = PBXGroup;
 			children = (
-				04E6940821EF683000340DA2 /* RelatedTableViewCell.swift */,
 				04E6940921EF683000340DA2 /* RelatedTableViewCell.xib */,
 			);
 			path = RelatedCell;
@@ -495,6 +495,7 @@
 				043A44BA219AA84B00D6DA2E /* Frameworks */,
 				043A44BB219AA84B00D6DA2E /* Resources */,
 				39D884F58481948D35B9E020 /* [CP] Embed Pods Frameworks */,
+				04059E7C22002CDA0074AA68 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -633,6 +634,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		04059E7C22002CDA0074AA68 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1a406623b5f693186513a2d8e3452bf5a36a8823 4b42756d49a900677ed8b3167a83c450fd129846db12544c7c12c49c359202cb\n";
+		};
 		39D884F58481948D35B9E020 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

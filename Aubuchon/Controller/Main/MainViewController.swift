@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
     var barCodeNumber : String = ""
     var menu : [String] = ["Home","Product Info"]
     var isMenuVisible = false
-    
+    var isOk:Bool = false
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +88,23 @@ class MainViewController: UIViewController {
                 self.getBranchCode()
                 if !self.isOnLoad {
                     self.openMTBScanner()
+                }
+                if self.isOk {
+                    var textdata = self.txtCode.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if textdata != "" {
+                        
+                        //  UserDefaults.standard.setCurrentSKU(value: (txtCode.text?.trim())!)
+                        Constant.kAppDelegate.isOldProductData = false
+                        let  secondViewController:
+                            ProductInformationViewController = UIStoryboard(
+                                name: "Main", bundle: nil
+                                ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
+                        secondViewController.barcode = self.txtCode.text ?? "1"
+                        
+                        self.present(secondViewController, animated: false, completion: nil)
+                    } else {
+                        self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")
+                    }
                 }
             }
             
@@ -155,6 +172,7 @@ class MainViewController: UIViewController {
         btnCamera.isEnabled = true
         lblCaptureImage.isUserInteractionEnabled = true
         isOnLoad = true
+        isOk = false
         
         // Tabgesture of lblCaptureImage
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureOpenCameraRecognizer(tapGestureRecognizer:)))
@@ -174,6 +192,7 @@ class MainViewController: UIViewController {
         lblCaptureImage.isUserInteractionEnabled = false
         btnCamera.isEnabled = false
         isOnLoad = false
+        isOk = false
         publicAPICall()
     }
     
@@ -274,32 +293,27 @@ class MainViewController: UIViewController {
         btnCamera.isEnabled = false
         lblCaptureImage.isUserInteractionEnabled = false
         isOnLoad = false
+        isOk = false
         publicAPICall()
     }
     
     //btnOk button
     @IBAction func btnOk_Action(_ sender: Any) {
         //txtCode.text = ""
-        var textdata = txtCode.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-        if textdata != "" {
-            
-            //  UserDefaults.standard.setCurrentSKU(value: (txtCode.text?.trim())!)
-            Constant.kAppDelegate.isOldProductData = false
-            let  secondViewController:
-                ProductInformationViewController = UIStoryboard(
-                    name: "Main", bundle: nil
-                    ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
-            secondViewController.barcode = txtCode.text ?? "1"
-            
-            self.present(secondViewController, animated: false, completion: nil)
-        } else {
-            self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")
-        }
+        publicAPICall()
+        isOnLoad = true
+        isOk = true
+//        DispatchQueue.main.async {
+//
+//        }
         hideMenuView()
     }
     @IBAction func btnBarcode_Action(_ sender: Any) {
         Constant.kAppDelegate.isOldProductData = false
-        self.openMTBScanner()
+        publicAPICall()
+        isOnLoad = false
+        isOk = false
+        //self.openMTBScanner()
         
     }
 }

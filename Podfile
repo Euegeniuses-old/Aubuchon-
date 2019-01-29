@@ -12,6 +12,8 @@ target 'Aubuchon' do
     pod 'IQKeyboardManagerSwift'
     pod 'MTBBarcodeScanner'
      pod 'SDWebImage', '~> 4.0'
+     pod 'Fabric'
+     pod 'Crashlytics'
     # pod 'swiftScan', '~> 1.1.2'
   target 'AubuchonTests' do
     inherit! :search_paths
