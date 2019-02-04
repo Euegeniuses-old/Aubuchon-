@@ -38,8 +38,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h73-pp-kjQ">
                             <rect key="frame" x="187.5" y="0.0" width="94" height="58"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-ww-gIT">
-                                    <rect key="frame" x="10" y="18.5" width="44.5" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VJc-ww-gIT">
+                                    <rect key="frame" x="20" y="18.5" width="11" height="21"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -48,7 +48,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="VJc-ww-gIT" firstAttribute="centerY" secondItem="h73-pp-kjQ" secondAttribute="centerY" id="Py4-XT-gQX"/>
-                                <constraint firstItem="VJc-ww-gIT" firstAttribute="leading" secondItem="h73-pp-kjQ" secondAttribute="leading" constant="10" id="gX7-AX-Lwo"/>
+                                <constraint firstItem="VJc-ww-gIT" firstAttribute="leading" secondItem="h73-pp-kjQ" secondAttribute="leading" constant="20" id="gX7-AX-Lwo"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="60H-dy-ZSS">

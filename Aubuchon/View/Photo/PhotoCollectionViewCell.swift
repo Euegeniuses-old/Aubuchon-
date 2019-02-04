@@ -8,8 +8,26 @@
 
 import UIKit
 
+
+
 class PhotoCollectionViewCell: UICollectionViewCell {
+    
+    
+    
     
     //Outlet
     @IBOutlet weak var imgProduct: UIImageView!
+    @IBOutlet weak var btnOpenWebsite: UIButton!
+   
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+    }
+    
+
+    
+    
+   
+    
 }

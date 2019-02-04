@@ -45,6 +45,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     @IBOutlet weak var tblMenu: UITableView!
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var skuView: UIView!
     @IBOutlet weak var tableView: UIView!
     @IBOutlet weak var btnInqueryLeadingConstrain: NSLayoutConstraint!
     
@@ -98,24 +99,14 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        isfromBack = false
-        screen = 1
-        btnInquery.backgroundColor = UIColor.black
-        btnInquery.setTitleColor(.white, for: .normal)
-        
-        menuView.layer.borderColor = UIColor.black.cgColor
-        menuView.layer.borderWidth = 1
-        
-        tableView.layer.borderColor = UIColor.black.cgColor
-        tableView.layer.borderWidth = 1
-        tableView.layer.cornerRadius = 10
+       
         
         navigationConfig()
         hideMenuView()
         registerXib()
         uiButtons()
         removeAllArrayData()
-        
+        uiConfig()
         //CALL API's
         self.GetProductDetails(barcodeForProduct: self.barcode)
         
@@ -150,23 +141,21 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     }
     
     @objc func lblSKUTapped() {
-        
-        if let url = URL(string: self.strProductUrl) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                // Fallback on earlier versions
-                UIApplication.shared.openURL(url)
-            }
-        } else {
-            self.alertMessage(message: "Product detail page not found", title: "")
-        }
+
+        Constant.kAppDelegate.isBackFromProduct = true
+        moveOnMainScreen(isFromSKU: true)
     }
     func setUpProductData()  {
         //Set inquiry tab data
         self.image = self.objProductOrderInfo?.imageURL ?? ""
+
+        btnPhoto.isEnabled = self.image == "" ? false : true
+        btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
+        if screen == 2 {
+            btnPhoto.setTitleColor(.black, for: .normal)
+        }
         var sku:String = self.objProductOrderInfo?.sku ?? ""
-        self.lblSKU.text = ("SKU:\(sku)")
+        self.lblSKU.text = (" SKU:\(sku) ")
         self.objectsArray.append(Objects(inqueryTitle: "Item Number" , inqueryValues: self.objProductOrderInfo?.sku ?? "-",id:1))
         
         if let urlIs = self.objProductOrderInfo?.urlKey {
@@ -178,12 +167,12 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         } else {
             self.dataforInquery = "-"
         }
-        self.objectsArray.append(Objects(inqueryTitle: "Price" , inqueryValues: self.dataforInquery ,id:4))
+        self.objectsArray.append(Objects(inqueryTitle: "Price" , inqueryValues: self.dataforInquery ,id:8))
         
         if self.objProductOrderInfo?.promoPrice == "" {
-            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: "-",id:5))
+            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: "-",id:9))
         } else {
-            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: self.objProductOrderInfo?.promoPrice ?? "-",id:5))
+            self.objectsArray.append(Objects(inqueryTitle: "Promo" , inqueryValues: self.objProductOrderInfo?.promoPrice ?? "-",id:9))
         }
         
         if let onHandAmtdata = self.objProductOrderInfo?.onHandAmt {
@@ -202,15 +191,15 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         self.objectsArray.append(Objects(inqueryTitle: "Available" , inqueryValues:self.dataforInquery ,id:6))
         
         if self.objProductOrderInfo?.section == "" {
-            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues:  "-",id:8))
+            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues:  "-",id:4))
         } else {
-            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues: self.objProductOrderInfo?.section ?? "-",id:8))
+            self.objectsArray.append(Objects(inqueryTitle: "Section" , inqueryValues: self.objProductOrderInfo?.section ?? "-",id:4))
         }
         
         if singaltan.aubuchon.productData?.speedNo == "" {
-             self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: "-",id:9))
+             self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: "-",id:5))
         } else {
-            self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: self.objProductOrderInfo?.speedNo ?? "-",id:9))
+            self.objectsArray.append(Objects(inqueryTitle: "Speed#" , inqueryValues: self.objProductOrderInfo?.speedNo ?? "-",id:5))
         }
         
         if self.objProductOrderInfo?.prodStatus == "" {
@@ -261,10 +250,10 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         
         self.delDate = self.objProductOrderInfo?.deliveryDate ?? ""
         if self.objProductOrderInfo?.deliveryDate == "" {
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:"-",id:4))
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Delivery Date" , orderInfoValues:"-",id:4))
         } else {
             let resultString = convertDateFormater(self.objProductOrderInfo?.deliveryDate ?? "")
-            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Earliest Delivery Date" , orderInfoValues:resultString,id:4))
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Delivery Date" , orderInfoValues:resultString,id:4))
         }
         
         if self.objProductOrderInfo?.supplierName == "" {
@@ -301,9 +290,9 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     func convertDateFormater(_ date: String) -> String
     {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd"
+        dateFormatter.dateFormat = "YYYY/MM/dd"
         let date = dateFormatter.date(from: date)
-        dateFormatter.dateFormat = "MM-dd-YY"
+        dateFormatter.dateFormat = "MM/dd/YY"
         return  dateFormatter.string(from: date!)
         
     }
@@ -400,7 +389,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
                         Constant.kAppDelegate.isBackFromProduct = true
                         // self.dismiss(animated: false, completion: nil)
-                        self.moveOnMainScreen()
+                        self.moveOnMainScreen(isFromSKU: false)
                         
                     }))
                     self.present(alert, animated: true, completion: nil)
@@ -552,6 +541,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         //lblSKU.text = "SKU:\(UserDefaults.standard.getOldSKU())"
         barcode = UserDefaults.standard.getOldSKU()
         GetProductDetails(barcodeForProduct: UserDefaults.standard.getOldSKU())
+
     }
     
     
@@ -568,6 +558,26 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         sortedNearestStock.removeAll()
         storeFinalStockArray.removeAll()
     }
+    
+    func uiConfig() {
+        isfromBack = false
+        screen = 1
+        btnInquery.backgroundColor = UIColor.black
+        btnInquery.setTitleColor(.white, for: .normal)
+        
+        menuView.layer.borderColor = UIColor.black.cgColor
+        menuView.layer.borderWidth = 1
+        
+        tableView.layer.borderColor = UIColor.black.cgColor
+        tableView.layer.borderWidth = 1
+        tableView.layer.cornerRadius = 10
+        
+        lblSKU.layer.borderColor = UIColor.black.cgColor
+        lblSKU.layer.borderWidth = 1
+        lblSKU.layer.cornerRadius = 5
+        
+    }
+    
     // Open  MTBScanner
     func openMTBScanner() {
         if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
@@ -585,7 +595,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     fileprivate func buttonColorFormattor(button:UIButton) {
         if button == btnInquery {
             btnInquery.backgroundColor = UIColor.black
-            btnPhoto.backgroundColor = UIColor.white
+            btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
@@ -600,7 +610,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             btnOrderInfo.setTitleColor(.black, for: .normal)
             btnSalesHistory.setTitleColor(.black, for: .normal)
             btnRelatedIntems.setTitleColor(.black, for: .normal)
-            btnPhoto.setTitleColor(.black, for: .normal)
+           
             btnTBDOne.setTitleColor(.black, for: .normal)
             btnTBDTwo.setTitleColor(.black, for: .normal)
         } else if button == btnPhoto {
@@ -623,7 +633,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             btnTBDTwo.setTitleColor(.black, for: .normal)
         } else if button == btnLocalINV {
             btnLocalINV.backgroundColor = UIColor.black
-            btnPhoto.backgroundColor = UIColor.white
+           btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnInquery.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
@@ -642,7 +652,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         } else if button == btnOrderInfo {
             btnOrderInfo.backgroundColor = UIColor.black
             btnInquery.backgroundColor = UIColor.white
-            btnPhoto.backgroundColor = UIColor.white
+            btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
             btnRelatedIntems.backgroundColor = UIColor.white
@@ -660,7 +670,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         } else if button == btnSalesHistory {
             btnSalesHistory.backgroundColor = UIColor.black
             btnInquery.backgroundColor = UIColor.white
-            btnPhoto.backgroundColor = UIColor.white
+            btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnRelatedIntems.backgroundColor = UIColor.white
@@ -678,7 +688,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         } else if button == btnRelatedIntems {
             btnRelatedIntems.backgroundColor = UIColor.black
             btnInquery.backgroundColor = UIColor.white
-            btnPhoto.backgroundColor = UIColor.white
+            btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
@@ -697,7 +707,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             btnTBDOne.backgroundColor = UIColor.black
             btnRelatedIntems.backgroundColor = UIColor.white
             btnInquery.backgroundColor = UIColor.white
-            btnPhoto.backgroundColor = UIColor.white
+            btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
@@ -716,7 +726,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             btnTBDOne.backgroundColor = UIColor.white
             btnRelatedIntems.backgroundColor = UIColor.white
             btnInquery.backgroundColor = UIColor.white
-            btnPhoto.backgroundColor = UIColor.white
+           btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
             btnLocalINV.backgroundColor = UIColor.white
             btnOrderInfo.backgroundColor = UIColor.white
             btnSalesHistory.backgroundColor = UIColor.white
@@ -870,11 +880,12 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         
     }
     
-    func moveOnMainScreen() {
+    func moveOnMainScreen(isFromSKU:Bool) {
         let viewController:
             MainViewController = UIStoryboard(
                 name: "Main", bundle: nil
                 ).instantiateViewController(withIdentifier: "Main") as! MainViewController
+        viewController.isFromSKUClick = isFromSKU
         let NavigationController = UINavigationController(rootViewController: viewController)
         viewController.navigationController?.setNavigationBarHidden(true, animated: false)
         viewController.navigationController?.isNavigationBarHidden = true
@@ -888,7 +899,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         switch num {
         case 0:
             Constant.kAppDelegate.isBackFromProduct = true
-            self.moveOnMainScreen()
+            self.moveOnMainScreen(isFromSKU: false)
             // self.dismiss(animated: true, completion: nil)
             print("Home")
             
@@ -923,12 +934,13 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
         if screen == 3 {
             let headerView = self.productTableView.dequeueReusableHeaderFooterView(withIdentifier: "LocalINVHeader" ) as! LocalINVHeader
             headerView.lblStore.text = "STORE"
-            headerView.lblNum.text = "NUM"
+            headerView.lblNum.text = "#"
             headerView.lblQty.text = "QTY"
             return headerView
         } else if screen == 5 {
             let headerView = self.productTableView.dequeueReusableHeaderFooterView(withIdentifier: "SalesHistoryHeader" ) as! SalesHistoryHeader
-            headerView.lblStore.text = "170"
+           
+            headerView.lblStore.text = singaltan.aubuchon.branchCode.count > 2 ? singaltan.aubuchon.branchCode : "0" + singaltan.aubuchon.branchCode
             headerView.lblCompany.text = "COMPANY"
             return headerView
         } else {
@@ -1057,7 +1069,10 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                     cell.imageData = "related_image"
                     
                 }
-                //                cell.imageData = self.image
+               
+                cell.strProductUrl = self.strProductUrl
+                //cell.imageCollectionView.isScrollEnabled = false
+                cell.collectionViewHeightConstrain.constant = self.view.frame.size.height
                 cell.realodCollectionView()
                 return cell
             } else if screen == 5 {
@@ -1130,6 +1145,8 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             }else{
                 return UITableViewAutomaticDimension//Constant.DeviceType.IS_PAD ? 190:145 //Rating cell
             }
+        } else if screen == 2 {
+             return self.tableView.frame.height
         }
         else {
             return UITableViewAutomaticDimension

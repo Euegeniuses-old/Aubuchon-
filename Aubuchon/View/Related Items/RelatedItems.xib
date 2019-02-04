@@ -19,21 +19,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QYy-gZ-wh1">
                     <rect key="frame" x="0.0" y="0.0" width="368" height="119"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JWM-aR-PRh">
-                            <rect key="frame" x="10" y="2" width="80" height="80"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JWM-aR-PRh">
+                            <rect key="frame" x="5" y="2" width="80" height="80"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="80" id="Cdz-V0-VHX"/>
                                 <constraint firstAttribute="width" constant="80" id="mru-fK-bwi"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcp-4d-y5u">
-                            <rect key="frame" x="121" y="7" width="247" height="18"/>
+                            <rect key="frame" x="116" y="7" width="252" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ask-Ee-ioY">
-                            <rect key="frame" x="121" y="35" width="247" height="18"/>
+                            <rect key="frame" x="116" y="35" width="252" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -57,7 +57,7 @@
                         <constraint firstItem="JWM-aR-PRh" firstAttribute="top" secondItem="QYy-gZ-wh1" secondAttribute="top" constant="2" id="LJf-nB-h3W"/>
                         <constraint firstItem="bcp-4d-y5u" firstAttribute="leading" secondItem="JWM-aR-PRh" secondAttribute="trailing" constant="31" id="OGT-HA-4yG"/>
                         <constraint firstAttribute="trailing" secondItem="bcp-4d-y5u" secondAttribute="trailing" id="WT9-wF-7A0"/>
-                        <constraint firstItem="JWM-aR-PRh" firstAttribute="leading" secondItem="QYy-gZ-wh1" secondAttribute="leading" constant="10" id="iAh-hz-itw"/>
+                        <constraint firstItem="JWM-aR-PRh" firstAttribute="leading" secondItem="QYy-gZ-wh1" secondAttribute="leading" constant="5" id="iAh-hz-itw"/>
                         <constraint firstAttribute="trailing" secondItem="OnL-UX-D8d" secondAttribute="trailing" id="jiX-JP-9Jd"/>
                         <constraint firstItem="OnL-UX-D8d" firstAttribute="leading" secondItem="QYy-gZ-wh1" secondAttribute="leading" id="vhA-P3-1q0"/>
                         <constraint firstAttribute="bottom" secondItem="OnL-UX-D8d" secondAttribute="bottom" id="wAe-pg-CHp"/>

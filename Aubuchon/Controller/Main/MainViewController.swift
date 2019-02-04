@@ -34,6 +34,7 @@ class MainViewController: UIViewController {
     var menu : [String] = ["Home","Product Info"]
     var isMenuVisible = false
     var isOk:Bool = false
+    var isFromSKUClick:Bool = false
     //MARK:- Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,6 +185,10 @@ class MainViewController: UIViewController {
         
         self.navigationItem.setHidesBackButton(true, animated:true);
         self.navigationController?.isToolbarHidden = true
+        
+        if isFromSKUClick {
+            txtCode.becomeFirstResponder()
+        }
     }
     
     

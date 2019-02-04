@@ -55,6 +55,9 @@ class Constant: NSObject {
     struct Colors {
         //static let textColor =   UIColor(red: 15/255, green: 109/255, blue: 166/255, alpha: 1.0)
         static let textColor = hexStringToUIColor(hex: "#0F6DA6")
+        static let color_gray = hexStringToUIColor(hex: "#CCCCCC")
+        
+       
     }
     
     // alert messages
