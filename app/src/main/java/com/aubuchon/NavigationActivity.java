@@ -43,7 +43,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-
 public class NavigationActivity extends AppCompatActivity {
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
@@ -58,13 +57,13 @@ public class NavigationActivity extends AppCompatActivity {
     AppCompatImageView iv_home;
     @BindView(R.id.tv_desc)
     public TextView tv_desc;
-    @BindView(R.id.tv_more)
-    public TextView tv_more;
-    @BindView(R.id.ll_desc)
-    public LinearLayout ll_desc;
+    /*  @BindView(R.id.tv_more)
+      public TextView tv_more;*/
 
     String scannedCode = "";
     Globals globals;
+
+    public boolean isFromTitle = false;
 
     public NavigationActivity navigationActivity;
 
@@ -79,6 +78,22 @@ public class NavigationActivity extends AppCompatActivity {
             Fabric.with(this, new Crashlytics());
         }
         addFragmentOnTop(HomeFragment.newInstance());
+        toolbar_title.setVisibility(View.GONE);
+
+        toolbar_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isHomeFragment()) {
+                    isFromTitle = true;
+                    getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    addFragmentOnTop(HomeFragment.newInstance());
+                    toolbar_title.setText("");
+                    toolbar_title.setVisibility(View.GONE);
+                    tv_desc.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     public void setToolbar() {
@@ -102,6 +117,7 @@ public class NavigationActivity extends AppCompatActivity {
                     doRequestForGetPublicIP();
                 }
             });
+
         }
     }
 
@@ -199,7 +215,6 @@ public class NavigationActivity extends AppCompatActivity {
 
     }
 
-
     private boolean isHomeFragment() {
         List<Fragment> frags = getSupportFragmentManager().getFragments();
         for (Fragment f : frags) {
@@ -231,12 +246,13 @@ public class NavigationActivity extends AppCompatActivity {
         tv_popup_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!isHomeFragment()) {
+                    isFromTitle = false;
                     getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addFragmentOnTop(HomeFragment.newInstance());
                     toolbar_title.setText("");
-                    ll_desc.setVisibility(View.GONE);
+                    toolbar_title.setVisibility(View.GONE);
+                    tv_desc.setVisibility(View.GONE);
                 }
 
                 popupWindow.dismiss();
@@ -273,27 +289,17 @@ public class NavigationActivity extends AppCompatActivity {
 
         List<Fragment> frags = getSupportFragmentManager().getFragments();
         for (Fragment f : frags) {
-            /*if (f instanceof HomeFragment) {
-                toolbar_title.setText("");
-                ll_desc.setVisibility(View.GONE);
-                HttpRequestHandler.getInstance().cancelRequest(this);
-                //finish();
-                super.onBackPressed();
-            } else {
-                getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                addFragmentOnTop(HomeFragment.newInstance());
-                toolbar_title.setText("");
-                ll_desc.setVisibility(View.GONE);
-            }*/
-
             if (!(f instanceof HomeFragment)) {
-                /*getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);*/
+                isFromTitle = false;
                 addFragmentOnTop(HomeFragment.newInstance());
+                Globals.hideKeyboard(this);
                 toolbar_title.setText("");
-                ll_desc.setVisibility(View.GONE);
+                toolbar_title.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.GONE);
             } else {
                 toolbar_title.setText("");
-                ll_desc.setVisibility(View.GONE);
+                toolbar_title.setVisibility(View.GONE);
+                tv_desc.setVisibility(View.GONE);
                 HttpRequestHandler.getInstance().cancelRequest(this);
                 //finish();
                 super.onBackPressed();
@@ -302,6 +308,7 @@ public class NavigationActivity extends AppCompatActivity {
         }
     }
 
+
     // Handle Result come from Bar-code Image at Top-Right Corner
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -309,8 +316,9 @@ public class NavigationActivity extends AppCompatActivity {
 
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-            /*toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));*/
             globals.isFromMenu = false;
+            isFromTitle = false;
+            /*  Globals.hideKeyboard(this);*/
             addFragmentOnTop(ItemDetailFragment.newInstance(scannedCode));
         }
     }

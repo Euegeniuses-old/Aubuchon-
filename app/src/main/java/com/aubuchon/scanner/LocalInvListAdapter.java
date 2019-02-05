@@ -112,10 +112,4 @@ public class LocalInvListAdapter extends RecyclerView.Adapter<LocalInvListAdapte
         return mDataSetFilterData.size();
     }
 
-    /*  public ProductDetailModel.Product getDataByPosition(int position) {
-        if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
-            return mDataSetFilterData.get(position);
-        return null;
-    }*/
-
 }

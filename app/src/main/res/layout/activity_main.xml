@@ -53,6 +53,8 @@
                 android:hint="@string/hint_manually_enter"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/dim_7"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:textCursorDrawable="@null"
                 android:textColor="@android:color/black"
                 android:textColorHint="@color/color_dark_gray"

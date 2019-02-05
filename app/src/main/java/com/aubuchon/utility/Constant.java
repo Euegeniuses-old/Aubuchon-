@@ -15,15 +15,29 @@ public class Constant {
     public static final String AU_branchcode = "branchcode";
     public static final String AU_data = "data";
 
-    public static final String AU_prodcode = "sku";
-    public static final String AU_proddesc = "webDesc";
-    public static final String AU_retailPrice = "retailPrice";
-    public static final String AU_promoPrice = "promoPrice";
-    public static final String AU_onHandAmt = "onHandAmt";
-    public static final String AU_available = "available";
-    public static final String AU_section = "section";
-    public static final String AU_speedNo = "speedNo";
+    /*Inquiry Screen labels*/
+    public static final String AU_item_number = "Item Number";
+    public static final String AU_upc = "UPC";
+    public static final String AU_desc = "Desc";
+    public static final String AU_section = "Section";
+    public static final String AU_speed = "Speed#";
+    public static final String AU_available = "Available";
+    public static final String AU_on_hand = "On Hand";
+    public static final String AU_price = "Price";
+    public static final String AU_promo = "Promo";
+    public static final String AU_status = "Status";
 
+    /*Order Info Screen Labels*/
+    public static final String AU_last_sold = "Last Sold";
+    public static final String AU_qty_on_order = "QTY on Order";
+    public static final String AU_po_number = "PO Number";
+    public static final String AU_delivery_date = "Delivery Date";
+    public static final String AU_primary_vendor = "Primary Vendor";
+    public static final String AU_vendor_num = "Vendor#";
+    public static final String AU_min = "Min";
+    public static final String AU_max = "Max";
+    public static final String AU_reorder = "Reorder";
+    public static final String AU_po_qty_on_order = "PO \nQTY on Order";
 
 }
 

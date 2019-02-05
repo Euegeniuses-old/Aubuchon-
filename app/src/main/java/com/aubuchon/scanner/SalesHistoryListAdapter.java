@@ -16,7 +16,6 @@ import com.aubuchon.model.SalesHistoryModel;
 
 import java.util.ArrayList;
 
-
 public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryListAdapter.ViewHolder> {
 
     private Context context;
@@ -101,12 +100,6 @@ public class SalesHistoryListAdapter extends RecyclerView.Adapter<SalesHistoryLi
     public int getItemCount() {
         return mDataSetFilterData.size();
     }
-
-    /*public KeyValueModel getDataByPosition(int position) {
-        if (mDataSetFilterData != null && mDataSetFilterData.size() > 0)
-            return mDataSetFilterData.get(position);
-        return null;
-    }*/
 
 
 }

@@ -35,7 +35,7 @@
             android:name=".NavigationActivity"
             android:launchMode="singleTask"
             android:screenOrientation="sensorPortrait"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateVisible|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

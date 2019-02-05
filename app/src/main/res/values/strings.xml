@@ -33,12 +33,14 @@
     <string name="msg_related_product_not_found">Related Product detail Not Found</string>
     <string name="msg_link_not_available">Product detail page not found</string>
     <string name="msg_details_not_found">Details not found</string>
+    <string name="msg_ip_not_whitelisted">Public ip is not white listed</string>
     <string name="error_msg_connection_timeout">The request timed out please try again.</string>
     <string name="no_data_available">No data available</string>
     <string name="str_inquiry">Inquiry</string>
     <string name="str_local_inv">Local INV</string>
     <string name="str_sales_history">Sales History</string>
     <string name="str_photo">Photo</string>
+    <string name="str_open_website"><u>Open Website</u></string>
     <string name="str_order_info">Order Info</string>
     <string name="str_related">Related</string>
     <string name="str_review">Review</string>
@@ -47,13 +49,14 @@
 
     <!--Header texts-->
     <string name="header_text_store">Store</string>
-    <string name="header_text_num">Num</string>
+    <string name="header_text_num">#</string>
     <string name="header_text_qty">Qty</string>
     <string name="header_text_store_170">170</string>
     <string name="header_text_company">Company</string>
     <string name="header_text_month">Month</string>
     <string name="text_sku">SKU : %1$s</string>
     <string name="text_more"><u>More</u></string>
+    <string name="msg_choose_browser">Choose browser to open</string>
 
     <string-array name="arr_month">
         <item>Jan</item>

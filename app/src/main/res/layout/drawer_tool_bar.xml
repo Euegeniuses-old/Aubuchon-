@@ -27,70 +27,60 @@
         app:titleTextColor="@android:color/white">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dim_5"
-                android:layout_marginLeft="@dimen/dim_5"
-                android:layout_marginEnd="@dimen/dim_5"
-                android:layout_marginRight="@dimen/dim_5"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_15"
-                android:textStyle="bold|normal" />
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_desc"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dim_5"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dim_5"
+                    android:layout_marginLeft="@dimen/dim_5"
+                    android:layout_marginEnd="@dimen/dim_5"
+                    android:layout_marginRight="@dimen/dim_5"
+                    android:background="@drawable/sku_bg"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size_15"
+                    android:textStyle="bold|normal" />
 
                 <TextView
                     android:id="@+id/tv_desc"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:ellipsize="end"
-                    android:maxEms="10"
+                    android:gravity="center"
                     android:maxLines="1"
                     android:textColor="@color/color_dark_gray"
                     android:textSize="@dimen/text_size_13"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/tv_more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dim_2"
-                    android:layout_marginLeft="@dimen/dim_2"
-                    android:text="@string/text_more"
-                    android:textColor="@color/color_dark_gray"
-                    android:textSize="@dimen/text_size_13"
-                    android:textStyle="bold" />
             </LinearLayout>
 
-        </LinearLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_home"
+                android:layout_width="@dimen/dim_35"
+                android:layout_height="@dimen/dim_35"
+                android:layout_gravity="end|center_vertical"
+                android:layout_margin="@dimen/dim_16"
+                android:scaleType="centerInside"
+                android:src="@drawable/barcode" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_home"
-            android:layout_width="@dimen/dim_35"
-            android:layout_height="@dimen/dim_35"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/dim_16"
-            android:layout_marginRight="@dimen/dim_16"
-            android:scaleType="centerInside"
-            android:src="@drawable/barcode" />
+        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 </LinearLayout>

@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDexApplication;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
 
@@ -33,9 +38,11 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
     public static String TAG = "Globals";
     static Context context;
 
+    private static Toast toast;
     private String branchCode = "";
 
     public boolean isFromMenu = false;
+    /*public boolean isFromTitle = false;*/
     public String passCode = "";
     public String barCode = "";
 
@@ -105,7 +112,31 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
         return editor = (editor == null) ? getSharedPref().edit() : editor;
     }
 
-    private static Toast toast;
+    public static void showKeyboard(final Context context,final AppCompatEditText editText) {
+       /* ((InputMethodManager) (context).getSystemService(Context.INPUT_METHOD_SERVICE))
+                .toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);*/
+
+        editText.post(new Runnable() {
+            @Override
+            public void run() {
+                editText.requestFocus();
+                InputMethodManager imgr = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imgr.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+
+    }
+
+    public static void hideKeyboard(Context context) {
+        try {
+            ((Activity) context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            if ((((Activity) context).getCurrentFocus() != null) && (((Activity) context).getCurrentFocus().getWindowToken() != null)) {
+                ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) context).getCurrentFocus().getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void showToast(Context context, String message) {
         if (message == null || message.isEmpty() || context == null)
@@ -125,7 +156,6 @@ public class Globals extends MultiDexApplication implements ActivityLifecycleCal
         toast.show();
 
     }
-
 
     public static String getBase64EncodedString(String value) {
         try {

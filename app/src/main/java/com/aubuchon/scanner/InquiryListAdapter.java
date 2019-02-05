@@ -3,7 +3,6 @@ package com.aubuchon.scanner;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,11 +56,6 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
             tv_key.setText(pDetails.getKey());
             /*Handle an Empty Data*/
             if (pDetails.getValue().isEmpty() || pDetails.getValue().equals("")) {
-                /*if( pDetails.getValue().contains("0.0")){
-                    tv_value.setText(" - ");
-                }else{
-                    tv_value.setText(" - ");
-                }*/
                 tv_value.setText(" - ");
             } else {
                 tv_value.setText(pDetails.getValue());

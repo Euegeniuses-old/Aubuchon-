@@ -221,7 +221,7 @@
                     android:id="@+id/rv_inquiry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/ll_inquiry_group_2"
@@ -243,9 +243,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:text="@string/str_product_rating"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_18"
-                        android:text="@string/str_product_rating" />
+                        android:textSize="@dimen/text_size_18" />
 
                     <com.iarcuschin.simpleratingbar.SimpleRatingBar
                         android:id="@+id/rating"
@@ -304,10 +304,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/dim_2"
+            android:background="@android:color/white"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="@dimen/dim_5"
-            android:background="@android:color/white">
+            android:padding="@dimen/dim_5">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tv_product_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/str_open_website"
+                android:textColor="@color/link_color"
+                android:textSize="@dimen/text_size_18"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/iv_photo"
@@ -322,8 +332,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_local_inv"
@@ -365,14 +375,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_order_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_order_info_not_found"
@@ -392,22 +402,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
             <include layout="@layout/sales_history_item_header_layout" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/dim_2">
+                android:layout_marginTop="@dimen/dim_2"
+                android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_sales_history"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/tv_sales_history_not_found"
@@ -427,14 +437,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_related_products"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_related_not_found"
@@ -455,8 +465,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/dim_2"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_review_text"
@@ -474,9 +484,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/dim_2"
+            android:background="@android:color/white"
             android:gravity="center"
-            android:orientation="vertical"
-            android:background="@android:color/white">
+            android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tv_tbd_dummy_text"

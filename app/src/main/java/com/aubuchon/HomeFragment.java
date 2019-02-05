@@ -3,20 +3,18 @@ package com.aubuchon;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.aubuchon.apis.GetCall;
 import com.aubuchon.apis.GetCall.OnGetServiceCallListener;
@@ -52,6 +50,7 @@ public class HomeFragment extends Fragment {
     public String scannedCode = "";
     boolean isFromCameraClick = false;
     boolean isFromButtonClick = false;
+
     Globals globals;
 
     public static HomeFragment newInstance() {
@@ -73,7 +72,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         ButterKnife.bind(this, view);
-
         globals = (Globals) getActivity().getApplicationContext();
         return view;
     }
@@ -88,6 +86,7 @@ public class HomeFragment extends Fragment {
             et_code.setText(globals.barCode);
             globals.barCode = "";
         }
+
 
         mContext.setToolbar();
         doRequestForGetPublicIP();
@@ -109,6 +108,7 @@ public class HomeFragment extends Fragment {
     public void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
 
+            mContext.isFromTitle = false;
             globals.passCode = et_code.getText().toString().trim();
             et_code.setText("");
             if (getActivity() != null) {
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
 
         String url = mContext.getString(R.string.url_ip_white_list);
 
-        new GetCall(mContext, url, new JSONObject(), new GetCall.OnGetServiceCallListener() {
+        new GetCall(mContext, url, new JSONObject(), new OnGetServiceCallListener() {
             @Override
             public void onSucceedToGetCall(JSONObject response) {
 
@@ -158,10 +158,10 @@ public class HomeFragment extends Fragment {
                 }.getType());
 
                 if (!ipAddressMaps.containsKey(publicIp)) {
-                    AlertDialog.Builder builder = new Builder(mContext)
-                            .setMessage("Public ip is not white listed")
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+                            .setMessage(R.string.msg_ip_not_whitelisted)
                             .setCancelable(false)
-                            .setPositiveButton(getString(android.R.string.ok), new OnClickListener() {
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     ExitActivity.exitApplication(mContext);
@@ -175,7 +175,6 @@ public class HomeFragment extends Fragment {
                     String ipData = ipAddressMaps.get(publicIp);
                     if (ipData != null) {
                         if (ipData.contains("aub-") && ipData.contains(".")) {
-
                             String branchCode = Globals.getBetweenStrings(ipData, "aub-", ".");
                             globals.setBranchCode(branchCode);
                         } else {
@@ -197,7 +196,7 @@ public class HomeFragment extends Fragment {
 
                             @Override
                             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                                Toast.makeText(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                                Globals.showToast(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString());
                             }
                         };
 
@@ -210,7 +209,21 @@ public class HomeFragment extends Fragment {
                                 .check();
                     }
 
-                    if(isFromButtonClick){
+                    if (mContext.isFromTitle) {
+                        et_code.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                et_code.requestFocus();
+                                InputMethodManager imgr = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imgr.showSoftInput(et_code, InputMethodManager.SHOW_IMPLICIT);
+                            }
+                        });
+
+                    } else {
+                        Globals.hideKeyboard(mContext);
+                    }
+
+                    if (isFromButtonClick) {
                         doRequestForGetProductDetail();
                     }
 
@@ -231,8 +244,6 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCAN_BARCODE_REQUEST && data != null) {
             scannedCode = data.getExtras().getString(Constant.AU_Data);
-            /*mContext.toolbar_title.setText(String.format(getString(R.string.text_sku), scannedCode));
-            mContext.ll_desc.setVisibility(View.VISIBLE);*/
             et_code.setText(scannedCode);
             /*Handle a flow to redirect on detail screen After done scan from Camera Image */
             doRequestForGetProductDetail();
