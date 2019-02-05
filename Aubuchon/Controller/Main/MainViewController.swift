@@ -180,6 +180,10 @@ class MainViewController: UIViewController {
         self.lblCaptureImage.isUserInteractionEnabled = true
         self.lblCaptureImage.addGestureRecognizer(tapGestureRecognizer)
         
+        let scrollViewTap = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
+        scrollViewTap.numberOfTapsRequired = 1
+        scrollView.addGestureRecognizer(scrollViewTap)
+        
         // menu cell xib register
         tblMenu.register(UINib(nibName: "MenuTableViewCell", bundle: nil), forCellReuseIdentifier: "MenuTableViewCell")
         
@@ -187,10 +191,13 @@ class MainViewController: UIViewController {
         self.navigationController?.isToolbarHidden = true
         
         if isFromSKUClick {
-            txtCode.becomeFirstResponder()
+            self.txtCode.becomeFirstResponder()
         }
     }
     
+    @objc func scrollViewTapped() {
+       hideMenuView()
+    }
     
     //Label gesture recognizer
     @objc func tapGestureOpenCameraRecognizer(tapGestureRecognizer: UITapGestureRecognizer) {

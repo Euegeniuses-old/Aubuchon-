@@ -20,10 +20,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79d-XH-35E">
-                        <rect key="frame" x="0.0" y="0.0" width="567" height="400"/>
+                        <rect key="frame" x="0.0" y="0.0" width="559" height="400"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coming soon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgc-Wm-uwd">
-                                <rect key="frame" x="191.5" y="0.0" width="184" height="400"/>
+                                <rect key="frame" x="187.5" y="0.0" width="184" height="400"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -35,7 +35,6 @@
                             <constraint firstAttribute="height" constant="400" id="Cxl-iG-1Oh"/>
                             <constraint firstItem="Qgc-Wm-uwd" firstAttribute="height" secondItem="79d-XH-35E" secondAttribute="height" id="FCw-I4-6Ez"/>
                             <constraint firstItem="Qgc-Wm-uwd" firstAttribute="centerX" secondItem="79d-XH-35E" secondAttribute="centerX" id="XvB-yc-0yy"/>
-                            <constraint firstAttribute="width" constant="567" id="rZt-hv-rNf"/>
                         </constraints>
                     </view>
                 </subviews>

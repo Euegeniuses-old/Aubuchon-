@@ -95,7 +95,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="JHz-w5-gov" firstAttribute="leading" secondItem="5eM-o1-v35" secondAttribute="leading" id="5Lt-1M-H2O"/>
                 <constraint firstItem="5eM-o1-v35" firstAttribute="trailing" secondItem="JHz-w5-gov" secondAttribute="trailing" id="9eF-LZ-J50"/>

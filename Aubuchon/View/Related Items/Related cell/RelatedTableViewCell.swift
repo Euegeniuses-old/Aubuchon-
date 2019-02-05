@@ -75,6 +75,7 @@ extension RelatedTableViewCell: UICollectionViewDataSource,UICollectionViewDeleg
         } else {
              cell.productImage.sd_setImage(with: URL(string: productDisplayData[indexPath.row].image), placeholderImage: UIImage(named: "camera"))
         }
+        
         return cell
     }
     

@@ -814,7 +814,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     //uibutton configuration
     func uiButtons() {
         
-        btnInqueryLeadingConstrain.constant = Constant.DeviceType.IS_PAD ? 17 : 5
+        btnInqueryLeadingConstrain.constant = Constant.DeviceType.IS_PAD ? 17 : 2
+        
         
         [btnInquery, btnPhoto, btnLocalINV, btnOrderInfo, btnSalesHistory, btnRelatedIntems, btnTBDOne, btnTBDTwo].forEach {
             
@@ -1072,7 +1073,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                
                 cell.strProductUrl = self.strProductUrl
                 //cell.imageCollectionView.isScrollEnabled = false
-                cell.collectionViewHeightConstrain.constant = self.view.frame.size.height
+                //cell.collectionViewHeightConstrain.constant = self.view.frame.size.height
                 cell.realodCollectionView()
                 return cell
             } else if screen == 5 {
