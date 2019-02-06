@@ -45,7 +45,7 @@ class RelatedTableViewCell: UITableViewCell {
         print(currentCellSKU)
         Constant.kAppDelegate.relatedItemCellSku = currentCellSKU
         NotificationCenter.default.post(name: Notification.Name("relatedItemsCelldata"), object: nil,userInfo:nil)
-        productDisplayData.removeAll()
+        //productDisplayData.removeAll()
     }
     
 }

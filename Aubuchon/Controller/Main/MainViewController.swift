@@ -74,6 +74,7 @@ class MainViewController: UIViewController {
         if let anUrl = url {
             ipAddress = try? String(contentsOf: anUrl, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue))
         }
+        
         ImageUpload.checkpublicIp(with: ipAddress ?? "", success: { (response, isSuccess) in
             if !isSuccess {
                 let alert = UIAlertController(title: "", message: response, preferredStyle: UIAlertController.Style.alert)
@@ -128,7 +129,7 @@ class MainViewController: UIViewController {
     //MARK:- get branchcode api call
     func getBranchCode() {
         ImageUpload.callBrachcodeAPI(success: { (branchCodeResponse) in
-
+         
             branchCodeResponse.contains(where: { (ipAddressData) -> Bool in
                 if ipAddressData.key == self.ipAddress {
                     

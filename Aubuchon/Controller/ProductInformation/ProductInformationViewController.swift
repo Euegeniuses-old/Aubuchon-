@@ -151,8 +151,10 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
 
         btnPhoto.isEnabled = self.image == "" ? false : true
         btnPhoto.backgroundColor = self.image == "" ? Constant.Colors.color_gray : UIColor.white
+       
         if screen == 2 {
-            btnPhoto.setTitleColor(.black, for: .normal)
+            btnPhoto.setTitleColor(.white, for: .normal)
+            btnPhoto.backgroundColor = UIColor.black
         }
         var sku:String = self.objProductOrderInfo?.sku ?? ""
         self.lblSKU.text = (" SKU:\(sku) ")
@@ -301,7 +303,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     func GetProductDetails(barcodeForProduct:String) {
         
         Product.displayProductInfo(with: singaltan.aubuchon.branchCode, data: barcodeForProduct, success: { (response, isSuccess, arrUPCData,table2Array)  in
-            
+             self.lblNoData.text = "Details not found"
             //self.inqueryData = response
             response.saveProductDataInDefault()
             singaltan.aubuchon.productData = response
@@ -381,6 +383,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
 //            }
         }) { (response, issuccess) in
             //self.productTableView.reloadData()
+            self.lblNoData.text = "Something went wrong. Try again later"
             if response == Constant.alertTitleMessage.validBarcode {
                 DispatchQueue.main.async {
                     UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
@@ -537,6 +540,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     @IBAction func btnBack_Action(_ sender: Any) {
         self.removeAllArrayData()
         Constant.kAppDelegate.isOldProductData = false
+        Constant.kAppDelegate.isReloadRelatedItem = false
         isfromBack = true
         //lblSKU.text = "SKU:\(UserDefaults.standard.getOldSKU())"
         barcode = UserDefaults.standard.getOldSKU()
@@ -814,7 +818,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     //uibutton configuration
     func uiButtons() {
         
-        btnInqueryLeadingConstrain.constant = Constant.DeviceType.IS_PAD ? 17 : 2
+//        btnInqueryLeadingConstrain.constant = Constant.DeviceType.IS_PAD ? 17 : 2
         
         
         [btnInquery, btnPhoto, btnLocalINV, btnOrderInfo, btnSalesHistory, btnRelatedIntems, btnTBDOne, btnTBDTwo].forEach {
@@ -1093,9 +1097,9 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "RelatedTableViewCell", for: indexPath) as! RelatedTableViewCell
                 
                 cell.productDisplayData = storeRelatedProductArray
-                if Constant.kAppDelegate.isReloadRelatedItem == false {
+                //if Constant.kAppDelegate.isReloadRelatedItem == false {
                     cell.realodCollectionView(cellHeight: self.tableView.frame.size.height)
-                }
+               // }
                 return cell
             } else if screen == 7 || screen == 8 {
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "ReviewTableViewCell", for: indexPath) as! ReviewTableViewCell
@@ -1143,6 +1147,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
         } else if screen == 1 && tableView == productTableView {
             if indexPath.row < objectsArray.count{
                 return UITableViewAutomaticDimension
+                
             }else{
                 return UITableViewAutomaticDimension//Constant.DeviceType.IS_PAD ? 190:145 //Rating cell
             }

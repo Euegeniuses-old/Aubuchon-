@@ -145,7 +145,7 @@ class APIManager {
                 case .failure(let error):
                     print(error.localizedDescription)
                     print(error)
-                    failure(Constant.alertTitleMessage.internetNotAvailable)
+                    failure(Constant.alertTitleMessage.someThingWentWrong)
                 }
             }
         }
