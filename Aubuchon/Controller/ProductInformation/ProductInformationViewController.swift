@@ -287,6 +287,14 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Reorder" , orderInfoValues: "-",id:9))
         }
         
+        //
+        if self.objProductOrderInfo?.lastDelDate == "" {
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Received" , orderInfoValues:"-",id:10))
+        } else {
+            let resultString = convertDateFormater(self.objProductOrderInfo?.lastDelDate ?? "")
+            self.onderInfoArray.append(orderInfoObjects(orderInfoTitle: "Last Received" , orderInfoValues:resultString,id:10))
+        }
+        
     }
     
     func convertDateFormater(_ date: String) -> String
@@ -542,6 +550,9 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         Constant.kAppDelegate.isOldProductData = false
         Constant.kAppDelegate.isReloadRelatedItem = false
         isfromBack = true
+        productTableView.reloadData()
+        screen = 1
+        buttonColorFormattor(button: btnInquery)
         //lblSKU.text = "SKU:\(UserDefaults.standard.getOldSKU())"
         barcode = UserDefaults.standard.getOldSKU()
         GetProductDetails(barcodeForProduct: UserDefaults.standard.getOldSKU())
