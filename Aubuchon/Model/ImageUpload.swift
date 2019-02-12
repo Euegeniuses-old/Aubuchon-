@@ -511,8 +511,9 @@ class Product {
         let queryString = Constant.APIURLANDKEY.productInfo + "?branchcode=\(barcodedata)" + "&data=\(dataQuery)"
         
         APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
-            SVProgressHUD.dismiss()
-            
+           // SVProgressHUD.dismiss()
+            SVProgressHUD.setDefaultMaskType(.black)
+            SVProgressHUD.show()
             let dict = response as? [String:Any] ?? [:]
             
             let responseDic = dict[kProduct] as? [[String:Any]] ?? [[:]]
@@ -521,7 +522,7 @@ class Product {
             
             
             if responseDic.count == 0 {
-                
+                SVProgressHUD.dismiss()
                 failure(Constant.alertTitleMessage.validBarcode,false)
             } else {
                 
@@ -539,11 +540,13 @@ class Product {
                 withResponse(product!,true,arrUPC,arraytable2)
             }
         }, failure: { (error) in
-            SVProgressHUD.dismiss()
             failure(error,false)
-        }) { (StringconnectionError) in
             SVProgressHUD.dismiss()
+            
+        }) { (StringconnectionError) in
             failure(Constant.alertTitleMessage.internetNotAvailable,false)
+            SVProgressHUD.dismiss()
+            
         }
     }
     
@@ -559,7 +562,7 @@ class Product {
         let queryString = Constant.APIURLANDKEY.kGetSalesHistory + "?branchcode=\(barcodedata)" + "&data=\(strBarcode)"
         
         APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
-            SVProgressHUD.dismiss()
+           // SVProgressHUD.dismiss()
             
             let dict = response as? [String:Any] ?? [:]
             
@@ -584,10 +587,10 @@ class Product {
             }
             
         }, failure: { (error) in
-            SVProgressHUD.dismiss()
+         //   SVProgressHUD.dismiss()
             failure(error,false)
         }) { (StringconnectionError) in
-            SVProgressHUD.dismiss()
+          //  SVProgressHUD.dismiss()
             failure(Constant.alertTitleMessage.internetNotAvailable,false)
         }
     }
@@ -604,7 +607,7 @@ class Product {
         let queryString = Constant.APIURLANDKEY.kGetLocalINV + "?branchcode=\(branchcode)" + "&data=\(data)"
         
         APIManager.makeRequestWithQueruyString(with: queryString , method: .post, parameter: param, success: { (response) in
-            SVProgressHUD.dismiss()
+           // SVProgressHUD.dismiss()
             
             let dict = response as? [String:Any] ?? [:]
             
@@ -629,10 +632,10 @@ class Product {
             }
             
         }, failure: { (error) in
-            SVProgressHUD.dismiss()
+          //  SVProgressHUD.dismiss()
             failure(error,false)
         }) { (StringconnectionError) in
-            SVProgressHUD.dismiss()
+          //  SVProgressHUD.dismiss()
             failure(Constant.alertTitleMessage.internetNotAvailable,false)
         }
     }

@@ -91,23 +91,7 @@ class MainViewController: UIViewController {
                 if !self.isOnLoad {
                     self.openMTBScanner()
                 }
-                if self.isOk {
-                    var textdata = self.txtCode.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if textdata != "" {
-                        
-                        //  UserDefaults.standard.setCurrentSKU(value: (txtCode.text?.trim())!)
-                        Constant.kAppDelegate.isOldProductData = false
-                        let  secondViewController:
-                            ProductInformationViewController = UIStoryboard(
-                                name: "Main", bundle: nil
-                                ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
-                        secondViewController.barcode = self.txtCode.text ?? "1"
-                        
-                        self.present(secondViewController, animated: false, completion: nil)
-                    } else {
-                        self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")
-                    }
-                }
+                
             }
             
         }) { (response, isSuccess) in
@@ -145,6 +129,23 @@ class MainViewController: UIViewController {
                         
                     } else {
                         singaltan.aubuchon.branchCode = "049"
+                    }
+                    if self.isOk {
+                        var textdata = self.txtCode.text?.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if textdata != "" {
+                            
+                            //  UserDefaults.standard.setCurrentSKU(value: (txtCode.text?.trim())!)
+                            Constant.kAppDelegate.isOldProductData = false
+                            let  secondViewController:
+                                ProductInformationViewController = UIStoryboard(
+                                    name: "Main", bundle: nil
+                                    ).instantiateViewController(withIdentifier: "ProductInfo") as! ProductInformationViewController
+                            secondViewController.barcode = self.txtCode.text ?? "1"
+                            
+                            self.present(secondViewController, animated: false, completion: nil)
+                        } else {
+                            self.alertMessage(message: Constant.alertTitleMessage.barcodeAlert, title: "")
+                        }
                     }
                     return true
                 } else {

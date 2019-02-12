@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 struct Objects {
     var inqueryTitle : String!
     var inqueryValues : String!
@@ -55,7 +56,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     // Variables
     var isDataFound:Bool = false{
         didSet {
-            if !isDataFound{
+            if !isDataFound {
                 self.lblNoData.isHidden = false
             }else{
                 self.lblNoData.isHidden = true
@@ -89,18 +90,20 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     var storeFinalStockArray:[StoreStock] = []
     var salesByMonthArray = [SalesByMonth]()
     var storeRelatedProductArray = [RelatedProduct]()
-    var dateCheckArray:[String] = ["2019-01-27","2019-01-28","2019-02-02","2019-02-18","2019-02-19","2019-02-11","2019-05-15","2019-10-16"]
-    var QtyCheckData:[String] = ["123456","234567","789543","478965","36874","789654","423674","123456"]
     var tableTwoDatecheck :[String] = []
     var poNo:String = ""
     var delDate:String = ""
+    var isFromLoad:Bool = true
+    var isSalesHistoryFail:Bool = false
+    var isRelatedItemFail:Bool = false
+    var isLocalInvFail:Bool = false
     
     //MARK:- life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
        
-        
+        isFromLoad = true
         navigationConfig()
         hideMenuView()
         registerXib()
@@ -108,8 +111,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         removeAllArrayData()
         uiConfig()
         //CALL API's
-        self.GetProductDetails(barcodeForProduct: self.barcode)
-        
+            self.GetProductDetails(barcodeForProduct: self.barcode)
+      
         NotificationCenter.default.addObserver(self, selector:#selector(relatedItemsCelldataNotification), name: NSNotification.Name(rawValue: "relatedItemsCelldata"), object: nil)
         
     }
@@ -135,8 +138,12 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         self.btnBack.isHidden = false
         self.removeAllArrayData()
         barcode = Constant.kAppDelegate.relatedItemCellSku
+        isFromLoad = true
          self.productTableView.reloadData()
-        GetProductDetails(barcodeForProduct: Constant.kAppDelegate.relatedItemCellSku)
+        
+         DispatchQueue.main.async {
+            self.GetProductDetails(barcodeForProduct: Constant.kAppDelegate.relatedItemCellSku)
+        }
         
     }
     
@@ -317,27 +324,20 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             singaltan.aubuchon.productData = response
             self.objProductOrderInfo = response
             self.tableTwoArrayForOrderInfo = table2Array
-            
-          //  if let statusIs = response["prodStatus"] as? String{
-            
-           // }else{
-           //     self.objectsArray.append(Objects(inqueryTitle: "Status" , inqueryValues: "-",id:10))
-           // }
+            self.isFromLoad = false
+         
             
             if self.isfromBack == true {
                 self.btnBack.isHidden = true
             }
             
-          //  if response.count != 0 {
+         
                 if Constant.kAppDelegate.isOldProductData != true {
                     self.storeDataInUserDefault()
                     Constant.kAppDelegate.isOldProductData = true
                 }
                 
-                //On set product detail
-//                for (nameIs, valueIs) in response   {
-//                    self.onSetupProductData(key: nameIs, value: valueIs)
-//                }
+
                     self.setUpProductData()
                 for (_ ,dict) in arrUPCData.enumerated(){
                     if let isPrimary = dict["Primary"] as? Bool, isPrimary{
@@ -362,36 +362,28 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
                 //FIXME:- New Changes Parth 22-jan-2019
                 
                 //Make sales history call
-                self.GetSalesHistory(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
+           
+            self.GetSalesHistory(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct, barcodeForProduct: barcodeForProduct)
                 
+            
+//                //Make Local INV call
+//                self.GetLocalNV(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
+            
+            
                 //Make Releted products call
-                self.GetRelatedProducts(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
-                
-                //Make Local INV call
-                self.GetLocalNV(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
-                
+//                self.GetRelatedProducts(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
+            
                 DispatchQueue.main.async {
                     self.productTableView.reloadData()
                 }
                 
-//            } else {
-//                // UserDefaults.standard.setCurrentSKU(value: "")
-//                DispatchQueue.main.async {
-//                    UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
-//                    let alert = UIAlertController(title: "", message: Constant.alertTitleMessage.validBarcode, preferredStyle: UIAlertController.Style.alert)
-//
-//                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { action in
-//                        Constant.kAppDelegate.isBackFromProduct = true
-//                        //self.dismiss(animated: false, completion: nil)
-//                        self.moveOnMainScreen()
-//
-//                    }))
-//                    self.present(alert, animated: true, completion: nil)
-//                }
-//            }
+
         }) { (response, issuccess) in
             //self.productTableView.reloadData()
-            self.lblNoData.text = "Something went wrong. Try again later"
+            self.lblNoData.isHidden = false
+            self.isFromLoad = false
+            self.lblNoData.text = Constant.alertTitleMessage.someThingWentWrong
+           
             if response == Constant.alertTitleMessage.validBarcode {
                 DispatchQueue.main.async {
                     UserDefaults.standard.setOldSKU(value: UserDefaults.standard.getCurrentSKU())
@@ -411,23 +403,29 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         }
     }
     
-    func GetSalesHistory(branchCode:String, strBarcode:String) {
+    func GetSalesHistory(branchCode:String, strBarcode:String,barcodeForProduct:String) {
         
         Product.callAPIForSalesHistory(with: branchCode, strBarcode: strBarcode, success: { (dictProduct, isSuccess, arrSalesByMonth) in
-            
+            self.isSalesHistoryFail = false
+           
             self.salesByMonthArray = arrSalesByMonth
             self.salesByMonthArray.sort(by: { $0.yr > $1.yr})
+            //Make Local INV call
+            self.GetLocalNV(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct, barcodeForProduct: barcodeForProduct)
             
         }) { (errorIs, failure) in
-             //self.productTableView.reloadData()
-          //  self.alertMessage(message: "Sales History detail Not Found", title: "")
+            //Make Local INV call
+            self.isSalesHistoryFail = true
+           
+            self.GetLocalNV(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct, barcodeForProduct: barcodeForProduct)
+            
         }
     }
     
-    func GetLocalNV(branchCode:String, strBarcode:String) {
+    func GetLocalNV(branchCode:String, strBarcode:String,barcodeForProduct:String) {
         
         Product.callAPIForLocalINV(with: branchCode, data: strBarcode, success: { (dictProduct, isSuccess, arrStock) in
-            
+           self.isLocalInvFail = false
             self.storeStockArray = arrStock
             self.storeStockArray.sort(by: { ($0.localData > $1.localData)})
             if self.storeStockArray.count > 0 {
@@ -444,22 +442,26 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             self.sortedNearestStock.sort(by:{$0.name.lowercased() < $1.name.lowercased()})
             self.sortedStoreStock.sort(by:{$0.name.lowercased() < $1.name.lowercased()})
             self.storeFinalStockArray =  self.sortedNearestStock + self.sortedStoreStock
+             self.GetRelatedProducts(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
             
         }) { (errorIs, failure) in
 //             self.productTableView.reloadData()
           //  self.alertMessage(message: "LocalINV detail Not Found", title: "")
+            self.isLocalInvFail = true
+             self.GetRelatedProducts(branchCode: singaltan.aubuchon.branchCode, strBarcode: barcodeForProduct)
         }
     }
     
     func GetRelatedProducts(branchCode:String, strBarcode:String) {
         
         Product.callAPIForReletedProduct(with: branchCode, data: strBarcode, success: { (dictProduct, isSuccess, arrReletedProduct) in
-            
+            //SVProgressHUD.dismiss()
+            self.isRelatedItemFail = false
             self.storeRelatedProductArray = arrReletedProduct
             
         }) { (errorIs, failure) in
-            // self.productTableView.reloadData()
-           // self.alertMessage(message: "Related Product detail Not Found", title: "")
+             self.isRelatedItemFail = true
+            //SVProgressHUD.dismiss()
         }
     }
     
@@ -526,8 +528,6 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     @IBAction func btnBarcode_Action(_ sender: Any) {
         hideMenuView()
         Constant.kAppDelegate.isOldProductData = false
-        // Constant.kAppDelegate.isBackFromProduct = true
-        // self.dismiss(animated: false, completion: nil)
         openMTBScanner()
     }
     
@@ -550,6 +550,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
         Constant.kAppDelegate.isOldProductData = false
         Constant.kAppDelegate.isReloadRelatedItem = false
         isfromBack = true
+        isFromLoad = true
         productTableView.reloadData()
         screen = 1
         buttonColorFormattor(button: btnInquery)
@@ -575,6 +576,8 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     }
     
     func uiConfig() {
+        self.lblNoData.isHidden = true
+        
         isfromBack = false
         screen = 1
         btnInquery.backgroundColor = UIColor.black
@@ -828,10 +831,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
     
     //uibutton configuration
     func uiButtons() {
-        
-//        btnInqueryLeadingConstrain.constant = Constant.DeviceType.IS_PAD ? 17 : 2
-        
-        
+
         [btnInquery, btnPhoto, btnLocalINV, btnOrderInfo, btnSalesHistory, btnRelatedIntems, btnTBDOne, btnTBDTwo].forEach {
             
             $0.buttonFormator(borderwidth: 1.0, borderColor: UIColor.black.cgColor, cornerRadious: 5)
@@ -923,6 +923,7 @@ class ProductInformationViewController: UIViewController, UIGestureRecognizerDel
             if  UserDefaults.standard.getOldSKU() != "" {
                 Constant.kAppDelegate.isOldProductData = true
                 self.removeAllArrayData()
+                isFromLoad = true
                 GetProductDetails(barcodeForProduct: UserDefaults.standard.getOldSKU())
             }
             
@@ -973,7 +974,11 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             return menu.count
         } else {
             if screen == 1 {
-                isDataFound = objectsArray.count > 0
+                if isFromLoad {
+                    isDataFound = true
+                } else {
+                    isDataFound = objectsArray.count > 0
+                }
                 return objectsArray.count > 0 ? objectsArray.count + 1 : 0
             } else if screen == 2 {
                 isDataFound = true
@@ -981,6 +986,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             } else if screen == 3 {
                 
                 isDataFound = storeStockArray.count > 0
+                 self.lblNoData.text = self.isLocalInvFail == true ? Constant.alertTitleMessage.someThingWentWrong : Constant.alertTitleMessage.detailsNotFound
                 return storeStockArray.count
                 
             } else if screen == 4 {
@@ -990,11 +996,11 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
             } else if screen == 5 {
                 // return 7
                 isDataFound = salesByMonthArray.count > 0
+                 self.lblNoData.text = self.isSalesHistoryFail == true ? Constant.alertTitleMessage.someThingWentWrong : Constant.alertTitleMessage.detailsNotFound
                 return salesByMonthArray.count
             } else if screen == 6 {
-                // return storeRelatedProductArray.count
-                //isDataFound = true
                 isDataFound = storeRelatedProductArray.count > 0
+                 self.lblNoData.text = self.isRelatedItemFail == true ? Constant.alertTitleMessage.someThingWentWrong : Constant.alertTitleMessage.detailsNotFound
                 return 1
             } else if screen == 7 || screen == 8 {
                 isDataFound = true
@@ -1072,8 +1078,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                     cell.tableTwoDataView.backgroundColor = indexPath.row % 2 == 0 ? UIColor.gray : UIColor.white
                     cell.lblPoTable2Value.text = tableTwoUniqueDataForOrderInfo[indexPath.row - onderInfoArray.count].poNo
                     cell.lblQtyTbale2Value.text = String(tableTwoUniqueDataForOrderInfo[indexPath.row - onderInfoArray.count].orderQty)
-//                    cell.lblPoTable2Value.text = tableTwoUniqueDataForOrderInfo[indexPath.row - onderInfoArray.count]
-//                    cell.lblQtyTbale2Value.text = String(QtyCheckData[indexPath.row - onderInfoArray.count])
+
                     return cell
                 }
                 
@@ -1118,8 +1123,7 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
                 cell.lblMsg.text = "TBD coming soon"
                 
                 return cell
-            }
-            else {
+            } else {
                 let cell = productTableView.dequeueReusableCell(withIdentifier: "Inquiry", for: indexPath) as! InquiryCollectionViewCell
                 
                 cell.lblInqueryValues.text = objectsArray[indexPath.row].inqueryValues
@@ -1156,10 +1160,10 @@ extension ProductInformationViewController: UITableViewDelegate,UITableViewDataS
         } else if screen == 4 {
             return 60
         } else if screen == 1 && tableView == productTableView {
-            if indexPath.row < objectsArray.count{
+            if indexPath.row < objectsArray.count {
                 return UITableViewAutomaticDimension
                 
-            }else{
+            } else {
                 return UITableViewAutomaticDimension//Constant.DeviceType.IS_PAD ? 190:145 //Rating cell
             }
         } else if screen == 2 {

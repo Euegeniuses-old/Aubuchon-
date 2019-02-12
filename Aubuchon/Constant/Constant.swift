@@ -69,7 +69,8 @@ class Constant: NSObject {
         static let uploadImageSuccessfully = "Image uploaded sucessfully"
         static let barcodeAlert = "Enter barcode"
         static let validBarcode = "Enter valid barcode number"
-        static let someThingWentWrong = "Something went wrong. Try again later"
+        static let someThingWentWrong = "Something went wrong. Please try again."
+        static let detailsNotFound = "Details not found."
     }
     
     // productKeys
