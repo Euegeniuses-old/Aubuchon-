@@ -57,8 +57,6 @@ public class NavigationActivity extends AppCompatActivity {
     AppCompatImageView iv_home;
     @BindView(R.id.tv_desc)
     public TextView tv_desc;
-    /*  @BindView(R.id.tv_more)
-      public TextView tv_more;*/
 
     String scannedCode = "";
     Globals globals;
@@ -157,7 +155,7 @@ public class NavigationActivity extends AppCompatActivity {
 
                 if (!ipAddressMaps.containsKey(publicIp)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(NavigationActivity.this)
-                            .setMessage("Public ip is not white listed")
+                            .setMessage(R.string.msg_ip_not_whitelisted)
                             .setCancelable(false)
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
@@ -176,10 +174,10 @@ public class NavigationActivity extends AppCompatActivity {
                             String branchCode = Globals.getBetweenStrings(ipData, "aub-", ".");
                             globals.setBranchCode(branchCode);
                         } else {
-                            globals.setBranchCode("049");
+                            globals.setBranchCode(Constant.AU_Branch_Code);
                         }
                     } else {
-                        globals.setBranchCode("049");
+                        globals.setBranchCode(Constant.AU_Branch_Code);
                     }
 
                     PermissionListener permissionlistener = new PermissionListener() {
@@ -209,7 +207,7 @@ public class NavigationActivity extends AppCompatActivity {
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(NavigationActivity.this, "IP is not whitelisted");
+                Globals.showToast(NavigationActivity.this, getString(R.string.msg_ip_not_whitelisted));
             }
         }, true).doRequest();
 
@@ -232,7 +230,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private void showFilterPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.layout_popup_window, null);
+        View popupView = inflater.inflate(R.layout.layout_popup_window,null);
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);

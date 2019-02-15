@@ -26,13 +26,15 @@
             <TextView
                 android:id="@+id/tv_web_desc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14" />
 
             <TextView
                 android:id="@+id/tv_retail_prize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_5" />
+                android:layout_marginTop="@dimen/dim_5"
+                android:textSize="@dimen/text_size_14" />
         </LinearLayout>
     </LinearLayout>
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.aubuchon.R;
 import com.aubuchon.model.RelatedModel;
-import com.aubuchon.utility.Globals;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,22 +70,23 @@ public class RelatedProductsAdapter extends RecyclerView.Adapter<RelatedProducts
             itemView.setOnClickListener(this);
         }
 
-        void setDataToView(RelatedModel.RelatedProduct relatedProduct, final int position) {
+        void setDataToView(RelatedModel.RelatedProduct relatedProduct, int position) {
 
             /*iv_product.setLayerType(View.LAYER_TYPE_SOFTWARE, null);*/
 
             tv_web_desc.setText(relatedProduct.getWebDesc());
-            tv_retail_prize.setText("$" + String.valueOf(relatedProduct.getRetailPrice()));
+
+            tv_retail_prize.setText(String.format("$ %s", relatedProduct.getRetailPrice()));
 
             if (relatedProduct.getImage() != null && relatedProduct.getImage().length() > 0) {
-                Picasso.with(Globals.getContext())
+                Picasso.with(context)
                         .load(relatedProduct.getImage())
                         .error(R.drawable.camera)
                         .placeholder(R.drawable.camera)
                         .noFade()
                         .into(iv_product);
             } else {
-                Picasso.with(Globals.getContext())
+                Picasso.with(context)
                         .load(R.drawable.camera)
                         .error(R.drawable.camera)
                         .placeholder(R.drawable.camera)

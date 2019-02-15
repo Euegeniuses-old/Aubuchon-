@@ -22,11 +22,15 @@ repositories {
 }
 android {
     signingConfigs {
-        config {
-            keyAlias 'WEATCB'
-            keyPassword 'weatcb_keysore'
-            storeFile file('D:/Parth Patel/TCB_KeyStore/weatcb_keysore.jks')
-            storePassword 'weatcb_keysore'
+        try {
+            config {
+                keyAlias 'WEATCB'
+                storeFile file('/Users/sunny/Documents/Parth Patel/Aubuchon_APP/TCB_KeyStore/weatcb_keysore.jks')
+                keyPassword KEY_PASSWORD
+                storePassword KEYSTORE_PASSWORD
+            }
+        }catch (ignored) {
+            throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
         }
     }
     compileSdkVersion 28

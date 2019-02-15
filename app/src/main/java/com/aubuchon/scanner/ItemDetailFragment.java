@@ -38,7 +38,6 @@ import com.aubuchon.model.SalesModel;
 import com.aubuchon.utility.Constant;
 import com.aubuchon.utility.Globals;
 import com.google.gson.Gson;
-import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
@@ -69,14 +68,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
     @BindView(R.id.rv_inquiry)
     RecyclerView rv_inquiry;
-    @BindView(R.id.ll_inquiry_group_2)
-    LinearLayout ll_inquiry_group_2;
-    @BindView(R.id.rating)
-    SimpleRatingBar rating;
-    @BindView(R.id.tv_rating)
-    AppCompatTextView tv_rating;
-    @BindView(R.id.tv_web_desc)
-    AppCompatTextView tv_web_desc;
+    @BindView(R.id.tv_no_data)
+    AppCompatTextView tv_no_data;
 
     @BindView(R.id.rv_sales_history)
     RecyclerView rv_sales_history;
@@ -97,9 +90,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     @BindView(R.id.tv_related_not_found)
     AppCompatTextView tv_related_not_found;
 
-    @BindView(R.id.tv_no_data)
-    AppCompatTextView tv_no_data;
-
     @BindView(R.id.btn_photo)
     AppCompatRadioButton btn_photo;
     @BindView(R.id.iv_photo)
@@ -110,9 +100,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     @BindView(R.id.fab_prev_item)
     FloatingActionButton fab_prev_item;
 
-    String branchcode;
-
-    /*New Models & ArrayLists*/
     ProductModel productModel;
     ArrayList<ProductModel.Product> productsList;
 
@@ -125,9 +112,9 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     RelatedModel relatedModel;
     ArrayList<RelatedModel.RelatedProduct> relatedProductArrayList;
 
-    String data;
     NavigationActivity mContext;
     Globals globals;
+    String branchcode, data;
     boolean isFromRelated = false;
 
     @Override
@@ -151,7 +138,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        globals = (Globals) getActivity().getApplicationContext();
+        globals = (Globals) mContext.getApplicationContext();
     }
 
     @Nullable
@@ -168,7 +155,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         rg2.setOnCheckedChangeListener(this);
         rg1.check(R.id.btn_inquiry);
 
-        /*New*/
         productsList = new ArrayList<>();
         stocksList = new ArrayList<>();
         salesByMonths = new ArrayList<>();
@@ -300,7 +286,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
 
                     rg1.check(R.id.btn_inquiry);
                     rv_inquiry.setVisibility(View.VISIBLE);
-                    ll_inquiry_group_2.setVisibility(View.GONE);
                     setInquiryData();
                     setOrderInfoData();
 
@@ -314,8 +299,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                         btn_photo.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tab_disable));
                     }
 
-                    doRequestForLocalInventoryData();
                     doRequestForSalesHistoryData();
+                    doRequestForLocalInventoryData();
                     doRequestForRelatedData();
 
                 } else {
@@ -336,12 +321,13 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     doRequestForGetProductDetail();
                 }
 
-                Globals.showToast(getActivity(), getString(R.string.error_msg_connection_timeout));
+                Globals.showToast(getActivity(), getString(R.string.error_msg_something_went_wrong));
                 productsList = new ArrayList<>();
-                ll_inquiry_group_2.setVisibility(View.GONE);
                 rv_inquiry.setVisibility(View.GONE);
                 rv_order_info.setVisibility(View.GONE);
+                tv_no_data.setText(mContext.getString(R.string.error_msg_something_went_wrong));
                 tv_no_data.setVisibility(View.VISIBLE);
+                tv_order_info_not_found.setText(mContext.getString(R.string.error_msg_something_went_wrong));
                 tv_order_info_not_found.setVisibility(View.VISIBLE);
 
             }
@@ -361,6 +347,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                     setLocalInvData();
                 } else {
                     ll_local_inv.setVisibility(View.GONE);
+                    tv_local_inv_not_found.setText(mContext.getString(R.string.msg_details_not_found));
                     tv_local_inv_not_found.setVisibility(View.VISIBLE);
                 }
             }
@@ -368,7 +355,8 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             @Override
             public void onFailedToGetCall() {
                 ll_local_inv.setVisibility(View.GONE);
-                tv_no_data.setVisibility(View.VISIBLE);
+                tv_local_inv_not_found.setText(mContext.getString(R.string.error_msg_something_went_wrong));
+                tv_local_inv_not_found.setVisibility(View.VISIBLE);
             }
         }, true).doRequest();
     }
@@ -386,6 +374,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 } else {
                     ll_sales_history_header.setVisibility(View.GONE);
                     rv_sales_history.setVisibility(View.GONE);
+                    tv_sales_history_not_found.setText(mContext.getString(R.string.msg_details_not_found));
                     tv_sales_history_not_found.setVisibility(View.VISIBLE);
                 }
             }
@@ -394,6 +383,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             public void onFailedToGetCall() {
                 ll_sales_history_header.setVisibility(View.GONE);
                 rv_sales_history.setVisibility(View.GONE);
+                tv_sales_history_not_found.setText(mContext.getString(R.string.error_msg_something_went_wrong));
                 tv_sales_history_not_found.setVisibility(View.VISIBLE);
 
             }
@@ -412,15 +402,17 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
                 if (relatedModel.getRelatedProducts().size() > 0) {
                     setRelatedData();
                 } else {
-                    tv_related_not_found.setVisibility(View.VISIBLE);
                     rv_related_products.setVisibility(View.GONE);
+                    tv_related_not_found.setText(mContext.getString(R.string.msg_details_not_found));
+                    tv_related_not_found.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                tv_related_not_found.setVisibility(View.VISIBLE);
                 rv_related_products.setVisibility(View.GONE);
+                tv_related_not_found.setText(mContext.getString(R.string.error_msg_something_went_wrong));
+                tv_related_not_found.setVisibility(View.VISIBLE);
             }
         }, true).doRequest();
     }
@@ -468,7 +460,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         ArrayList<KeyValueModel> inquiryData = new ArrayList<>();
         productsList = new ArrayList<>();
         productsList = productModel.getProduct();
-        ll_inquiry_group_2.setVisibility(View.GONE);
 
         inquiryData.add(new KeyValueModel(Constant.AU_item_number, productsList.get(0).getSku()));
         mContext.navigationActivity.toolbar_title.setText(String.format(getString(R.string.text_sku), productsList.get(0).getSku()));
@@ -500,29 +491,18 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         inquiryData.add(new KeyValueModel(Constant.AU_promo, productsList.get(0).getPromoPrice()));
         inquiryData.add(new KeyValueModel(Constant.AU_status, productsList.get(0).getProdStatus()));
 
-        /* productsList.get(0).getRating()*/
-        rating.setRating(0);
-        tv_rating.setText("");
-        tv_web_desc.setText("");
-        if (productsList.get(0).getRating() != 0 || productsList.get(0).getRating() != null) {
-            rating.setRating(productsList.get(0).getRating());
-            tv_rating.setText(String.format("(%s)", productsList.get(0).getRating()));
-        } else {
-            rating.setRating(0);
-            tv_rating.setText(String.format("(%s)", 0));
-        }
+        /*Pass count of above items in order to add Rating layout in Adapter*/
+        int count = inquiryData.size();
 
-        ll_inquiry_group_2.setVisibility(View.VISIBLE);
-        tv_web_desc.setText(productsList.get(0).getWebDesc());
+        inquiryData.add(new KeyValueModel(Constant.AU_rating, String.valueOf(productsList.get(0).getRating())));
+        inquiryData.add(new KeyValueModel(Constant.AU_web_desc, String.valueOf(productsList.get(0).getWebDesc())));
 
-        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(mContext);
+        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(mContext, count);
         inquiryListAdapter.doRefresh(inquiryData);
 
         rv_inquiry.setHasFixedSize(false);
         rv_inquiry.setLayoutManager(new LinearLayoutManager(mContext));
-
         rv_inquiry.setAdapter(inquiryListAdapter);
-        ll_inquiry_group_2.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -549,6 +529,11 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         orderInfoData.add(new KeyValueModel(Constant.AU_max, String.valueOf(productsList.get(0).getMaxStk())));
         orderInfoData.add(new KeyValueModel(Constant.AU_reorder, String.valueOf(productsList.get(0).getReOrdPoint())));
 
+        orderInfoData.add(new KeyValueModel(Constant.AU_last_received,
+                !productsList.get(0).getLastDelDate().equals("") ?
+                        Globals.convertDateFormat(productsList.get(0).getLastDelDate()) : ""));
+
+
         if (productModel.getTable2().size() > 0) {
 
             /* Date wise Ascending Order*/
@@ -568,11 +553,11 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
             }
         }
 
-        InquiryListAdapter inquiryListAdapter = new InquiryListAdapter(getActivity());
-        inquiryListAdapter.doRefresh(orderInfoData);
+        OrderInfoAdapter orderInfoAdapter = new OrderInfoAdapter(mContext);
+        orderInfoAdapter.doRefresh(orderInfoData);
         rv_order_info.setHasFixedSize(false);
         rv_order_info.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rv_order_info.setAdapter(inquiryListAdapter);
+        rv_order_info.setAdapter(orderInfoAdapter);
 
         rv_order_info.setVisibility(View.VISIBLE);
         tv_order_info_not_found.setVisibility(View.GONE);
@@ -585,6 +570,7 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     private void setLocalInvData() {
         int localCount = 0;
         stocksList = new ArrayList<>();
+
         ArrayList<LocalInvModel.StoreStock> storeStockArrayList = new ArrayList<>();
         if (localInvModel.getStoreStock() != null && localInvModel.getStoreStock().size() > 0) {
             stocksList = localInvModel.getStoreStock();
@@ -689,7 +675,6 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
         data = globals.getPreviousProductCode();
         isFromRelated = false;
         globals.isFromMenu = false;
-        ll_inquiry_group_2.setVisibility(View.GONE);
         doRequestForGetProductDetail();
     }
 
@@ -700,9 +685,13 @@ public class ItemDetailFragment extends Fragment implements OnCheckedChangeListe
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         data = relatedProductArrayList.get(i).getSku();
         isFromRelated = true;
-        ll_inquiry_group_2.setVisibility(View.GONE);
         doRequestForGetProductDetail();
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
+    }
 
 }

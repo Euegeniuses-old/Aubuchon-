@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/black" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/str_product_rating"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/rating"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dim_10"
+        app:srb_borderColor="@android:color/black"
+        app:srb_drawBorderEnabled="true"
+        app:srb_fillColor="@color/color_dark_gray"
+        app:srb_gravity="left"
+        app:srb_isIndicator="true"
+        app:srb_maxStarSize="@dimen/dim_28"
+        app:srb_numberOfStars="5"
+        app:srb_starBackgroundColor="@color/color_gray"
+        app:srb_starBorderWidth="2"
+        app:srb_starSize="@dimen/dim_28"
+        app:srb_stepSize="0.1" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_web_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:text="Description"
+        android:textColor="@android:color/black"
+        android:textSize="14sp" />
+
+</LinearLayout>

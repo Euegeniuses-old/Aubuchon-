@@ -3,9 +3,7 @@ package com.aubuchon.scanner;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.aubuchon.R;
 import com.aubuchon.utility.Constant;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
@@ -50,10 +47,13 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
     public void onResume() {
         super.onResume();
         mScannerView.setResultHandler(ScannerActivity.this);
-        List<BarcodeFormat> formats = new ArrayList<>();
+
+        //Manually Specify Scanner code format
+      /*  List<BarcodeFormat> formats = new ArrayList<>();
         formats.add(BarcodeFormat.UPC_A);
         formats.add(BarcodeFormat.UPC_E);
-        mScannerView.setFormats(formats);
+        mScannerView.setFormats(formats);*/
+
         // You can optionally set aspect ratio tolerance level
         // that is used in calculating the optimal Camera preview size
         mScannerView.setAspectTolerance(0.2f);
@@ -76,8 +76,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
     @Override
     public void handleResult(Result rawResult) {
-        Toast.makeText(this, "Contents = " + rawResult.getText() +
-                ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
+       /* Toast.makeText(this, "Contents = " + rawResult.getText() +
+                ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();*/
         resultString = rawResult.getText();
         Logger.json(new Gson().toJson(rawResult));
 

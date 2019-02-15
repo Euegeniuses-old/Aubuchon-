@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +73,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
         ButterKnife.bind(this, view);
-        globals = (Globals) getActivity().getApplicationContext();
+        globals = (Globals) mContext.getApplicationContext();
         return view;
     }
 
@@ -105,7 +106,7 @@ public class HomeFragment extends Fragment {
         doRequestForGetPublicIP();
     }
 
-    public void doRequestForGetProductDetail() {
+    private void doRequestForGetProductDetail() {
         if (!et_code.getText().toString().isEmpty()) {
 
             mContext.isFromTitle = false;
@@ -113,17 +114,17 @@ public class HomeFragment extends Fragment {
             et_code.setText("");
             if (getActivity() != null) {
                 globals.isFromMenu = false;
-                ((NavigationActivity) getActivity()).setToolbar();
-                ((NavigationActivity) getActivity()).addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
+                mContext.setToolbar();
+                mContext.addFragmentOnTop(ItemDetailFragment.newInstance(globals.passCode));
                 globals.passCode = "";
                 globals.barCode = "";
             }
         } else {
-            Globals.showToast(getActivity(), getString(R.string.msg_enter_barcode));
+            Globals.showToast(mContext, getString(R.string.msg_enter_barcode));
         }
     }
 
-    public void doRequestForGetPublicIP() {
+    private void doRequestForGetPublicIP() {
         String url = mContext.getString(R.string.url_white_listed_ip);
         new GetCall(mContext, url, new JSONObject(), new OnGetServiceCallListener() {
             @Override
@@ -134,13 +135,12 @@ public class HomeFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), getString(R.string.msg_server_error));
+                Globals.showToast(mContext, getString(R.string.msg_server_error));
             }
         }, true).doRequest();
     }
@@ -172,16 +172,21 @@ public class HomeFragment extends Fragment {
 
                 } else {
 
+
                     String ipData = ipAddressMaps.get(publicIp);
+
+                    /*String ipData = ipAddressMaps.get("71.234.185.184");*/
+
                     if (ipData != null) {
                         if (ipData.contains("aub-") && ipData.contains(".")) {
                             String branchCode = Globals.getBetweenStrings(ipData, "aub-", ".");
                             globals.setBranchCode(branchCode);
+                            Logger.i("BranchCode: " + branchCode);
                         } else {
-                            globals.setBranchCode("049");
+                            globals.setBranchCode(Constant.AU_Branch_Code);
                         }
                     } else {
-                        globals.setBranchCode("049");
+                        globals.setBranchCode(Constant.AU_Branch_Code);
                     }
 
 
@@ -189,20 +194,18 @@ public class HomeFragment extends Fragment {
                         PermissionListener permissionlistener = new PermissionListener() {
                             @Override
                             public void onPermissionGranted() {
-                                // EasyImage.openCamera(getActivity(), 0);
-                                Intent intent = new Intent(getActivity(), ScannerActivity.class);
+                                Intent intent = new Intent(mContext, ScannerActivity.class);
                                 startActivityForResult(intent, SCAN_BARCODE_REQUEST);
                             }
 
                             @Override
                             public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-                                Globals.showToast(getActivity(), getString(R.string.permission_denied) + deniedPermissions.toString());
+                                Globals.showToast(mContext, getString(R.string.permission_denied) + deniedPermissions.toString());
                             }
                         };
 
                         TedPermission.with(mContext)
                                 .setPermissionListener(permissionlistener)
-                                //.setRationaleMessage(getString(R.string.request_camera_permission))
                                 .setDeniedMessage(getString(R.string.on_denied_permission))
                                 .setGotoSettingButtonText(getString(R.string.setting))
                                 .setPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -232,7 +235,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailedToGetCall() {
-                Globals.showToast(getActivity(), "IP is not whitelisted");
+                Globals.showToast(mContext, mContext.getString(R.string.msg_ip_not_whitelisted));
             }
         }, true).doRequest();
 
@@ -248,6 +251,12 @@ public class HomeFragment extends Fragment {
             /*Handle a flow to redirect on detail screen After done scan from Camera Image */
             doRequestForGetProductDetail();
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
     }
 
 }

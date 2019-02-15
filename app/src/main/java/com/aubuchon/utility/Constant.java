@@ -1,6 +1,5 @@
 package com.aubuchon.utility;
 
-
 public class Constant {
     public static final String MM_secrets = "secrets";
     public static final String AU_Photo = "Photo";
@@ -14,6 +13,9 @@ public class Constant {
     public static final String AU_IpAddress = "IpAddress";
     public static final String AU_branchcode = "branchcode";
     public static final String AU_data = "data";
+
+    /*Default Branch code*/
+    public static final String AU_Branch_Code = "049";
 
     /*Inquiry Screen labels*/
     public static final String AU_item_number = "Item Number";
@@ -38,6 +40,12 @@ public class Constant {
     public static final String AU_max = "Max";
     public static final String AU_reorder = "Reorder";
     public static final String AU_po_qty_on_order = "PO \nQTY on Order";
+    public static final String AU_last_received = "Last Received";
+
+    /*Adapter Labels*/
+    public static final String AU_rating = "Rating";
+    public static final String AU_web_desc = "WebDesc";
+
 
 }
 
