@@ -25,7 +25,7 @@ android {
         try {
             config {
                 keyAlias 'WEATCB'
-                storeFile file('/Users/sunny/Documents/Parth Patel/Aubuchon_APP/TCB_KeyStore/weatcb_keysore.jks')
+                storeFile file('/Users/mac/Desktop/Parth Patel/TCB_KeyStore/weatcb_keystore.jks')
                 keyPassword KEY_PASSWORD
                 storePassword KEYSTORE_PASSWORD
             }
@@ -36,7 +36,7 @@ android {
     compileSdkVersion 28
     flavorDimensions "default"
     defaultConfig {
-        applicationId "com.aubuchon"
+        applicationId "com.developer.weatcb"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
