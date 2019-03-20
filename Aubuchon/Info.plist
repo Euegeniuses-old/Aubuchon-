@@ -25,12 +25,12 @@
 			<string>com.developer.aubuchon</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>Aubuchon</string>
+				<string>WEATCB</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>27</string>
+	<string>1</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

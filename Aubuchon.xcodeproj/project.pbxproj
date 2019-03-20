@@ -940,18 +940,18 @@
 			baseConfigurationReference = 66CAC70B4C9D95D375688C49 /* Pods-Aubuchon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Fazil Loladia (GCPD7E2Q63)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Fazil Loladia (LCHWAC387C)";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = JW952BAFU8;
+				DEVELOPMENT_TEAM = P949D5H34C;
 				INFOPLIST_FILE = Aubuchon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.developer.aubuchon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.developer.weatcb;
 				PRODUCT_NAME = WEATCB;
-				PROVISIONING_PROFILE_SPECIFIER = Aubuchon_devlopment_13Nov_2018;
+				PROVISIONING_PROFILE_SPECIFIER = WEATCB_development_20_03_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -962,18 +962,18 @@
 			baseConfigurationReference = DCD1DA4068987A8E3FB9179B /* Pods-Aubuchon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Fazil Loladia (JW952BAFU8)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: W.E. Aubuchon Co., Inc. (P949D5H34C)";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = JW952BAFU8;
+				DEVELOPMENT_TEAM = P949D5H34C;
 				INFOPLIST_FILE = Aubuchon/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.developer.aubuchon;
+				PRODUCT_BUNDLE_IDENTIFIER = com.developer.weatcb;
 				PRODUCT_NAME = WEATCB;
-				PROVISIONING_PROFILE_SPECIFIER = Aubuchon_distribution_13Nov_2018;
+				PROVISIONING_PROFILE_SPECIFIER = WEATCB_distributation_20_03_2019;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
